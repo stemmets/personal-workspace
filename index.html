@@ -245,7 +245,7 @@ const TOPIC_STYLES = {
   'Team Management':   {bg:'#F3E5F5', color:'#4A148C', chipClass:'chip-team'},
 };
 
-const SERVICES = [
+let SERVICES = [
   {
     id:'worklog', name:'Worklog Submission',
     goal:'Record billable hours by project for payroll and client invoicing.',
@@ -420,7 +420,7 @@ const SERVICES = [
   },
 ];
 
-const PROCESSES = [
+let PROCESSES = [
   {
     id:'month-end', name:'Month-End Time Reporting',
     desc:'Complete your monthly time reporting cycle — from worklog submission through PTR approval to invoice generation.',
@@ -761,9 +761,21 @@ function applyFilters(){
 }
 
 // ══════════════════════════════════════
-//  INIT
+//  INIT — fetch data.json, then render
 // ══════════════════════════════════════
-applyFilters();
+async function init(){
+  try {
+    const res = await fetch('./data.json?t=' + Date.now());
+    if(!res.ok) throw new Error('HTTP ' + res.status);
+    const data = await res.json();
+    if(data.services)  SERVICES  = data.services;
+    if(data.processes) PROCESSES = data.processes;
+  } catch(e) {
+    console.warn('data.json fetch failed, using inline data:', e.message);
+  }
+  applyFilters();
+}
+init();
 </script>
 </body>
 </html>

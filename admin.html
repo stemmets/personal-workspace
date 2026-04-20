@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Personal Workspace — Admin</title>
+<style>
+:root {
+  --green:#43A047; --green-dk:#2E7D32; --green-lt:#E8F5E9;
+  --blue:#1E88E5; --blue-lt:#E3F2FD;
+  --red:#E53935; --red-lt:#FFEBEE;
+  --orange:#FB8C00; --orange-lt:#FFF3E0;
+  --border:#E0E0E0; --text:#212121; --text2:#616161; --text3:#9E9E9E;
+  --bg:#F5F7FA; --card:#FFFFFF;
+  --radius:8px; --shadow:0 1px 4px rgba(0,0,0,.08);
+  --shadow-lg:0 4px 16px rgba(0,0,0,.12);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);height:100vh;display:flex;flex-direction:column;overflow:hidden}
+
+/* HEADER */
+.header{background:#1A3529;color:#fff;padding:0 20px;display:flex;align-items:center;gap:12px;height:52px;flex-shrink:0;box-shadow:0 2px 8px rgba(0,0,0,.2)}
+.logo{font-weight:800;font-size:15px;color:#A5D6A7;letter-spacing:.3px}
+.logo span{color:#fff}
+.header-actions{margin-left:auto;display:flex;align-items:center;gap:8px}
+.btn{padding:7px 14px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;border:none;transition:all .15s;display:inline-flex;align-items:center;gap:5px;white-space:nowrap}
+.btn-ghost{background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.2)}
+.btn-ghost:hover{background:rgba(255,255,255,.2)}
+.btn-green{background:var(--green);color:#fff}
+.btn-green:hover{background:var(--green-dk)}
+.btn-red{background:var(--red);color:#fff}
+.btn-red:hover{background:#C62828}
+.btn-blue{background:var(--blue);color:#fff}
+.btn-blue:hover{background:#1565C0}
+.btn-outline{background:#fff;color:var(--text);border:1px solid var(--border)}
+.btn-outline:hover{background:#F5F5F5}
+.btn-sm{padding:5px 10px;font-size:11px}
+
+/* SETTINGS BAR */
+.settings-bar{background:#fff;border-bottom:1px solid var(--border);padding:10px 20px;display:none;flex-wrap:wrap;gap:10px;align-items:flex-end}
+.settings-bar.open{display:flex}
+.sf-group{display:flex;flex-direction:column;gap:3px}
+.sf-label{font-size:10px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.4px}
+.sf-input{padding:6px 10px;border:1px solid var(--border);border-radius:6px;font-size:12px;width:200px;outline:none;font-family:inherit}
+.sf-input:focus{border-color:var(--green)}
+.sf-input.wide{width:280px}
+.sf-input.narrow{width:110px}
+.sf-actions{display:flex;gap:6px;margin-left:auto;align-self:flex-end}
+
+/* TABS */
+.tabs{background:#fff;border-bottom:1px solid var(--border);padding:0 20px;display:flex;gap:0;flex-shrink:0}
+.tab{padding:11px 18px;font-size:13px;font-weight:600;cursor:pointer;border-bottom:2px solid transparent;color:var(--text2);transition:all .15s;display:flex;align-items:center;gap:6px}
+.tab:hover{color:var(--text)}
+.tab.active{color:var(--green-dk);border-bottom-color:var(--green)}
+.tab-count{background:var(--green-lt);color:var(--green-dk);font-size:10px;padding:1px 6px;border-radius:8px;font-weight:700}
+
+/* MAIN LAYOUT */
+.main{flex:1;display:flex;overflow:hidden}
+.list-pane{width:380px;min-width:280px;border-right:1px solid var(--border);background:#fff;display:flex;flex-direction:column;flex-shrink:0}
+.list-header{padding:12px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;flex-shrink:0}
+.list-search{flex:1;padding:6px 10px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;font-family:inherit}
+.list-search:focus{border-color:var(--green)}
+.list-body{flex:1;overflow-y:auto}
+
+/* SERVICE ROWS */
+.svc-row{padding:10px 16px;border-bottom:1px solid #F5F5F5;cursor:pointer;display:flex;align-items:center;gap:10px;transition:background .1s}
+.svc-row:hover{background:#FAFAFA}
+.svc-row.active{background:var(--green-lt)}
+.op-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.op-available{background:#43A047} .op-degraded{background:#FB8C00}
+.op-unavailable{background:#E53935} .op-maintenance{background:#9E9E9E}
+.svc-info{flex:1;min-width:0}
+.svc-name{font-size:13px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.svc-sub{font-size:11px;color:var(--text3);margin-top:1px}
+.topic-pill{font-size:9px;font-weight:700;padding:2px 6px;border-radius:8px;text-transform:uppercase;flex-shrink:0}
+.row-del{background:none;border:none;color:var(--text3);cursor:pointer;font-size:14px;padding:4px;border-radius:4px;opacity:0;transition:opacity .1s;flex-shrink:0}
+.svc-row:hover .row-del{opacity:1}
+.row-del:hover{color:var(--red);background:var(--red-lt)}
+
+/* EDIT PANE */
+.edit-pane{flex:1;overflow-y:auto;padding:24px;background:var(--bg)}
+.edit-pane-empty{flex:1;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;color:var(--text3);font-size:13px}
+.edit-pane-empty h3{font-size:16px;font-weight:700;color:var(--text2)}
+
+/* FORM */
+.form-title{font-size:16px;font-weight:800;color:var(--text);margin-bottom:18px;display:flex;align-items:center;gap:10px}
+.form-title .badge{font-size:11px;background:var(--green-lt);color:var(--green-dk);padding:2px 8px;border-radius:8px;font-weight:600}
+.form-row{margin-bottom:14px}
+.form-row-2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}
+.form-row-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px}
+label{display:block;font-size:11px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px}
+input[type=text],input[type=email],input[type=date],input[type=number],select,textarea{width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:6px;font-size:13px;font-family:inherit;outline:none;background:#fff;color:var(--text);transition:border .15s}
+input:focus,select:focus,textarea:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(67,160,71,.08)}
+textarea{resize:vertical;line-height:1.5}
+.form-section{background:#fff;border-radius:var(--radius);border:1px solid var(--border);padding:16px;margin-bottom:14px}
+.form-section-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--text3);margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.form-section-title .section-add{margin-left:auto;font-size:10px;padding:3px 8px;text-transform:none;letter-spacing:0;font-weight:600}
+
+/* DYNAMIC LIST ITEMS */
+.dyn-item{background:#FAFAFA;border:1px solid var(--border);border-radius:6px;padding:10px 12px;margin-bottom:8px;position:relative}
+.dyn-item-del{position:absolute;top:6px;right:6px;background:none;border:none;color:var(--text3);cursor:pointer;font-size:13px;padding:2px 5px;border-radius:4px;line-height:1}
+.dyn-item-del:hover{color:var(--red);background:var(--red-lt)}
+.dyn-row-2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px}
+.dyn-row-3{display:grid;grid-template-columns:2fr 1fr 1fr;gap:8px;margin-bottom:8px}
+.dyn-row-4{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:8px;margin-bottom:8px}
+
+/* FORM ACTIONS */
+.form-actions{display:flex;align-items:center;gap:8px;padding-top:8px;border-top:1px solid var(--border);margin-top:8px}
+.form-hint{font-size:11px;color:var(--text3);margin-left:auto}
+
+/* TOAST */
+.toast{position:fixed;bottom:20px;right:20px;background:#1A3529;color:#fff;padding:10px 18px;border-radius:8px;font-size:13px;font-weight:500;box-shadow:var(--shadow-lg);z-index:1000;transform:translateY(100px);opacity:0;transition:all .25s;max-width:360px}
+.toast.show{transform:translateY(0);opacity:1}
+.toast.error{background:var(--red)}
+.toast.success{background:var(--green-dk)}
+
+/* PUBLISH STATUS */
+.pub-status{font-size:11px;color:rgba(255,255,255,.6);margin-right:4px}
+
+/* JSON editor for processes steps */
+.json-editor{font-family:'Courier New',monospace;font-size:11px;background:#1A1A2E;color:#A8FF78;border:1px solid #333;border-radius:6px;min-height:160px}
+.json-error{font-size:11px;color:var(--red);margin-top:4px;display:none}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="logo">PW <span>Admin</span></div>
+  <div class="header-actions">
+    <span class="pub-status" id="pubStatus"></span>
+    <button class="btn btn-ghost" onclick="toggleSettings()">⚙ Settings</button>
+    <button class="btn btn-ghost" onclick="loadFromGitHub()">⬇ Load</button>
+    <button class="btn btn-green" onclick="publishToGitHub()">📤 Publish</button>
+    <a href="index.html" target="_blank" class="btn btn-ghost">👁 Preview</a>
+  </div>
+</div>
+
+<!-- SETTINGS BAR -->
+<div class="settings-bar" id="settingsBar">
+  <div class="sf-group">
+    <div class="sf-label">GitHub PAT</div>
+    <input class="sf-input wide" type="password" id="cfgPat" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
+  </div>
+  <div class="sf-group">
+    <div class="sf-label">Repository</div>
+    <input class="sf-input" type="text" id="cfgRepo" value="stemmets/personal-workspace">
+  </div>
+  <div class="sf-group">
+    <div class="sf-label">Branch</div>
+    <input class="sf-input narrow" type="text" id="cfgBranch" value="main">
+  </div>
+  <div class="sf-group">
+    <div class="sf-label">File path</div>
+    <input class="sf-input narrow" type="text" id="cfgPath" value="data.json">
+  </div>
+  <div class="sf-actions">
+    <button class="btn btn-green" onclick="saveConfig()">Save settings</button>
+  </div>
+</div>
+
+<!-- TABS -->
+<div class="tabs">
+  <div class="tab active" id="tabServices" onclick="switchTab('services')">
+    Services <span class="tab-count" id="tabSvcCount">0</span>
+  </div>
+  <div class="tab" id="tabProcesses" onclick="switchTab('processes')">
+    Processes <span class="tab-count" id="tabProcCount">0</span>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- LIST PANE -->
+  <div class="list-pane">
+    <div class="list-header">
+      <input class="list-search" type="text" id="listSearch" placeholder="Filter…" oninput="renderList()">
+      <button class="btn btn-green btn-sm" id="addBtn" onclick="startNew()">+ Add</button>
+    </div>
+    <div class="list-body" id="listBody"></div>
+  </div>
+
+  <!-- EDIT PANE -->
+  <div class="edit-pane" id="editPane">
+    <div class="edit-pane-empty">
+      <h3>Select an item to edit</h3>
+      <p>Choose a service or process from the list, or click + Add to create one.</p>
+    </div>
+  </div>
+
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ═══════════════════════════════════════════
+//  STATE
+// ═══════════════════════════════════════════
+let SERVICES  = [];
+let PROCESSES = [];
+let activeTab = 'services';
+let editingId = null; // null = new, string = existing
+let dirty = false;
+
+const TOPIC_STYLES = {
+  'Time & Reporting':  {bg:'#E8F5E9', color:'#2E7D32'},
+  'Finance & Expenses':{bg:'#E3F2FD', color:'#1565C0'},
+  'Performance':       {bg:'#FFF3E0', color:'#E65100'},
+  'IT Resources':      {bg:'#ECEFF1', color:'#37474F'},
+  'Benefits':          {bg:'#FCE4EC', color:'#880E4F'},
+  'Team Management':   {bg:'#F3E5F5', color:'#4A148C'},
+};
+const TOPICS = Object.keys(TOPIC_STYLES);
+const OP_STATUSES = ['available','degraded','unavailable','maintenance'];
+const ACTION_TYPES = ['primary','related','support','admin'];
+const HANDLING_TYPES = ['url','contact_owner','external_form','manual_step'];
+
+// ═══════════════════════════════════════════
+//  GITHUB CONFIG
+// ═══════════════════════════════════════════
+let ghCfg = {pat:'', repo:'stemmets/personal-workspace', branch:'main', path:'data.json'};
+
+function loadConfig(){
+  const s = localStorage.getItem('pw_admin_cfg');
+  if(s) try{ ghCfg = {...ghCfg, ...JSON.parse(s)}; } catch(e){}
+  document.getElementById('cfgPat').value    = ghCfg.pat;
+  document.getElementById('cfgRepo').value   = ghCfg.repo;
+  document.getElementById('cfgBranch').value = ghCfg.branch;
+  document.getElementById('cfgPath').value   = ghCfg.path;
+}
+
+function saveConfig(){
+  ghCfg.pat    = document.getElementById('cfgPat').value.trim();
+  ghCfg.repo   = document.getElementById('cfgRepo').value.trim();
+  ghCfg.branch = document.getElementById('cfgBranch').value.trim();
+  ghCfg.path   = document.getElementById('cfgPath').value.trim();
+  localStorage.setItem('pw_admin_cfg', JSON.stringify(ghCfg));
+  showToast('Settings saved', 'success');
+}
+
+function toggleSettings(){
+  document.getElementById('settingsBar').classList.toggle('open');
+}
+
+// ═══════════════════════════════════════════
+//  GITHUB OPERATIONS
+// ═══════════════════════════════════════════
+function ghHeaders(){
+  return {
+    'Authorization': `token ${ghCfg.pat}`,
+    'Accept': 'application/vnd.github.v3+json',
+    'Content-Type': 'application/json'
+  };
+}
+
+async function loadFromGitHub(){
+  if(!ghCfg.pat){ showToast('Set GitHub PAT in ⚙ Settings first', 'error'); return; }
+  setPubStatus('Loading…');
+  try{
+    const url = `https://api.github.com/repos/${ghCfg.repo}/contents/${ghCfg.path}?ref=${ghCfg.branch}`;
+    const res = await fetch(url, { headers: ghHeaders() });
+    if(!res.ok) throw new Error(`GitHub ${res.status}`);
+    const file = await res.json();
+    const json = JSON.parse(atob(file.content.replace(/\n/g,'')));
+    SERVICES  = json.services  || [];
+    PROCESSES = json.processes || [];
+    saveDraft();
+    renderList();
+    updateTabCounts();
+    setPubStatus('Loaded from GitHub');
+    showToast(`Loaded ${SERVICES.length} services · ${PROCESSES.length} processes`, 'success');
+  } catch(e){
+    setPubStatus('');
+    showToast('Load failed: ' + e.message, 'error');
+  }
+}
+
+async function publishToGitHub(){
+  if(!ghCfg.pat){ showToast('Set GitHub PAT in ⚙ Settings first', 'error'); return; }
+  setPubStatus('Publishing…');
+  try{
+    // get current SHA
+    const getUrl = `https://api.github.com/repos/${ghCfg.repo}/contents/${ghCfg.path}?ref=${ghCfg.branch}`;
+    let sha = null;
+    const getRes = await fetch(getUrl, { headers: ghHeaders() });
+    if(getRes.ok){ const f = await getRes.json(); sha = f.sha; }
+
+    const content = JSON.stringify({services:SERVICES, processes:PROCESSES}, null, 2);
+    const encoded = btoa(unescape(encodeURIComponent(content)));
+    const body = {
+      message: `Update service catalog [admin panel]`,
+      content: encoded,
+      branch: ghCfg.branch
+    };
+    if(sha) body.sha = sha;
+
+    const putRes = await fetch(`https://api.github.com/repos/${ghCfg.repo}/contents/${ghCfg.path}`, {
+      method:'PUT', headers: ghHeaders(), body: JSON.stringify(body)
+    });
+    if(!putRes.ok){
+      const err = await putRes.json();
+      throw new Error(err.message || putRes.status);
+    }
+    dirty = false;
+    setPubStatus('Published ✓');
+    showToast('✓ Published! Vercel will deploy in ~30 seconds', 'success');
+  } catch(e){
+    setPubStatus('');
+    showToast('Publish failed: ' + e.message, 'error');
+  }
+}
+
+// ═══════════════════════════════════════════
+//  DRAFT (localStorage)
+// ═══════════════════════════════════════════
+function saveDraft(){
+  localStorage.setItem('pw_admin_draft', JSON.stringify({services:SERVICES, processes:PROCESSES}));
+  dirty = true;
+  setPubStatus('Unsaved changes');
+}
+
+function loadDraft(){
+  const s = localStorage.getItem('pw_admin_draft');
+  if(!s) return false;
+  try{
+    const d = JSON.parse(s);
+    SERVICES  = d.services  || [];
+    PROCESSES = d.processes || [];
+    return true;
+  } catch(e){ return false; }
+}
+
+// ═══════════════════════════════════════════
+//  UI HELPERS
+// ═══════════════════════════════════════════
+function setPubStatus(msg){ document.getElementById('pubStatus').textContent = msg; }
+
+let toastTimer;
+function showToast(msg, type=''){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show' + (type ? ' '+type : '');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=>{ t.className='toast'; }, 3500);
+}
+
+function switchTab(tab){
+  activeTab = tab;
+  editingId = null;
+  document.getElementById('tabServices').classList.toggle('active', tab==='services');
+  document.getElementById('tabProcesses').classList.toggle('active', tab==='processes');
+  resetEditPane();
+  renderList();
+}
+
+function updateTabCounts(){
+  document.getElementById('tabSvcCount').textContent  = SERVICES.length;
+  document.getElementById('tabProcCount').textContent = PROCESSES.length;
+}
+
+function resetEditPane(){
+  document.getElementById('editPane').innerHTML = `
+    <div class="edit-pane-empty">
+      <h3>Select an item to edit</h3>
+      <p>Choose a ${activeTab==='services'?'service':'process'} from the list, or click + Add to create one.</p>
+    </div>`;
+}
+
+// ═══════════════════════════════════════════
+//  LIST RENDERING
+// ═══════════════════════════════════════════
+function renderList(){
+  const q = document.getElementById('listSearch').value.toLowerCase().trim();
+  const body = document.getElementById('listBody');
+  if(activeTab === 'services'){
+    const items = SERVICES.filter(s => !q || s.name.toLowerCase().includes(q) || (s.topic||'').toLowerCase().includes(q));
+    body.innerHTML = items.length === 0
+      ? `<div style="padding:20px;color:var(--text3);text-align:center;font-size:13px">No services found</div>`
+      : items.map(s => renderSvcRow(s)).join('');
+  } else {
+    const items = PROCESSES.filter(p => !q || p.name.toLowerCase().includes(q));
+    body.innerHTML = items.length === 0
+      ? `<div style="padding:20px;color:var(--text3);text-align:center;font-size:13px">No processes found</div>`
+      : items.map(p => renderProcRow(p)).join('');
+  }
+  updateTabCounts();
+}
+
+function renderSvcRow(svc){
+  const ts = TOPIC_STYLES[svc.topic] || {bg:'#F5F5F5',color:'#424242'};
+  const isActive = editingId === svc.id;
+  return `
+<div class="svc-row${isActive?' active':''}" onclick="editItem('${svc.id}')">
+  <span class="op-dot op-${svc.opStatus||'available'}" title="${svc.opStatus||'available'}"></span>
+  <div class="svc-info">
+    <div class="svc-name">${esc(svc.name)}</div>
+    <div class="svc-sub">${esc(svc.system||'')} · ${(svc.actions||[]).length} actions</div>
+  </div>
+  <span class="topic-pill" style="background:${ts.bg};color:${ts.color}">${esc(svc.topic||'')}</span>
+  <button class="row-del" onclick="event.stopPropagation();deleteItem('${svc.id}')" title="Delete">✕</button>
+</div>`;
+}
+
+function renderProcRow(proc){
+  const isActive = editingId === proc.id;
+  return `
+<div class="svc-row${isActive?' active':''}" onclick="editItem('${proc.id}')">
+  <span style="font-size:18px;flex-shrink:0">${proc.icon||'📋'}</span>
+  <div class="svc-info">
+    <div class="svc-name">${esc(proc.name)}</div>
+    <div class="svc-sub">${esc(proc.owner||'')} · ${(proc.steps||[]).length} steps</div>
+  </div>
+  <button class="row-del" onclick="event.stopPropagation();deleteItem('${proc.id}')" title="Delete">✕</button>
+</div>`;
+}
+
+function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+// ═══════════════════════════════════════════
+//  ADD / EDIT / DELETE
+// ═══════════════════════════════════════════
+function startNew(){
+  editingId = '__new__';
+  renderList(); // deselect rows
+  if(activeTab === 'services') renderServiceForm(null);
+  else renderProcessForm(null);
+}
+
+function editItem(id){
+  editingId = id;
+  renderList();
+  if(activeTab === 'services'){
+    const svc = SERVICES.find(s => s.id === id);
+    renderServiceForm(svc);
+  } else {
+    const proc = PROCESSES.find(p => p.id === id);
+    renderProcessForm(proc);
+  }
+}
+
+function deleteItem(id){
+  if(!confirm('Delete this item?')) return;
+  if(activeTab === 'services'){
+    SERVICES = SERVICES.filter(s => s.id !== id);
+  } else {
+    PROCESSES = PROCESSES.filter(p => p.id !== id);
+  }
+  if(editingId === id){ editingId = null; resetEditPane(); }
+  saveDraft();
+  renderList();
+  showToast('Deleted');
+}
+
+// ═══════════════════════════════════════════
+//  SERVICE FORM
+// ═══════════════════════════════════════════
+function renderServiceForm(svc){
+  const isNew = !svc;
+  const ep = document.getElementById('editPane');
+  const topicOpts = TOPICS.map(t => `<option value="${t}"${(svc?.topic===t)?' selected':''}>${t}</option>`).join('');
+  const opOpts = OP_STATUSES.map(s => `<option value="${s}"${(svc?.opStatus===s)?' selected':''}>${s}</option>`).join('');
+
+  ep.innerHTML = `
+<div class="form-title">
+  ${isNew ? '+ New Service' : esc(svc.name)}
+  <span class="badge">${isNew ? 'New' : 'Editing'}</span>
+</div>
+
+<div class="form-section">
+  <div class="form-section-title">Identity</div>
+  <div class="form-row-2">
+    <div class="form-row" style="margin-bottom:0">
+      <label>ID (slug)</label>
+      <input type="text" id="fId" value="${esc(svc?.id||'')}" placeholder="e.g. worklog" ${isNew?'':'readonly style="background:#F5F5F5;color:var(--text2)"'}>
+    </div>
+    <div class="form-row" style="margin-bottom:0">
+      <label>Status</label>
+      <select id="fStatus">
+        <option value="Active"${svc?.status==='Active'?' selected':''}>Active</option>
+        <option value="Inactive"${svc?.status==='Inactive'?' selected':''}>Inactive</option>
+        <option value="Deprecated"${svc?.status==='Deprecated'?' selected':''}>Deprecated</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+<div class="form-section">
+  <div class="form-section-title">Details</div>
+  <div class="form-row">
+    <label>Service name</label>
+    <input type="text" id="fName" value="${esc(svc?.name||'')}" placeholder="Worklog Submission" oninput="autoSlug()">
+  </div>
+  <div class="form-row">
+    <label>Goal (one line)</label>
+    <input type="text" id="fGoal" value="${esc(svc?.goal||'')}" placeholder="What is this service for?">
+  </div>
+  <div class="form-row">
+    <label>Description</label>
+    <textarea id="fDesc" rows="3" placeholder="Detailed description…">${esc(svc?.desc||'')}</textarea>
+  </div>
+  <div class="form-row-2">
+    <div>
+      <label>Topic</label>
+      <select id="fTopic">${topicOpts}</select>
+    </div>
+    <div>
+      <label>Domain</label>
+      <input type="text" id="fDomain" value="${esc(svc?.domain||'')}" placeholder="HR, Finance, IT…">
+    </div>
+  </div>
+  <div class="form-row-3">
+    <div>
+      <label>System / Portal</label>
+      <input type="text" id="fSystem" value="${esc(svc?.system||'')}" placeholder="HR Portal">
+    </div>
+    <div>
+      <label>Owner name</label>
+      <input type="text" id="fOwner" value="${esc(svc?.owner||'')}" placeholder="HR Department">
+    </div>
+    <div>
+      <label>Owner email</label>
+      <input type="email" id="fOwnerEmail" value="${esc(svc?.ownerEmail||'')}" placeholder="hr@company.com">
+    </div>
+  </div>
+  <div class="form-row-2">
+    <div>
+      <label>Operational status</label>
+      <select id="fOpStatus">${opOpts}</select>
+    </div>
+    <div>
+      <label>Review cycle (months)</label>
+      <input type="number" id="fReviewCycle" value="${svc?.reviewCycle||6}" min="1" max="24">
+    </div>
+  </div>
+  <div class="form-row">
+    <label>Last reviewed</label>
+    <input type="date" id="fReviewedAt" value="${svc?.reviewedAt||''}">
+  </div>
+</div>
+
+<div class="form-section">
+  <div class="form-section-title">
+    Preconditions
+    <button class="btn btn-outline btn-sm section-add" onclick="addPrecond()">+ Add</button>
+  </div>
+  <div id="fPrecondList">
+    ${(svc?.preconditions||[]).map((p,i)=>precondRow(p,i)).join('')}
+  </div>
+  <div id="fPrecondEmpty" style="font-size:12px;color:var(--text3);${(svc?.preconditions||[]).length?'display:none':''}">No preconditions — this service is available to everyone.</div>
+</div>
+
+<div class="form-section">
+  <div class="form-section-title">
+    Actions
+    <button class="btn btn-outline btn-sm section-add" onclick="addAction()">+ Add</button>
+  </div>
+  <div id="fActionList">
+    ${(svc?.actions||[]).map((a,i)=>actionRow(a,i)).join('')}
+  </div>
+  <div id="fActionEmpty" style="font-size:12px;color:var(--text3);${(svc?.actions||[]).length?'display:none':''}">No actions yet.</div>
+</div>
+
+<div class="form-section">
+  <div class="form-section-title">
+    Ecosystem connections
+    <button class="btn btn-outline btn-sm section-add" onclick="addEco()">+ Add</button>
+  </div>
+  <div id="fEcoList">
+    ${(svc?.ecosystem||[]).map((e,i)=>ecoRow(e,i)).join('')}
+  </div>
+  <div id="fEcoEmpty" style="font-size:12px;color:var(--text3);${(svc?.ecosystem||[]).length?'display:none':''}">No ecosystem connections yet.</div>
+</div>
+
+<div class="form-section">
+  <div class="form-section-title">Search tags</div>
+  <div class="form-row" style="margin-bottom:0">
+    <label>Tags (comma-separated)</label>
+    <input type="text" id="fTags" value="${esc((svc?.tags||[]).join(', '))}" placeholder="worklog, timesheet, hours, табель">
+  </div>
+</div>
+
+<div class="form-actions">
+  <button class="btn btn-green" onclick="saveService()">💾 Save service</button>
+  <button class="btn btn-outline" onclick="cancelEdit()">Cancel</button>
+  <span class="form-hint">Changes are saved locally — click Publish to deploy</span>
+</div>
+`;
+}
+
+let precondCount = 0, actionCount = 0, ecoCount = 0;
+
+function precondRow(val, i){
+  precondCount = Math.max(precondCount, i+1);
+  return `<div class="dyn-item" id="prec-${i}" style="display:flex;align-items:center;gap:8px;padding:8px 12px">
+    <input type="text" value="${esc(val)}" placeholder="Requirement…" style="flex:1">
+    <button class="dyn-item-del" style="position:static" onclick="delDynRow('prec-${i}','fPrecondList','fPrecondEmpty')">✕</button>
+  </div>`;
+}
+
+function addPrecond(){
+  const list = document.getElementById('fPrecondList');
+  list.insertAdjacentHTML('beforeend', precondRow('', precondCount++));
+  document.getElementById('fPrecondEmpty').style.display = 'none';
+}
+
+function actionRow(a, i){
+  actionCount = Math.max(actionCount, i+1);
+  const typeOpts = ACTION_TYPES.map(t=>`<option${a.type===t?' selected':''}>${t}</option>`).join('');
+  const handOpts = HANDLING_TYPES.map(h=>`<option value="${h}"${a.handling===h?' selected':''}>${h}</option>`).join('');
+  return `<div class="dyn-item" id="act-${i}">
+    <button class="dyn-item-del" onclick="delDynRow('act-${i}','fActionList','fActionEmpty')">✕</button>
+    <div class="dyn-row-4" style="margin-bottom:8px">
+      <div><label style="font-size:10px;margin-bottom:2px">Name</label><input type="text" value="${esc(a.name||'')}" placeholder="Submit Form"></div>
+      <div><label style="font-size:10px;margin-bottom:2px">Type</label><select>${typeOpts}</select></div>
+      <div><label style="font-size:10px;margin-bottom:2px">Handling</label><select>${handOpts}</select></div>
+      <div><label style="font-size:10px;margin-bottom:2px">Tier</label><input type="number" value="${a.tier||1}" min="1" max="3"></div>
+    </div>
+    <div><label style="font-size:10px;margin-bottom:2px">Description</label><input type="text" value="${esc(a.desc||'')}" placeholder="What does this action do?"></div>
+  </div>`;
+}
+
+function addAction(){
+  const list = document.getElementById('fActionList');
+  list.insertAdjacentHTML('beforeend', actionRow({type:'related',handling:'url',tier:1}, actionCount++));
+  document.getElementById('fActionEmpty').style.display = 'none';
+}
+
+function ecoRow(e, i){
+  ecoCount = Math.max(ecoCount, i+1);
+  return `<div class="dyn-item" id="eco-${i}">
+    <button class="dyn-item-del" onclick="delDynRow('eco-${i}','fEcoList','fEcoEmpty')">✕</button>
+    <div class="dyn-row-3" style="margin-bottom:8px">
+      <div><label style="font-size:10px;margin-bottom:2px">Name</label><input type="text" value="${esc(e.name||'')}" placeholder="HR Portal"></div>
+      <div><label style="font-size:10px;margin-bottom:2px">Icon (emoji)</label><input type="text" value="${esc(e.icon||'')}" placeholder="📊"></div>
+      <div></div>
+    </div>
+    <div><label style="font-size:10px;margin-bottom:2px">Context</label><input type="text" value="${esc(e.ctx||'')}" placeholder="How does this connect?"></div>
+  </div>`;
+}
+
+function addEco(){
+  const list = document.getElementById('fEcoList');
+  list.insertAdjacentHTML('beforeend', ecoRow({}, ecoCount++));
+  document.getElementById('fEcoEmpty').style.display = 'none';
+}
+
+function delDynRow(id, listId, emptyId){
+  document.getElementById(id)?.remove();
+  if(!document.getElementById(listId).children.length)
+    document.getElementById(emptyId).style.display = '';
+}
+
+function autoSlug(){
+  const idField = document.getElementById('fId');
+  if(idField && !idField.readOnly){
+    idField.value = document.getElementById('fName').value
+      .toLowerCase().trim()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-|-$/g, '');
+  }
+}
+
+function readPreconditions(){
+  return Array.from(document.getElementById('fPrecondList')?.querySelectorAll('input[type=text]')||[])
+    .map(i=>i.value.trim()).filter(Boolean);
+}
+
+function readActions(){
+  return Array.from(document.getElementById('fActionList')?.querySelectorAll('.dyn-item')||[]).map(el=>{
+    const inputs = el.querySelectorAll('input,select');
+    return { name: inputs[0]?.value||'', type: inputs[1]?.value||'related', handling: inputs[2]?.value||'url',
+             tier: parseInt(inputs[3]?.value||1), desc: inputs[4]?.value||'' };
+  }).filter(a=>a.name);
+}
+
+function readEcosystem(){
+  return Array.from(document.getElementById('fEcoList')?.querySelectorAll('.dyn-item')||[]).map(el=>{
+    const inputs = el.querySelectorAll('input[type=text]');
+    return { name: inputs[0]?.value||'', icon: inputs[1]?.value||'', ctx: inputs[2]?.value||'' };
+  }).filter(e=>e.name);
+}
+
+function saveService(){
+  const id = document.getElementById('fId')?.value.trim();
+  const name = document.getElementById('fName')?.value.trim();
+  if(!id || !name){ showToast('ID and name are required', 'error'); return; }
+  if(!/^[a-z0-9-]+$/.test(id)){ showToast('ID must be lowercase letters, numbers, hyphens only', 'error'); return; }
+
+  const svc = {
+    id, name,
+    goal:        document.getElementById('fGoal')?.value.trim()||'',
+    desc:        document.getElementById('fDesc')?.value.trim()||'',
+    domain:      document.getElementById('fDomain')?.value.trim()||'',
+    topic:       document.getElementById('fTopic')?.value||'',
+    system:      document.getElementById('fSystem')?.value.trim()||'',
+    owner:       document.getElementById('fOwner')?.value.trim()||'',
+    ownerEmail:  document.getElementById('fOwnerEmail')?.value.trim()||'',
+    status:      document.getElementById('fStatus')?.value||'Active',
+    opStatus:    document.getElementById('fOpStatus')?.value||'available',
+    tags:        (document.getElementById('fTags')?.value||'').split(',').map(t=>t.trim()).filter(Boolean),
+    preconditions: readPreconditions(),
+    actions:     readActions(),
+    ecosystem:   readEcosystem(),
+    reviewedAt:  document.getElementById('fReviewedAt')?.value||'',
+    reviewCycle: parseInt(document.getElementById('fReviewCycle')?.value||6),
+  };
+
+  const idx = SERVICES.findIndex(s => s.id === id);
+  if(idx >= 0) SERVICES[idx] = svc;
+  else SERVICES.push(svc);
+
+  editingId = id;
+  saveDraft();
+  renderList();
+  showToast(`Service "${name}" saved`, 'success');
+}
+
+// ═══════════════════════════════════════════
+//  PROCESS FORM
+// ═══════════════════════════════════════════
+function renderProcessForm(proc){
+  const isNew = !proc;
+  const ep = document.getElementById('editPane');
+  const stepsJson = proc?.steps ? JSON.stringify(proc.steps, null, 2) : '[]';
+
+  ep.innerHTML = `
+<div class="form-title">
+  ${isNew ? '+ New Process' : esc(proc.name)}
+  <span class="badge">${isNew ? 'New' : 'Editing'}</span>
+</div>
+
+<div class="form-section">
+  <div class="form-section-title">Identity</div>
+  <div class="form-row-2">
+    <div>
+      <label>ID (slug)</label>
+      <input type="text" id="pId" value="${esc(proc?.id||'')}" placeholder="month-end" ${isNew?'':'readonly style="background:#F5F5F5;color:var(--text2)"'} oninput="autoProcSlug()">
+    </div>
+    <div>
+      <label>Owner</label>
+      <input type="text" id="pOwner" value="${esc(proc?.owner||'')}" placeholder="Finance Team">
+    </div>
+  </div>
+</div>
+
+<div class="form-section">
+  <div class="form-section-title">Details</div>
+  <div class="form-row">
+    <label>Process name</label>
+    <input type="text" id="pName" value="${esc(proc?.name||'')}" placeholder="Month-End Time Reporting" oninput="autoProcSlug()">
+  </div>
+  <div class="form-row">
+    <label>Description</label>
+    <textarea id="pDesc" rows="2">${esc(proc?.desc||'')}</textarea>
+  </div>
+  <div class="form-row-3">
+    <div>
+      <label>Icon (emoji)</label>
+      <input type="text" id="pIcon" value="${esc(proc?.icon||'📋')}" placeholder="📋">
+    </div>
+    <div>
+      <label>Card background</label>
+      <input type="text" id="pColor" value="${esc(proc?.color||'#F5F5F5')}" placeholder="#E8F5E9">
+    </div>
+    <div>
+      <label>Icon color</label>
+      <input type="text" id="pIconColor" value="${esc(proc?.iconColor||'#424242')}" placeholder="#2E7D32">
+    </div>
+  </div>
+</div>
+
+<div class="form-section">
+  <div class="form-section-title">Steps (JSON)</div>
+  <div style="font-size:11px;color:var(--text2);margin-bottom:8px;line-height:1.5">
+    Edit the step structure directly. Each step column contains <code>groups</code> with a <code>label</code> and <code>steps</code> array.<br>
+    Step fields: <code>type</code> (atomic|human), <code>role</code>, <code>roleCls</code> (employee|manager|hr|it|finance), <code>name</code>, <code>service</code>, <code>svcId</code>, <code>human</code> (for human steps).
+  </div>
+  <textarea class="json-editor" id="pSteps" rows="12" spellcheck="false">${esc(stepsJson)}</textarea>
+  <div class="json-error" id="pStepsError">Invalid JSON</div>
+</div>
+
+<div class="form-actions">
+  <button class="btn btn-green" onclick="saveProcess()">💾 Save process</button>
+  <button class="btn btn-outline" onclick="cancelEdit()">Cancel</button>
+  <span class="form-hint">Changes are saved locally — click Publish to deploy</span>
+</div>
+`;
+}
+
+function autoProcSlug(){
+  const idField = document.getElementById('pId');
+  if(idField && !idField.readOnly){
+    idField.value = (document.getElementById('pName')?.value||'')
+      .toLowerCase().trim().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+  }
+}
+
+function saveProcess(){
+  const id   = document.getElementById('pId')?.value.trim();
+  const name = document.getElementById('pName')?.value.trim();
+  if(!id || !name){ showToast('ID and name are required', 'error'); return; }
+
+  let steps;
+  try{
+    steps = JSON.parse(document.getElementById('pSteps')?.value||'[]');
+    document.getElementById('pStepsError').style.display = 'none';
+  } catch(e){
+    document.getElementById('pStepsError').style.display = '';
+    showToast('Steps JSON is invalid', 'error'); return;
+  }
+
+  const proc = {
+    id, name,
+    desc:      document.getElementById('pDesc')?.value.trim()||'',
+    owner:     document.getElementById('pOwner')?.value.trim()||'',
+    icon:      document.getElementById('pIcon')?.value.trim()||'📋',
+    color:     document.getElementById('pColor')?.value.trim()||'#F5F5F5',
+    iconColor: document.getElementById('pIconColor')?.value.trim()||'#424242',
+    steps
+  };
+
+  const idx = PROCESSES.findIndex(p => p.id === id);
+  if(idx >= 0) PROCESSES[idx] = proc;
+  else PROCESSES.push(proc);
+
+  editingId = id;
+  saveDraft();
+  renderList();
+  showToast(`Process "${name}" saved`, 'success');
+}
+
+function cancelEdit(){
+  editingId = null;
+  resetEditPane();
+  renderList();
+}
+
+// ═══════════════════════════════════════════
+//  INIT
+// ═══════════════════════════════════════════
+async function init(){
+  loadConfig();
+
+  // 1) try draft first
+  if(loadDraft()){
+    setPubStatus('Draft loaded');
+  } else {
+    // 2) try loading from same-origin data.json (e.g. Vercel deploy)
+    try{
+      const res = await fetch('./data.json?t=' + Date.now());
+      if(res.ok){
+        const d = await res.json();
+        SERVICES  = d.services  || [];
+        PROCESSES = d.processes || [];
+        saveDraft();
+        setPubStatus('Loaded from data.json');
+      }
+    } catch(e){
+      // no data.json, start empty
+    }
+  }
+
+  renderList();
+  updateTabCounts();
+}
+
+init();
+</script>
+</body>
+</html>
