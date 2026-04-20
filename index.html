@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Personal Workspace</title>
+<style>
+:root {
+  --green:#43A047; --green-dk:#2E7D32; --green-lt:#E8F5E9;
+  --blue:#1E88E5; --blue-lt:#E3F2FD;
+  --orange:#FB8C00; --orange-lt:#FFF3E0;
+  --purple:#7B1FA2; --purple-lt:#F3E5F5;
+  --pink:#D81B60; --pink-lt:#FCE4EC;
+  --slate:#546E7A; --slate-lt:#ECEFF1;
+  --border:#E0E0E0; --text:#212121; --text2:#616161; --text3:#9E9E9E;
+  --bg:#F5F7FA; --card:#FFFFFF;
+  --radius:10px; --shadow:0 1px 4px rgba(0,0,0,.08);
+  --shadow-lg:0 4px 16px rgba(0,0,0,.12);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+
+/* ── HEADER ─────────────────── */
+.header{background:#fff;border-bottom:1px solid var(--border);padding:12px 24px;display:flex;align-items:center;gap:16px;position:sticky;top:0;z-index:200;box-shadow:var(--shadow)}
+.logo{width:36px;height:36px;background:var(--green);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:14px;flex-shrink:0}
+.header-text h1{font-size:15px;font-weight:700;color:var(--green)}
+.header-text p{font-size:11px;color:var(--text3)}
+.search-wrap{flex:1;max-width:480px;margin-left:auto;position:relative}
+.search-wrap input{width:100%;padding:9px 16px 9px 40px;border:1px solid var(--border);border-radius:20px;font-size:13px;background:#FAFAFA;outline:none;transition:border .15s,background .15s}
+.search-wrap input:focus{border-color:var(--green);background:#fff;box-shadow:0 0 0 3px rgba(67,160,71,.1)}
+.search-icon{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--text3);font-size:15px;pointer-events:none}
+.header-meta{font-size:11px;color:var(--text3);white-space:nowrap}
+
+/* ── HERO ───────────────────── */
+.hero{padding:28px 24px 0;max-width:1200px;margin:0 auto}
+.hero h2{font-size:22px;font-weight:700;color:var(--text);margin-bottom:4px}
+.hero p{font-size:13px;color:var(--text2)}
+
+/* ── CHIPS ──────────────────── */
+.chips-bar{padding:16px 24px;display:flex;gap:8px;flex-wrap:wrap;max-width:1200px;margin:0 auto}
+.chip{padding:6px 14px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;border:1.5px solid transparent;transition:all .15s;white-space:nowrap;user-select:none}
+.chip:hover{opacity:.85}
+.chip.active{box-shadow:0 2px 6px rgba(0,0,0,.15)}
+.chip-all{background:#E0E0E0;color:#424242;border-color:#BDBDBD}
+.chip-all.active{background:#424242;color:#fff;border-color:#424242}
+.chip-time{background:var(--green-lt);color:var(--green-dk);border-color:#A5D6A7}
+.chip-time.active{background:var(--green);color:#fff;border-color:var(--green-dk)}
+.chip-finance{background:var(--blue-lt);color:#1565C0;border-color:#90CAF9}
+.chip-finance.active{background:var(--blue);color:#fff;border-color:#1565C0}
+.chip-perf{background:var(--orange-lt);color:#E65100;border-color:#FFCC80}
+.chip-perf.active{background:var(--orange);color:#fff;border-color:#E65100}
+.chip-it{background:var(--slate-lt);color:#37474F;border-color:#B0BEC5}
+.chip-it.active{background:var(--slate);color:#fff;border-color:#37474F}
+.chip-benefits{background:var(--pink-lt);color:#880E4F;border-color:#F48FB1}
+.chip-benefits.active{background:var(--pink);color:#fff;border-color:#880E4F}
+.chip-team{background:var(--purple-lt);color:#4A148C;border-color:#CE93D8}
+.chip-team.active{background:var(--purple);color:#fff;border-color:#4A148C}
+
+/* ── SECTION ────────────────── */
+.section{padding:0 24px 32px;max-width:1200px;margin:0 auto}
+.section-title{font-size:13px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.6px;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.section-count{font-size:11px;font-weight:600;background:var(--green-lt);color:var(--green-dk);padding:2px 7px;border-radius:8px}
+
+/* ── SERVICE GRID ───────────── */
+.service-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+.service-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);cursor:pointer;transition:box-shadow .15s,border-color .15s;display:flex;flex-direction:column;overflow:hidden}
+.service-card:hover{box-shadow:var(--shadow-lg);border-color:#C8E6C9}
+.service-card.selected{border-color:var(--green);box-shadow:0 0 0 2px rgba(67,160,71,.2)}
+.sc-top{padding:14px 16px 10px}
+.sc-badges{display:flex;align-items:center;gap:6px;margin-bottom:8px;flex-wrap:wrap}
+.topic-badge{font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;text-transform:uppercase;letter-spacing:.3px}
+.sys-badge{font-size:10px;color:var(--text3);background:#F5F5F5;padding:2px 7px;border-radius:8px;margin-left:auto}
+.op-dot{width:7px;height:7px;border-radius:50%;margin-left:4px;flex-shrink:0}
+.op-available{background:#43A047} .op-degraded{background:#FB8C00}
+.op-unavailable{background:#E53935} .op-maintenance{background:#9E9E9E}
+.sc-name{font-size:14px;font-weight:700;color:var(--text);margin-bottom:4px;line-height:1.3}
+.sc-goal{font-size:12px;color:var(--text2);line-height:1.45;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.sc-divider{height:1px;background:var(--border);margin:0 16px}
+.sc-bottom{padding:10px 16px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.btn-primary{padding:6px 14px;background:var(--green);color:#fff;border:none;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;transition:background .1s;white-space:nowrap;display:flex;align-items:center;gap:5px}
+.btn-primary:hover{background:var(--green-dk)}
+.btn-primary.contact{background:var(--blue)} .btn-primary.contact:hover{background:#1565C0}
+.btn-primary.manual{background:#757575} .btn-primary.manual:hover{background:#424242}
+.sc-more{font-size:11px;color:var(--text3);margin-left:auto}
+.sc-precond{padding:6px 16px 10px;font-size:11px;color:#E65100;background:var(--orange-lt);display:flex;align-items:flex-start;gap:5px}
+
+/* ── EMPTY STATE ────────────── */
+.empty-state{grid-column:1/-1;text-align:center;padding:48px 24px;color:var(--text3)}
+.empty-state h3{font-size:16px;color:var(--text2);margin-bottom:6px}
+
+/* ── PROCESS SECTION ────────── */
+.process-list{display:flex;flex-direction:column;gap:14px}
+.proc-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
+.proc-header{padding:14px 18px 10px;display:flex;align-items:flex-start;gap:12px;cursor:pointer}
+.proc-icon{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.proc-meta h3{font-size:14px;font-weight:700;color:var(--text)}
+.proc-meta p{font-size:12px;color:var(--text2);margin-top:2px}
+.proc-owner{font-size:11px;color:var(--text3);margin-top:3px}
+.proc-toggle{margin-left:auto;font-size:18px;color:var(--text3);transition:transform .2s;cursor:pointer;padding:0 4px;line-height:1}
+.proc-toggle.open{transform:rotate(180deg)}
+.proc-steps{padding:0 18px 16px;display:none}
+.proc-steps.open{display:flex;gap:0;flex-wrap:nowrap;overflow-x:auto;padding-bottom:12px}
+.step-group{display:flex;flex-direction:column;gap:6px}
+.step-group-label{font-size:9px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;text-align:center;margin-bottom:2px}
+.step-connector{display:flex;align-items:center}
+.step-arrow{padding:0 10px;color:#BDBDBD;font-size:18px;line-height:1;flex-shrink:0;align-self:center}
+.step{background:#F8F9FA;border:1px solid var(--border);border-radius:8px;padding:8px 12px;min-width:160px;max-width:200px;flex-shrink:0}
+.step.atomic{border-left:3px solid var(--green)}
+.step.human{border-left:3px solid #90A4AE}
+.step.gateway{border-left:3px solid #FFB300}
+.step-role{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px}
+.step-role.employee{color:var(--blue)} .step-role.manager{color:#7B1FA2}
+.step-role.hr{color:var(--pink)} .step-role.finance{color:#2E7D32}
+.step-role.it{color:var(--slate)}
+.step-name{font-size:12px;font-weight:600;color:var(--text);line-height:1.3}
+.step-service{font-size:10px;color:var(--green-dk);margin-top:3px;font-weight:500}
+.step-human-label{font-size:10px;color:#78909C;margin-top:2px;font-style:italic}
+.parallel-bracket{display:flex;flex-direction:column;gap:6px;background:#FAFAFA;border:1px dashed #BDBDBD;border-radius:8px;padding:8px;min-width:200px}
+.parallel-label{font-size:9px;font-weight:700;color:#9E9E9E;text-align:center;text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px}
+
+/* ── DETAIL PANEL ───────────── */
+.detail-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.15);z-index:300}
+.detail-overlay.open{display:block}
+.detail-panel{position:fixed;right:0;top:0;bottom:0;width:420px;background:#fff;box-shadow:-4px 0 24px rgba(0,0,0,.12);z-index:400;display:flex;flex-direction:column;transform:translateX(100%);transition:transform .2s ease}
+.detail-panel.open{transform:translateX(0)}
+.dp-header{padding:18px 20px 14px;border-bottom:1px solid var(--border);flex-shrink:0}
+.dp-close{position:absolute;top:14px;right:16px;background:none;border:none;font-size:20px;cursor:pointer;color:var(--text3);width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:background .1s}
+.dp-close:hover{background:#F5F5F5}
+.dp-topic{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;display:flex;align-items:center;gap:6px}
+.dp-name{font-size:18px;font-weight:800;color:var(--text);margin-bottom:4px;padding-right:36px}
+.dp-system{font-size:12px;color:var(--text2);display:flex;align-items:center;gap:5px}
+.dp-status-chip{font-size:10px;padding:1px 7px;border-radius:8px;font-weight:600;margin-left:6px}
+.dp-status-available{background:var(--green-lt);color:var(--green-dk)}
+.dp-status-degraded{background:var(--orange-lt);color:#E65100}
+.dp-status-unavailable{background:#FFEBEE;color:#C62828}
+.dp-body{flex:1;overflow-y:auto;padding:18px 20px}
+.dp-section{margin-bottom:20px}
+.dp-section-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--text3);margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.dp-goal{font-size:13px;color:var(--text2);line-height:1.6;background:#FAFAFA;padding:10px 12px;border-radius:7px;border-left:3px solid var(--green)}
+.dp-desc{font-size:13px;color:var(--text2);line-height:1.6}
+.dp-actions{display:flex;flex-direction:column;gap:8px}
+.dp-action{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--border);border-radius:8px;text-decoration:none;transition:background .1s;cursor:pointer}
+.dp-action:hover{background:#FAFAFA}
+.dp-action-icon{width:30px;height:30px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+.dai-primary{background:var(--green-lt)}
+.dai-related{background:#F3F4F6}
+.dai-admin{background:var(--orange-lt)}
+.dp-action-text{flex:1}
+.dp-action-name{font-size:13px;font-weight:600;color:var(--text)}
+.dp-action-type{font-size:10px;color:var(--text3);margin-top:1px}
+.dp-action-badge{font-size:10px;padding:2px 6px;border-radius:4px;font-weight:600;flex-shrink:0}
+.dab-url{background:var(--green-lt);color:var(--green-dk)}
+.dab-ext{background:var(--blue-lt);color:#1565C0}
+.dab-contact{background:#E8EAF6;color:#3949AB}
+.dab-manual{background:#F5F5F5;color:#616161}
+.dp-precond{background:var(--orange-lt);border-radius:8px;padding:10px 12px}
+.dp-precond-item{font-size:12px;color:#E65100;display:flex;align-items:flex-start;gap:6px;margin-bottom:4px}
+.dp-precond-item:last-child{margin-bottom:0}
+.dp-eco-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.dp-eco-item{background:#FAFAFA;border:1px solid var(--border);border-radius:8px;padding:9px 10px}
+.dp-eco-icon{font-size:18px;margin-bottom:4px}
+.dp-eco-name{font-size:12px;font-weight:700;color:var(--text)}
+.dp-eco-ctx{font-size:11px;color:var(--text2);margin-top:2px;line-height:1.4}
+.dp-tags{display:flex;flex-wrap:wrap;gap:5px}
+.dp-tag{font-size:11px;background:#F3F4F6;color:var(--text2);padding:3px 9px;border-radius:12px}
+.dp-footer{padding:14px 20px;border-top:1px solid var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:space-between}
+.dp-owner{font-size:11px;color:var(--text3)}
+.dp-review{font-size:10px;color:var(--text3)}
+
+/* ── MISC ───────────────────── */
+.no-results{text-align:center;padding:40px;color:var(--text3)}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="logo">PW</div>
+  <div class="header-text">
+    <h1>Personal Workspace</h1>
+    <p>Internal Service Discovery</p>
+  </div>
+  <div class="search-wrap">
+    <span class="search-icon">🔍</span>
+    <input type="text" id="searchInput" placeholder="Search services, actions, topics…" oninput="applyFilters()">
+  </div>
+  <div class="header-meta" id="resultCount"></div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <h2>👋 Good morning. What do you need today?</h2>
+  <p>Browse services by topic or search for anything — worklogs, invoices, IT requests, reviews, and more.</p>
+</div>
+
+<!-- TOPIC CHIPS -->
+<div class="chips-bar">
+  <div class="chip chip-all active" data-topic="all" onclick="setTopic('all')">All services</div>
+  <div class="chip chip-time" data-topic="Time & Reporting" onclick="setTopic('Time & Reporting')">⏱ Time & Reporting</div>
+  <div class="chip chip-finance" data-topic="Finance & Expenses" onclick="setTopic('Finance & Expenses')">💰 Finance & Expenses</div>
+  <div class="chip chip-perf" data-topic="Performance" onclick="setTopic('Performance')">🎯 Performance</div>
+  <div class="chip chip-it" data-topic="IT Resources" onclick="setTopic('IT Resources')">💻 IT Resources</div>
+  <div class="chip chip-benefits" data-topic="Benefits" onclick="setTopic('Benefits')">🎁 Benefits</div>
+  <div class="chip chip-team" data-topic="Team Management" onclick="setTopic('Team Management')">👥 Team Management</div>
+</div>
+
+<!-- SERVICES -->
+<div class="section">
+  <div class="section-title">Services <span class="section-count" id="svcCount">8</span></div>
+  <div class="service-grid" id="serviceGrid"></div>
+</div>
+
+<!-- PROCESSES -->
+<div class="section" id="processSection">
+  <div class="section-title">🗺 Resolution Paths <span class="section-count" id="procCount">3</span></div>
+  <div class="process-list" id="processList"></div>
+</div>
+
+<!-- DETAIL OVERLAY + PANEL -->
+<div class="detail-overlay" id="detailOverlay" onclick="closeDetail()"></div>
+<div class="detail-panel" id="detailPanel">
+  <div class="dp-header">
+    <button class="dp-close" onclick="closeDetail()">✕</button>
+    <div id="dpTopic" class="dp-topic"></div>
+    <div id="dpName" class="dp-name"></div>
+    <div id="dpSystem" class="dp-system"></div>
+  </div>
+  <div class="dp-body" id="dpBody"></div>
+  <div class="dp-footer">
+    <div class="dp-owner" id="dpOwner"></div>
+    <div class="dp-review" id="dpReview"></div>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════
+//  DATA
+// ══════════════════════════════════════
+const TOPIC_STYLES = {
+  'Time & Reporting':  {bg:'#E8F5E9', color:'#2E7D32', chipClass:'chip-time'},
+  'Finance & Expenses':{bg:'#E3F2FD', color:'#1565C0', chipClass:'chip-finance'},
+  'Performance':       {bg:'#FFF3E0', color:'#E65100', chipClass:'chip-perf'},
+  'IT Resources':      {bg:'#ECEFF1', color:'#37474F', chipClass:'chip-it'},
+  'Benefits':          {bg:'#FCE4EC', color:'#880E4F', chipClass:'chip-benefits'},
+  'Team Management':   {bg:'#F3E5F5', color:'#4A148C', chipClass:'chip-team'},
+};
+
+const SERVICES = [
+  {
+    id:'worklog', name:'Worklog Submission',
+    goal:'Record billable hours by project for payroll and client invoicing.',
+    desc:'Submit your weekly hours against projects and tasks in the Time Tracking Portal. Worklogs feed directly into your PTR and client invoices. Jira tasks are auto-synced — just verify and adjust if needed. Google Calendar events can be imported as draft entries.',
+    domain:'Time Tracking', topic:'Time & Reporting',
+    system:'Time Tracking Portal', owner:'Finance Team', ownerEmail:'finance@company.com',
+    status:'Active', opStatus:'available',
+    tags:['worklog','timesheet','hours','billable','jira','табель','учет времени','hours'],
+    preconditions:[],
+    actions:[
+      {name:'Submit Worklog',       type:'primary',  handling:'url',           tier:1, desc:'Open worklog form in Time Tracking Portal'},
+      {name:'View My Worklogs',     type:'related',  handling:'url',           tier:1, desc:'Browse history of submitted entries'},
+      {name:'Jira Sync Settings',   type:'related',  handling:'url',           tier:2, desc:'Configure automatic Jira task import'},
+      {name:'Export Report',        type:'related',  handling:'url',           tier:2, desc:'Download worklog data as CSV'},
+    ],
+    ecosystem:[
+      {name:'PTR Report',       icon:'📊', ctx:'Hours aggregate into your monthly Project Time Report'},
+      {name:'Client Invoice',   icon:'🧾', ctx:'Approved PTR auto-generates the client invoice'},
+      {name:'Manager Dashboard',icon:'📈', ctx:'Team utilization visible to your line manager'},
+      {name:'Google Calendar',  icon:'📅', ctx:'Calendar events can be imported as worklog draft entries'},
+    ],
+    reviewedAt:'2026-03-15', reviewCycle:6,
+  },
+  {
+    id:'ptr', name:'Project Time Report (PTR)',
+    goal:'Aggregate monthly time data and submit for manager approval before invoicing.',
+    desc:'At month end, your worklogs are compiled into a PTR. Review, adjust if needed, and submit for your line manager\'s approval. Approval happens in the portal or via notification. Once approved, invoice generation triggers automatically — no manual step required.',
+    domain:'Time Tracking', topic:'Time & Reporting',
+    system:'Time Tracking Portal', owner:'Finance Team', ownerEmail:'finance@company.com',
+    status:'Active', opStatus:'available',
+    tags:['PTR','monthly report','approval','time report','отчет','проект','project time'],
+    preconditions:['All worklogs submitted for the reporting period','Reporting period is open (1st–5th of month)'],
+    actions:[
+      {name:'Submit PTR',            type:'primary', handling:'url', tier:1, desc:'Submit your monthly consolidated time report'},
+      {name:'Track Approval Status', type:'related', handling:'url', tier:1, desc:'See where your PTR is in the approval chain'},
+      {name:'View PTR History',      type:'related', handling:'url', tier:2, desc:'Browse past PTRs and their statuses'},
+    ],
+    ecosystem:[
+      {name:'Invoice Generation', icon:'🧾', ctx:'PTR approval triggers automatic invoice creation'},
+      {name:'Finance Reports',    icon:'📊', ctx:'PTR data feeds into company-wide finance reporting'},
+      {name:'AR Team Queue',      icon:'📬', ctx:'Approved PTR enters accounts receivable workflow'},
+    ],
+    reviewedAt:'2026-03-15', reviewCycle:6,
+  },
+  {
+    id:'invoice', name:'Invoice Generation',
+    goal:'Generate and submit client invoices automatically from approved PTR data.',
+    desc:'Once your PTR is approved, the Finance Module generates a draft invoice with amounts pre-filled from your time data. Review project details and client information, then submit for AR processing. The AR team handles final delivery to the client.',
+    domain:'Finance', topic:'Finance & Expenses',
+    system:'Finance Module', owner:'AR Team', ownerEmail:'ar@company.com',
+    status:'Active', opStatus:'available',
+    tags:['invoice','billing','accounts receivable','AR','счет','инвойс','finance'],
+    preconditions:['PTR approved by line manager','Client contract active in system'],
+    actions:[
+      {name:'Generate Invoice',        type:'primary', handling:'url', tier:1, desc:'Create invoice draft from approved PTR'},
+      {name:'View Invoice History',    type:'related', handling:'url', tier:1, desc:'Browse past invoices and payment statuses'},
+      {name:'Submit for AR Review',    type:'related', handling:'url', tier:2, desc:'Forward completed invoice to AR team queue'},
+      {name:'Contact AR Team',         type:'support', handling:'contact_owner', tier:2, desc:'Get help from the AR team directly'},
+    ],
+    ecosystem:[
+      {name:'AR Dashboard',    icon:'📋', ctx:'Invoice enters the accounts receivable tracking queue'},
+      {name:'Client Records',  icon:'🗂',  ctx:'Invoice linked to client contract history'},
+      {name:'Billing Report',  icon:'📊', ctx:'Revenue data reflected in monthly billing report'},
+    ],
+    reviewedAt:'2026-02-20', reviewCycle:6,
+  },
+  {
+    id:'perf-review', name:'Performance Review',
+    goal:'Complete quarterly 360° feedback for professional development and compensation decisions.',
+    desc:'Participate in the quarterly performance cycle: submit your self-assessment, provide peer feedback for colleagues, and receive consolidated scores from your manager and HR BP. Results inform career progression, project assignments, and bonus eligibility.',
+    domain:'HR', topic:'Performance',
+    system:'HR Portal', owner:'HR Department', ownerEmail:'hr@company.com',
+    status:'Active', opStatus:'available',
+    tags:['performance review','360','feedback','KPI','оценка','аттестация','ревью','quarterly'],
+    preconditions:[],
+    actions:[
+      {name:'Start Self-Review',      type:'primary', handling:'url', tier:1, desc:'Open your quarterly self-assessment form'},
+      {name:'Submit Peer Feedback',   type:'related', handling:'url', tier:1, desc:'Provide structured feedback for a colleague'},
+      {name:'View My Results',        type:'related', handling:'url', tier:1, desc:'See your consolidated scores and manager comments'},
+      {name:'View Team Results',      type:'admin',   handling:'url', tier:2, desc:'Manager view: team performance overview (restricted)'},
+    ],
+    ecosystem:[
+      {name:'Compensation Review', icon:'💰', ctx:'Review scores inform annual compensation adjustments'},
+      {name:'Career Matrix',       icon:'🎯', ctx:'Scores mapped against role progression matrix'},
+      {name:'HR Dashboard',        icon:'📊', ctx:'Aggregate performance data for HR analytics'},
+    ],
+    reviewedAt:'2026-01-10', reviewCycle:3,
+  },
+  {
+    id:'bonus', name:'Appreciation Bonus',
+    goal:'Nominate colleagues or receive recognition bonuses for outstanding contributions.',
+    desc:'Submit a bonus nomination for a colleague who made exceptional impact on a project or team. The nomination goes through manager approval, Finance verifies budget availability, then HR processes the payment in the next payroll cycle.',
+    domain:'HR', topic:'Performance',
+    system:'HR Portal', owner:'HR Department', ownerEmail:'hr@company.com',
+    status:'Active', opStatus:'available',
+    tags:['bonus','appreciation','nomination','recognition','бонус','номинация','благодарность','reward'],
+    preconditions:['Bonus budget approved for current quarter','Nominee has active contractor agreement'],
+    actions:[
+      {name:'Submit Nomination',      type:'primary', handling:'url',     tier:1, desc:'Nominate a colleague for appreciation bonus'},
+      {name:'Track My Nominations',   type:'related', handling:'url',     tier:1, desc:'Check status of nominations you submitted'},
+      {name:'View Received Bonuses',  type:'related', handling:'url',     tier:2, desc:'History of bonuses you have received'},
+    ],
+    ecosystem:[
+      {name:'Finance Payroll', icon:'💳', ctx:'Approved bonus triggers payment in next payroll cycle'},
+      {name:'HR Records',      icon:'📁', ctx:'Bonus history recorded against contractor profile'},
+      {name:'Manager Alert',   icon:'🔔', ctx:'Line manager notified when team member receives bonus'},
+    ],
+    reviewedAt:'2026-02-01', reviewCycle:3,
+  },
+  {
+    id:'it-support', name:'IT Support',
+    goal:'Request hardware, software access, or technical troubleshooting from the IT team.',
+    desc:'Submit an IT support ticket for hardware issues, new software access requests, or technical problems with internal tools. The Operations Portal routes your request to the correct IT specialist based on the request type and priority.',
+    domain:'IT', topic:'IT Resources',
+    system:'Operations Portal', owner:'IT Department', ownerEmail:'it@company.com',
+    status:'Active', opStatus:'available',
+    tags:['IT support','hardware','software','access','technical','laptop','IT запрос','оборудование','helpdesk'],
+    preconditions:[],
+    actions:[
+      {name:'Submit IT Request',       type:'primary', handling:'url',           tier:1, desc:'Create a new IT support ticket'},
+      {name:'Track My Tickets',        type:'related', handling:'url',           tier:1, desc:'Check status of open and resolved tickets'},
+      {name:'Request Software Access', type:'related', handling:'external_form', tier:2, desc:'Fill access request form for new software'},
+      {name:'Contact IT via Chat',     type:'support', handling:'contact_owner', tier:2, desc:'Send direct message to IT team in Google Chat'},
+    ],
+    ecosystem:[
+      {name:'IT Asset Registry', icon:'🖥', ctx:'Hardware requests logged in the asset management system'},
+      {name:'Access Management', icon:'🔑', ctx:'Software access grants tracked centrally by IT'},
+    ],
+    reviewedAt:'2026-01-20', reviewCycle:6,
+  },
+  {
+    id:'benefits', name:'My Benefits',
+    goal:'Access and manage your contractor benefits — coworking, events, and perks.',
+    desc:'View your available benefits and submit reimbursement claims. Covers coworking space rent reimbursement up to your monthly limit, company event registration, and other contractor perks available in your region. All benefit types visible on the My Benefits page.',
+    domain:'HR', topic:'Benefits',
+    system:'HR Portal', owner:'HR Department', ownerEmail:'hr@company.com',
+    status:'Active', opStatus:'available',
+    tags:['benefits','coworking','events','perks','reimbursement','коворкинг','льготы','мероприятия'],
+    preconditions:[],
+    actions:[
+      {name:'View My Benefits',       type:'primary', handling:'url', tier:1, desc:'Browse all available benefits and allowances'},
+      {name:'Submit Coworking Claim', type:'related', handling:'url', tier:1, desc:'Submit monthly coworking rent reimbursement'},
+      {name:'Register for Event',     type:'related', handling:'url', tier:2, desc:'Sign up for company events and off-sites'},
+    ],
+    ecosystem:[
+      {name:'Finance Payroll', icon:'💳', ctx:'Approved reimbursements included in your monthly payment'},
+      {name:'HR Records',      icon:'📁', ctx:'Benefit usage tracked against your annual allowance'},
+    ],
+    reviewedAt:'2026-03-01', reviewCycle:6,
+  },
+  {
+    id:'termination', name:'Agreement Termination',
+    goal:'Initiate the offboarding process to formally terminate a contractor agreement.',
+    desc:'Submit a termination request to begin the formal offboarding workflow. The request triggers a cascade across HR, Finance, IT, and Time Tracking: final PTR and invoice are created, IT assets are flagged for return, portal access is revoked, and final payments are processed.',
+    domain:'HR', topic:'Team Management',
+    system:'Operations Portal', owner:'HR Department', ownerEmail:'hr@company.com',
+    status:'Active', opStatus:'available',
+    tags:['termination','offboarding','agreement','separation','расторжение','оффбординг','contract end'],
+    preconditions:[],
+    actions:[
+      {name:'Submit Termination Request', type:'primary', handling:'external_form', tier:1, desc:'Fill the termination request form to start offboarding'},
+      {name:'Check Offboarding Status',   type:'related', handling:'url',           tier:1, desc:'Track cascade progress across all systems'},
+      {name:'Contact HR',                 type:'support', handling:'contact_owner', tier:2, desc:'Speak with HR BP about termination details'},
+    ],
+    ecosystem:[
+      {name:'HR Portal',     icon:'👤', ctx:'Contractor status updated to Terminated, access revoked'},
+      {name:'Time Tracking', icon:'⏱', ctx:'Access locked; final PTR auto-triggered for review'},
+      {name:'Finance',       icon:'💰', ctx:'Final invoice and outstanding accruals processed'},
+      {name:'IT Assets',     icon:'🖥', ctx:'Equipment return workflow initiated with IT team'},
+    ],
+    reviewedAt:'2026-02-15', reviewCycle:12,
+  },
+];
+
+const PROCESSES = [
+  {
+    id:'month-end', name:'Month-End Time Reporting',
+    desc:'Complete your monthly time reporting cycle — from worklog submission through PTR approval to invoice generation.',
+    owner:'Finance Team', icon:'📅', color:'#E8F5E9', iconColor:'#2E7D32',
+    steps:[
+      {
+        groups:[{
+          label:null,
+          steps:[{type:'atomic', role:'Employee', roleCls:'employee', name:'Submit Worklogs', service:'Worklog Submission', svcId:'worklog'}]
+        }]
+      },
+      {
+        groups:[{
+          label:null,
+          steps:[{type:'atomic', role:'Employee', roleCls:'employee', name:'Submit PTR', service:'Project Time Report', svcId:'ptr'}]
+        }]
+      },
+      {
+        groups:[{
+          label:'Parallel',
+          steps:[
+            {type:'human',  role:'Line Manager', roleCls:'manager', name:'Approve PTR', human:'Review and approve in portal or via email notification'},
+          ]
+        }]
+      },
+      {
+        groups:[{
+          label:null,
+          steps:[{type:'atomic', role:'Employee', roleCls:'employee', name:'Generate Invoice', service:'Invoice Generation', svcId:'invoice'}]
+        }]
+      },
+    ]
+  },
+  {
+    id:'perf-cycle', name:'Quarterly Performance Review',
+    desc:'Full 360° performance cycle — self-assessment, peer feedback, manager scoring, HR calibration, and results.',
+    owner:'HR Department', icon:'🎯', color:'#FFF3E0', iconColor:'#E65100',
+    steps:[
+      {
+        groups:[{
+          label:'Parallel (simultaneous)',
+          steps:[
+            {type:'atomic', role:'Employee', roleCls:'employee', name:'Self-Assessment', service:'Performance Review', svcId:'perf-review'},
+            {type:'atomic', role:'Peers',    roleCls:'employee',  name:'Peer Feedback',   service:'Performance Review', svcId:'perf-review'},
+          ]
+        }]
+      },
+      {
+        groups:[{
+          label:null,
+          steps:[{type:'human', role:'Line Manager', roleCls:'manager', name:'Manager Scoring', human:'Score employee in HR system based on project delivery and feedback'}]
+        }]
+      },
+      {
+        groups:[{
+          label:null,
+          steps:[{type:'human', role:'HR BP', roleCls:'hr', name:'HR Calibration', human:'Calibrate scores across the team cohort for fairness'}]
+        }]
+      },
+      {
+        groups:[{
+          label:null,
+          steps:[{type:'atomic', role:'Employee', roleCls:'employee', name:'View Results', service:'Performance Review', svcId:'perf-review'}]
+        }]
+      },
+    ]
+  },
+  {
+    id:'onboarding', name:'Contractor Onboarding',
+    desc:'Everything needed to get a new contractor fully operational — from signed agreement to first worklog.',
+    owner:'HR Department', icon:'🚀', color:'#F3E5F5', iconColor:'#7B1FA2',
+    steps:[
+      {
+        groups:[{
+          label:null,
+          steps:[{type:'human', role:'HR BP', roleCls:'hr', name:'Agreement Signed', human:'Contractor agreement finalized and signed in legal system'}]
+        }]
+      },
+      {
+        groups:[{
+          label:'Parallel (all at once)',
+          steps:[
+            {type:'atomic', role:'Employee', roleCls:'employee', name:'Set Up Time Tracking',  service:'Worklog Submission', svcId:'worklog'},
+            {type:'atomic', role:'IT',       roleCls:'it',        name:'Provision Equipment',   service:'IT Support', svcId:'it-support'},
+            {type:'human',  role:'HR BP',    roleCls:'hr',        name:'HR Intro Meeting', human:'30-min intro call: benefits, policies, key contacts'},
+          ]
+        }]
+      },
+      {
+        groups:[{
+          label:null,
+          steps:[{type:'atomic', role:'Employee', roleCls:'employee', name:'Submit First Worklog', service:'Worklog Submission', svcId:'worklog'}]
+        }]
+      },
+    ]
+  },
+];
+
+// ══════════════════════════════════════
+//  STATE
+// ══════════════════════════════════════
+let activeTopic = 'all';
+let searchQuery  = '';
+let selectedSvc  = null;
+
+// ══════════════════════════════════════
+//  RENDER: SERVICE CARDS
+// ══════════════════════════════════════
+function handlingIcon(h){return {url:'→',external_form:'↗',contact_owner:'💬',manual_step:'ℹ'}[h]||'→'}
+function handlingBadge(h){return {url:'dab-url',external_form:'dab-ext',contact_owner:'dab-contact',manual_step:'dab-manual'}[h]||'dab-url'}
+function handlingLabel(h){return {url:'Link',external_form:'External',contact_owner:'Contact',manual_step:'Instructions'}[h]||'Link'}
+
+function renderServiceCard(svc){
+  const ts = TOPIC_STYLES[svc.topic]||{bg:'#F5F5F5',color:'#424242'};
+  const primaryAct = svc.actions.find(a=>a.type==='primary');
+  const otherCount = svc.actions.filter(a=>a.type!=='primary').length;
+  const opDot = svc.opStatus ? `<span class="op-dot op-${svc.opStatus}" title="${svc.opStatus}"></span>` : '';
+  const precondHTML = svc.preconditions.length
+    ? `<div class="sc-precond">⚠ <span>Requires: ${svc.preconditions.join(' · ')}</span></div>`
+    : '';
+  const btnCls = primaryAct?.handling==='contact_owner' ? 'contact' : primaryAct?.handling==='manual_step' ? 'manual' : '';
+  return `
+<div class="service-card" id="scard-${svc.id}" onclick="openDetail('${svc.id}')">
+  <div class="sc-top">
+    <div class="sc-badges">
+      <span class="topic-badge" style="background:${ts.bg};color:${ts.color}">${svc.topic}</span>
+      <span class="sys-badge">${svc.system}</span>
+      ${opDot}
+    </div>
+    <div class="sc-name">${svc.name}</div>
+    <div class="sc-goal">${svc.goal}</div>
+  </div>
+  ${precondHTML}
+  <div class="sc-divider"></div>
+  <div class="sc-bottom">
+    ${primaryAct ? `<button class="btn-primary ${btnCls}" onclick="event.stopPropagation();openDetail('${svc.id}')">${handlingIcon(primaryAct.handling)} ${primaryAct.name}</button>` : ''}
+    ${otherCount > 0 ? `<span class="sc-more">+ ${otherCount} action${otherCount>1?'s':''}</span>` : ''}
+  </div>
+</div>`;
+}
+
+// ══════════════════════════════════════
+//  RENDER: PROCESSES
+// ══════════════════════════════════════
+function renderStep(s){
+  const roleHtml = `<div class="step-role ${s.roleCls}">${s.role}</div>`;
+  const svcHtml = s.service ? `<div class="step-service">↳ ${s.service}</div>` : '';
+  const humanHtml = s.human ? `<div class="step-human-label">${s.human}</div>` : '';
+  return `<div class="step ${s.type}" onclick="event.stopPropagation();${s.svcId?`openDetail('${s.svcId}');`:''}">
+    ${roleHtml}<div class="step-name">${s.name}</div>${svcHtml}${humanHtml}
+  </div>`;
+}
+
+function renderProcessCard(proc){
+  let stepsHtml = '';
+  proc.steps.forEach((col,i)=>{
+    if(i>0) stepsHtml += `<div class="step-arrow">›</div>`;
+    col.groups.forEach(grp=>{
+      if(grp.steps.length > 1){
+        const innerSteps = grp.steps.map(s=>renderStep(s)).join('');
+        stepsHtml += `<div class="parallel-bracket"><div class="parallel-label">⇉ parallel</div>${innerSteps}</div>`;
+      } else {
+        stepsHtml += renderStep(grp.steps[0]);
+      }
+    });
+  });
+  return `
+<div class="proc-card" id="proc-${proc.id}">
+  <div class="proc-header" onclick="toggleProc('${proc.id}')">
+    <div class="proc-icon" style="background:${proc.color};color:${proc.iconColor}">${proc.icon}</div>
+    <div class="proc-meta">
+      <h3>${proc.name}</h3>
+      <p>${proc.desc}</p>
+      <div class="proc-owner">Owner: ${proc.owner} · ${proc.steps.length} phases</div>
+    </div>
+    <span class="proc-toggle" id="ptog-${proc.id}">⌄</span>
+  </div>
+  <div class="proc-steps" id="psteps-${proc.id}">${stepsHtml}</div>
+</div>`;
+}
+
+function toggleProc(id){
+  const steps = document.getElementById('psteps-'+id);
+  const tog   = document.getElementById('ptog-'+id);
+  const open  = steps.classList.toggle('open');
+  tog.classList.toggle('open', open);
+}
+
+// ══════════════════════════════════════
+//  DETAIL PANEL
+// ══════════════════════════════════════
+function openDetail(id){
+  const svc = SERVICES.find(s=>s.id===id);
+  if(!svc) return;
+  selectedSvc = id;
+  document.querySelectorAll('.service-card').forEach(c=>c.classList.remove('selected'));
+  const card = document.getElementById('scard-'+id);
+  if(card) card.classList.add('selected');
+
+  const ts = TOPIC_STYLES[svc.topic]||{bg:'#F5F5F5',color:'#424242'};
+  document.getElementById('dpTopic').innerHTML =
+    `<span style="color:${ts.color};background:${ts.bg};padding:2px 8px;border-radius:8px;font-size:10px">${svc.topic}</span>
+     <span style="color:#9E9E9E;font-size:10px">· ${svc.domain}</span>`;
+  document.getElementById('dpName').textContent = svc.name;
+
+  let opChip = '';
+  if(svc.opStatus){
+    const opMap = {available:{cls:'available',label:'Available'},degraded:{cls:'degraded',label:'Degraded'},unavailable:{cls:'unavailable',label:'Unavailable'},maintenance:{cls:'available',label:'Maintenance'}};
+    const op = opMap[svc.opStatus]||{cls:'available',label:svc.opStatus};
+    opChip = `<span class="dp-status-chip dp-status-${op.cls}">${op.label}</span>`;
+  }
+  document.getElementById('dpSystem').innerHTML = `🖥 ${svc.system}${opChip}`;
+  document.getElementById('dpOwner').textContent = `Owner: ${svc.owner}`;
+  document.getElementById('dpReview').textContent = svc.reviewedAt ? `Reviewed ${svc.reviewedAt} · every ${svc.reviewCycle}mo` : '';
+
+  let body = '';
+
+  // Business Goal
+  body += `<div class="dp-section">
+    <div class="dp-section-title">🎯 Business Goal</div>
+    <div class="dp-goal">${svc.goal}</div>
+  </div>`;
+
+  // Description
+  body += `<div class="dp-section">
+    <div class="dp-section-title">📖 Description</div>
+    <div class="dp-desc">${svc.desc}</div>
+  </div>`;
+
+  // Preconditions
+  if(svc.preconditions.length){
+    const items = svc.preconditions.map(p=>`<div class="dp-precond-item">⚠ ${p}</div>`).join('');
+    body += `<div class="dp-section">
+      <div class="dp-section-title">🔒 Preconditions</div>
+      <div class="dp-precond">${items}</div>
+    </div>`;
+  }
+
+  // Actions
+  const actionTypeLabel = {primary:'Primary action',related:'Related action',support:'Support',admin:'Admin (restricted)'};
+  const actionRows = svc.actions.map(a=>{
+    const iconMap={primary:'🚀',related:'▶',support:'🛟',admin:'⚙'};
+    const clsMap = {primary:'dai-primary',related:'dai-related',admin:'dai-admin',support:'dai-related'};
+    return `<div class="dp-action">
+      <div class="dp-action-icon ${clsMap[a.type]||'dai-related'}">${iconMap[a.type]||'▶'}</div>
+      <div class="dp-action-text">
+        <div class="dp-action-name">${a.name}</div>
+        <div class="dp-action-type">${actionTypeLabel[a.type]||a.type} · ${a.desc}</div>
+      </div>
+      <span class="dp-action-badge ${handlingBadge(a.handling)}">${handlingLabel(a.handling)}</span>
+    </div>`;
+  }).join('');
+  body += `<div class="dp-section">
+    <div class="dp-section-title">⚡ Actions</div>
+    <div class="dp-actions">${actionRows}</div>
+  </div>`;
+
+  // Ecosystem
+  if(svc.ecosystem.length){
+    const ecoItems = svc.ecosystem.map(e=>`
+      <div class="dp-eco-item">
+        <div class="dp-eco-icon">${e.icon}</div>
+        <div class="dp-eco-name">${e.name}</div>
+        <div class="dp-eco-ctx">${e.ctx}</div>
+      </div>`).join('');
+    body += `<div class="dp-section">
+      <div class="dp-section-title">🌐 What This Unlocks</div>
+      <div class="dp-eco-grid">${ecoItems}</div>
+    </div>`;
+  }
+
+  // Tags
+  if(svc.tags.length){
+    const tagChips = svc.tags.map(t=>`<span class="dp-tag">${t}</span>`).join('');
+    body += `<div class="dp-section">
+      <div class="dp-section-title">🏷 Search Tags</div>
+      <div class="dp-tags">${tagChips}</div>
+    </div>`;
+  }
+
+  document.getElementById('dpBody').innerHTML = body;
+  document.getElementById('detailOverlay').classList.add('open');
+  document.getElementById('detailPanel').classList.add('open');
+}
+
+function closeDetail(){
+  selectedSvc = null;
+  document.querySelectorAll('.service-card').forEach(c=>c.classList.remove('selected'));
+  document.getElementById('detailOverlay').classList.remove('open');
+  document.getElementById('detailPanel').classList.remove('open');
+}
+
+// ══════════════════════════════════════
+//  FILTERING
+// ══════════════════════════════════════
+function setTopic(t){
+  activeTopic = (activeTopic === t && t !== 'all') ? 'all' : t;
+  document.querySelectorAll('.chip').forEach(c=>{
+    c.classList.toggle('active', c.dataset.topic === activeTopic || (activeTopic==='all' && c.dataset.topic==='all'));
+  });
+  applyFilters();
+}
+
+function applyFilters(){
+  searchQuery = document.getElementById('searchInput').value.toLowerCase().trim();
+  const filtered = SERVICES.filter(svc=>{
+    const topicMatch = activeTopic === 'all' || svc.topic === activeTopic;
+    if(!topicMatch) return false;
+    if(!searchQuery) return true;
+    const haystack = [svc.name, svc.goal, svc.desc, svc.topic, svc.system, ...svc.tags,
+      ...svc.actions.map(a=>a.name)].join(' ').toLowerCase();
+    return haystack.includes(searchQuery);
+  });
+
+  const grid = document.getElementById('serviceGrid');
+  if(filtered.length === 0){
+    grid.innerHTML = `<div class="empty-state"><h3>No services found</h3><p>Try a different search term or clear the filter.</p></div>`;
+  } else {
+    grid.innerHTML = filtered.map(renderServiceCard).join('');
+  }
+  document.getElementById('svcCount').textContent = filtered.length;
+
+  // filter processes by topic/search
+  const procFiltered = PROCESSES.filter(proc=>{
+    if(searchQuery){
+      const hay = [proc.name, proc.desc, ...proc.steps.flatMap(col=>col.groups.flatMap(g=>g.steps.map(s=>s.name+' '+(s.service||''))))].join(' ').toLowerCase();
+      return hay.includes(searchQuery);
+    }
+    return true;
+  });
+  const procList = document.getElementById('processList');
+  procList.innerHTML = procFiltered.map(renderProcessCard).join('');
+  document.getElementById('procCount').textContent = procFiltered.length;
+  document.getElementById('processSection').style.display = procFiltered.length ? '' : 'none';
+
+  document.getElementById('resultCount').textContent =
+    searchQuery ? `${filtered.length} result${filtered.length!==1?'s':''}` : '';
+}
+
+// ══════════════════════════════════════
+//  INIT
+// ══════════════════════════════════════
+applyFilters();
+</script>
+</body>
+</html>
