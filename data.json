@@ -249,7 +249,7 @@
         {
           "name": "Submit Peer Feedback",
           "type": "related",
-          "handling": "url",
+          "handling": "external_form",
           "tier": 1,
           "desc": "Provide structured feedback for a colleague"
         },
@@ -266,6 +266,13 @@
           "handling": "url",
           "tier": 2,
           "desc": "Manager view: team performance overview (restricted)"
+        },
+        {
+          "name": "Request for Support",
+          "type": "support",
+          "handling": "manual_step",
+          "tier": 67,
+          "desc": ""
         }
       ],
       "ecosystem": [
