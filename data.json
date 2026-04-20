@@ -596,6 +596,23 @@
               "steps": [
                 {
                   "type": "atomic",
+                  "role": "Manager",
+                  "roleCls": "manager",
+                  "name": "Check Team TR Approval",
+                  "service": "Worklogs",
+                  "svcId": "ptr"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "groups": [
+            {
+              "label": null,
+              "steps": [
+                {
+                  "type": "atomic",
                   "role": "Employee",
                   "roleCls": "employee",
                   "name": "Submit PTR",
