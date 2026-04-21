@@ -950,6 +950,11 @@
         "managers"
       ],
       "topicIds": [
+        "time-reporting",
+        "finance-expenses",
+        "performance",
+        "it-resources",
+        "benefits",
         "team-management"
       ],
       "relatedProcessIds": [],
