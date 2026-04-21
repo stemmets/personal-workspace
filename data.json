@@ -659,8 +659,21 @@
     {
       "id": "month-end",
       "name": "Month-End Time Reporting",
+      "goal": "",
       "desc": "Complete your monthly time reporting cycle — from worklog submission through PTR approval to invoice generation.",
+      "scope": "",
+      "triggerCondition": "",
+      "outputs": "",
       "ownerTeamId": "finance-team",
+      "primaryUrl": "",
+      "audienceIds": [
+        "all"
+      ],
+      "topicIds": [
+        "finance-expenses"
+      ],
+      "relatedProcessIds": [],
+      "tags": [],
       "icon": "📅",
       "color": "#E8F5E9",
       "iconColor": "#2E7D32",
@@ -737,8 +750,23 @@
     {
       "id": "perf-cycle",
       "name": "Quarterly Performance Review",
+      "goal": "",
       "desc": "Full 360° performance cycle — self-assessment, peer feedback, manager scoring, HR calibration, and results.",
+      "scope": "",
+      "triggerCondition": "",
+      "outputs": "",
       "ownerTeamId": "hr-dept",
+      "primaryUrl": "",
+      "audienceIds": [
+        "all"
+      ],
+      "topicIds": [
+        "time-reporting",
+        "finance-expenses",
+        "performance"
+      ],
+      "relatedProcessIds": [],
+      "tags": [],
       "icon": "🎯",
       "color": "#FFF3E0",
       "iconColor": "#E65100",
@@ -822,8 +850,21 @@
     {
       "id": "onboarding",
       "name": "Contractor Onboarding",
+      "goal": "",
       "desc": "Everything needed to get a new contractor fully operational — from signed agreement to first worklog.",
+      "scope": "",
+      "triggerCondition": "",
+      "outputs": "",
       "ownerTeamId": "hr-dept",
+      "primaryUrl": "",
+      "audienceIds": [
+        "all"
+      ],
+      "topicIds": [
+        "team-management"
+      ],
+      "relatedProcessIds": [],
+      "tags": [],
       "icon": "🚀",
       "color": "#F3E5F5",
       "iconColor": "#7B1FA2",
