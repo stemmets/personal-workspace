@@ -5,867 +5,746 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Personal Workspace — Admin</title>
 <style>
-:root {
-  --green:#43A047; --green-dk:#2E7D32; --green-lt:#E8F5E9;
-  --blue:#1E88E5; --blue-lt:#E3F2FD;
-  --red:#E53935; --red-lt:#FFEBEE;
-  --orange:#FB8C00; --orange-lt:#FFF3E0;
-  --border:#E0E0E0; --text:#212121; --text2:#616161; --text3:#9E9E9E;
-  --bg:#F5F7FA; --card:#FFFFFF;
-  --radius:8px; --shadow:0 1px 4px rgba(0,0,0,.08);
-  --shadow-lg:0 4px 16px rgba(0,0,0,.12);
+:root{
+  --green:#43A047;--green-dk:#2E7D32;--green-lt:#E8F5E9;
+  --blue:#1E88E5;--blue-lt:#E3F2FD;
+  --red:#E53935;--red-lt:#FFEBEE;
+  --orange:#FB8C00;--orange-lt:#FFF3E0;
+  --border:#E0E0E0;--text:#212121;--text2:#616161;--text3:#9E9E9E;
+  --bg:#F5F7FA;--card:#fff;
+  --radius:8px;--shadow:0 1px 4px rgba(0,0,0,.08);
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);height:100vh;display:flex;flex-direction:column;overflow:hidden}
 
 /* HEADER */
-.header{background:#1A3529;color:#fff;padding:0 20px;display:flex;align-items:center;gap:12px;height:52px;flex-shrink:0;box-shadow:0 2px 8px rgba(0,0,0,.2)}
-.logo{font-weight:800;font-size:15px;color:#A5D6A7;letter-spacing:.3px}
-.logo span{color:#fff}
-.header-actions{margin-left:auto;display:flex;align-items:center;gap:8px}
-.btn{padding:7px 14px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;border:none;transition:all .15s;display:inline-flex;align-items:center;gap:5px;white-space:nowrap}
-.btn-ghost{background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.2)}
-.btn-ghost:hover{background:rgba(255,255,255,.2)}
-.btn-green{background:var(--green);color:#fff}
-.btn-green:hover{background:var(--green-dk)}
-.btn-red{background:var(--red);color:#fff}
-.btn-red:hover{background:#C62828}
-.btn-blue{background:var(--blue);color:#fff}
-.btn-blue:hover{background:#1565C0}
-.btn-outline{background:#fff;color:var(--text);border:1px solid var(--border)}
-.btn-outline:hover{background:#F5F5F5}
-.btn-sm{padding:5px 10px;font-size:11px}
+.hdr{background:#1A3529;color:#fff;padding:0 20px;display:flex;align-items:center;gap:10px;height:50px;flex-shrink:0;box-shadow:0 2px 8px rgba(0,0,0,.25)}
+.logo{font-weight:800;font-size:14px;color:#A5D6A7}.logo span{color:#fff}
+.hdr-actions{margin-left:auto;display:flex;align-items:center;gap:6px}
+.pub-st{font-size:11px;color:rgba(255,255,255,.55);margin-right:4px}
+.btn{padding:6px 12px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;border:none;transition:all .15s;display:inline-flex;align-items:center;gap:4px;white-space:nowrap}
+.btn-ghost{background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.2)}.btn-ghost:hover{background:rgba(255,255,255,.2)}
+.btn-green{background:var(--green);color:#fff}.btn-green:hover{background:var(--green-dk)}
+.btn-red{background:var(--red);color:#fff}.btn-red:hover{background:#C62828}
+.btn-outline{background:#fff;color:var(--text);border:1px solid var(--border)}.btn-outline:hover{background:#F5F5F5}
+.btn-sm{padding:4px 9px;font-size:11px}
 
 /* SETTINGS BAR */
-.settings-bar{background:#fff;border-bottom:1px solid var(--border);padding:10px 20px;display:none;flex-wrap:wrap;gap:10px;align-items:flex-end}
-.settings-bar.open{display:flex}
-.sf-group{display:flex;flex-direction:column;gap:3px}
-.sf-label{font-size:10px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.4px}
-.sf-input{padding:6px 10px;border:1px solid var(--border);border-radius:6px;font-size:12px;width:200px;outline:none;font-family:inherit}
-.sf-input:focus{border-color:var(--green)}
-.sf-input.wide{width:280px}
-.sf-input.narrow{width:110px}
-.sf-actions{display:flex;gap:6px;margin-left:auto;align-self:flex-end}
+.sf-bar{background:#fff;border-bottom:1px solid var(--border);padding:10px 20px;display:none;flex-wrap:wrap;gap:10px;align-items:flex-end}
+.sf-bar.open{display:flex}
+.sf-g{display:flex;flex-direction:column;gap:3px}
+.sf-lbl{font-size:10px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.4px}
+.sf-inp{padding:6px 10px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;font-family:inherit}
+.sf-inp:focus{border-color:var(--green)}
 
 /* TABS */
-.tabs{background:#fff;border-bottom:1px solid var(--border);padding:0 20px;display:flex;gap:0;flex-shrink:0}
-.tab{padding:11px 18px;font-size:13px;font-weight:600;cursor:pointer;border-bottom:2px solid transparent;color:var(--text2);transition:all .15s;display:flex;align-items:center;gap:6px}
-.tab:hover{color:var(--text)}
-.tab.active{color:var(--green-dk);border-bottom-color:var(--green)}
-.tab-count{background:var(--green-lt);color:var(--green-dk);font-size:10px;padding:1px 6px;border-radius:8px;font-weight:700}
+.tabs{background:#fff;border-bottom:1px solid var(--border);padding:0 20px;display:flex;flex-shrink:0}
+.tab{padding:10px 16px;font-size:13px;font-weight:600;cursor:pointer;border-bottom:2px solid transparent;color:var(--text2);transition:all .15s;display:flex;align-items:center;gap:5px}
+.tab:hover{color:var(--text)}.tab.active{color:var(--green-dk);border-bottom-color:var(--green)}
+.tab-c{background:var(--green-lt);color:var(--green-dk);font-size:10px;padding:1px 5px;border-radius:8px;font-weight:700}
 
-/* MAIN LAYOUT */
+/* LAYOUT */
 .main{flex:1;display:flex;overflow:hidden}
-.list-pane{width:380px;min-width:280px;border-right:1px solid var(--border);background:#fff;display:flex;flex-direction:column;flex-shrink:0}
-.list-header{padding:12px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;flex-shrink:0}
-.list-search{flex:1;padding:6px 10px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;font-family:inherit}
+.list-pane{width:340px;min-width:240px;border-right:1px solid var(--border);background:#fff;display:flex;flex-direction:column;flex-shrink:0}
+.list-top{padding:10px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;flex-shrink:0}
+.list-search{flex:1;padding:6px 9px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;font-family:inherit}
 .list-search:focus{border-color:var(--green)}
 .list-body{flex:1;overflow-y:auto}
 
-/* SERVICE ROWS */
-.svc-row{padding:10px 16px;border-bottom:1px solid #F5F5F5;cursor:pointer;display:flex;align-items:center;gap:10px;transition:background .1s}
-.svc-row:hover{background:#FAFAFA}
-.svc-row.active{background:var(--green-lt)}
-.op-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
-.op-available{background:#43A047} .op-degraded{background:#FB8C00}
-.op-unavailable{background:#E53935} .op-maintenance{background:#9E9E9E}
-.svc-info{flex:1;min-width:0}
-.svc-name{font-size:13px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.svc-sub{font-size:11px;color:var(--text3);margin-top:1px}
-.topic-pill{font-size:9px;font-weight:700;padding:2px 6px;border-radius:8px;text-transform:uppercase;flex-shrink:0}
-.row-del{background:none;border:none;color:var(--text3);cursor:pointer;font-size:14px;padding:4px;border-radius:4px;opacity:0;transition:opacity .1s;flex-shrink:0}
-.svc-row:hover .row-del{opacity:1}
-.row-del:hover{color:var(--red);background:var(--red-lt)}
+/* SUB NAV (references) */
+.sub-nav{background:#FAFAFA;border-bottom:1px solid var(--border);display:flex;padding:0 12px;flex-shrink:0}
+.sub-tab{padding:7px 10px;font-size:11px;font-weight:600;cursor:pointer;color:var(--text3);border-bottom:2px solid transparent;transition:all .15s}
+.sub-tab.active{color:var(--green-dk);border-bottom-color:var(--green)}
+
+/* LIST ROWS */
+.row{padding:9px 14px;border-bottom:1px solid #F5F5F5;cursor:pointer;display:flex;align-items:center;gap:8px;transition:background .1s}
+.row:hover{background:#FAFAFA}.row.active{background:var(--green-lt)}
+.op-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.op-available{background:#43A047}.op-degraded{background:#FB8C00}.op-unavailable{background:#E53935}.op-maintenance{background:#9E9E9E}
+.row-info{flex:1;min-width:0}
+.row-name{font-size:13px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.row-sub{font-size:11px;color:var(--text3);margin-top:1px}
+.pill{font-size:9px;font-weight:700;padding:2px 6px;border-radius:8px;text-transform:uppercase;flex-shrink:0}
+.row-del{background:none;border:none;color:var(--text3);cursor:pointer;font-size:13px;padding:3px 5px;border-radius:4px;opacity:0;transition:opacity .1s}
+.row:hover .row-del{opacity:1}.row-del:hover{color:var(--red);background:var(--red-lt)}
 
 /* EDIT PANE */
-.edit-pane{flex:1;overflow-y:auto;padding:24px;background:var(--bg)}
-.edit-pane-empty{flex:1;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;color:var(--text3);font-size:13px}
-.edit-pane-empty h3{font-size:16px;font-weight:700;color:var(--text2)}
+.edit-pane{flex:1;overflow-y:auto;padding:20px;background:var(--bg)}
+.empty-pane{flex:1;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:6px;color:var(--text3);font-size:13px}
+.empty-pane h3{font-size:15px;font-weight:700;color:var(--text2)}
 
 /* FORM */
-.form-title{font-size:16px;font-weight:800;color:var(--text);margin-bottom:18px;display:flex;align-items:center;gap:10px}
-.form-title .badge{font-size:11px;background:var(--green-lt);color:var(--green-dk);padding:2px 8px;border-radius:8px;font-weight:600}
-.form-row{margin-bottom:14px}
-.form-row-2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}
-.form-row-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px}
-label{display:block;font-size:11px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px}
-input[type=text],input[type=email],input[type=date],input[type=number],select,textarea{width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:6px;font-size:13px;font-family:inherit;outline:none;background:#fff;color:var(--text);transition:border .15s}
-input:focus,select:focus,textarea:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(67,160,71,.08)}
+.form-h{font-size:15px;font-weight:800;color:var(--text);margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.form-h .badge{font-size:11px;background:var(--green-lt);color:var(--green-dk);padding:2px 8px;border-radius:8px;font-weight:600}
+.sec{background:#fff;border-radius:var(--radius);border:1px solid var(--border);padding:14px;margin-bottom:12px}
+.sec-h{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--text3);margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.sec-add{margin-left:auto;font-size:10px;padding:3px 8px;text-transform:none;letter-spacing:0}
+.fr{margin-bottom:12px}
+.fr2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.fr3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px}
+.fr-last{margin-bottom:0}
+label{display:block;font-size:10px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.4px;margin-bottom:3px}
+input[type=text],input[type=email],input[type=date],input[type=number],input[type=password],select,textarea{width:100%;padding:7px 9px;border:1px solid var(--border);border-radius:5px;font-size:12px;font-family:inherit;outline:none;background:#fff;color:var(--text);transition:border .15s}
+input:focus,select:focus,textarea:focus{border-color:var(--green);box-shadow:0 0 0 2px rgba(67,160,71,.08)}
 textarea{resize:vertical;line-height:1.5}
-.form-section{background:#fff;border-radius:var(--radius);border:1px solid var(--border);padding:16px;margin-bottom:14px}
-.form-section-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--text3);margin-bottom:12px;display:flex;align-items:center;gap:6px}
-.form-section-title .section-add{margin-left:auto;font-size:10px;padding:3px 8px;text-transform:none;letter-spacing:0;font-weight:600}
+.swatch{width:28px;height:28px;border-radius:4px;border:1px solid var(--border);cursor:pointer;flex-shrink:0;display:inline-block}
 
-/* DYNAMIC LIST ITEMS */
-.dyn-item{background:#FAFAFA;border:1px solid var(--border);border-radius:6px;padding:10px 12px;margin-bottom:8px;position:relative}
-.dyn-item-del{position:absolute;top:6px;right:6px;background:none;border:none;color:var(--text3);cursor:pointer;font-size:13px;padding:2px 5px;border-radius:4px;line-height:1}
-.dyn-item-del:hover{color:var(--red);background:var(--red-lt)}
-.dyn-row-2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px}
-.dyn-row-3{display:grid;grid-template-columns:2fr 1fr 1fr;gap:8px;margin-bottom:8px}
-.dyn-row-4{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:8px;margin-bottom:8px}
+/* DYNAMIC ITEMS */
+.di{background:#FAFAFA;border:1px solid var(--border);border-radius:5px;padding:9px 11px;margin-bottom:7px;position:relative}
+.di-del{position:absolute;top:5px;right:5px;background:none;border:none;color:var(--text3);cursor:pointer;font-size:12px;padding:2px 5px;border-radius:3px}
+.di-del:hover{color:var(--red);background:var(--red-lt)}
+.di2{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:7px}
+.di4{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:6px;margin-bottom:7px}
 
-/* FORM ACTIONS */
-.form-actions{display:flex;align-items:center;gap:8px;padding-top:8px;border-top:1px solid var(--border);margin-top:8px}
-.form-hint{font-size:11px;color:var(--text3);margin-left:auto}
+/* FORM FOOTER */
+.f-foot{display:flex;align-items:center;gap:7px;padding-top:8px;border-top:1px solid var(--border);margin-top:6px}
+.f-hint{font-size:11px;color:var(--text3);margin-left:auto}
+
+/* JSON editor */
+.json-ed{font-family:'Courier New',monospace;font-size:11px;background:#1A1A2E;color:#A8FF78;border:1px solid #333;border-radius:5px;min-height:140px}
+.json-err{font-size:11px;color:var(--red);margin-top:4px;display:none}
 
 /* TOAST */
-.toast{position:fixed;bottom:20px;right:20px;background:#1A3529;color:#fff;padding:10px 18px;border-radius:8px;font-size:13px;font-weight:500;box-shadow:var(--shadow-lg);z-index:1000;transform:translateY(100px);opacity:0;transition:all .25s;max-width:360px}
+.toast{position:fixed;bottom:18px;right:18px;background:#1A3529;color:#fff;padding:9px 16px;border-radius:7px;font-size:12px;font-weight:500;box-shadow:0 4px 16px rgba(0,0,0,.2);z-index:9999;transform:translateY(80px);opacity:0;transition:all .22s;max-width:340px}
 .toast.show{transform:translateY(0);opacity:1}
-.toast.error{background:var(--red)}
-.toast.success{background:var(--green-dk)}
+.toast.err{background:var(--red)}.toast.ok{background:var(--green-dk)}
 
-/* PUBLISH STATUS */
-.pub-status{font-size:11px;color:rgba(255,255,255,.6);margin-right:4px}
-
-/* JSON editor for processes steps */
-.json-editor{font-family:'Courier New',monospace;font-size:11px;background:#1A1A2E;color:#A8FF78;border:1px solid #333;border-radius:6px;min-height:160px}
-.json-error{font-size:11px;color:var(--red);margin-top:4px;display:none}
+/* REFERENCE TABLE */
+.ref-row{display:flex;align-items:center;gap:10px;padding:8px 14px;border-bottom:1px solid #F5F5F5;font-size:12px;cursor:pointer;transition:background .1s}
+.ref-row:hover{background:#FAFAFA}.ref-row.active{background:var(--green-lt)}
+.ref-row .ref-id{font-size:10px;color:var(--text3);font-family:monospace;min-width:100px}
+.ref-row .ref-name{font-weight:600;flex:1}
+.ref-row .ref-extra{color:var(--text3);font-size:11px}
+.color-preview{width:14px;height:14px;border-radius:3px;flex-shrink:0;border:1px solid rgba(0,0,0,.1)}
 </style>
 </head>
 <body>
 
 <!-- HEADER -->
-<div class="header">
+<div class="hdr">
   <div class="logo">PW <span>Admin</span></div>
-  <div class="header-actions">
-    <span class="pub-status" id="pubStatus"></span>
-    <button class="btn btn-ghost" onclick="toggleSettings()">⚙ Settings</button>
-    <button class="btn btn-ghost" onclick="loadFromGitHub()">⬇ Load</button>
-    <button class="btn btn-green" onclick="publishToGitHub()">📤 Publish</button>
+  <div class="hdr-actions">
+    <span class="pub-st" id="pubSt"></span>
+    <button class="btn btn-ghost" onclick="toggleSF()">⚙ Settings</button>
+    <button class="btn btn-ghost" onclick="loadFromGH()">⬇ Load</button>
+    <button class="btn btn-green" onclick="publishToGH()">📤 Publish</button>
     <a href="index.html" target="_blank" class="btn btn-ghost">👁 Preview</a>
   </div>
 </div>
 
-<!-- SETTINGS BAR -->
-<div class="settings-bar" id="settingsBar">
-  <div class="sf-group">
-    <div class="sf-label">GitHub PAT</div>
-    <input class="sf-input wide" type="password" id="cfgPat" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
-  </div>
-  <div class="sf-group">
-    <div class="sf-label">Repository</div>
-    <input class="sf-input" type="text" id="cfgRepo" value="stemmets/personal-workspace">
-  </div>
-  <div class="sf-group">
-    <div class="sf-label">Branch</div>
-    <input class="sf-input narrow" type="text" id="cfgBranch" value="main">
-  </div>
-  <div class="sf-group">
-    <div class="sf-label">File path</div>
-    <input class="sf-input narrow" type="text" id="cfgPath" value="data.json">
-  </div>
-  <div class="sf-actions">
-    <button class="btn btn-green" onclick="saveConfig()">Save settings</button>
-  </div>
+<!-- SETTINGS -->
+<div class="sf-bar" id="sfBar">
+  <div class="sf-g"><div class="sf-lbl">GitHub PAT</div><input class="sf-inp" type="password" id="cfgPat" placeholder="ghp_xxxx" style="width:240px"></div>
+  <div class="sf-g"><div class="sf-lbl">Repository</div><input class="sf-inp" type="text" id="cfgRepo" value="stemmets/personal-workspace" style="width:220px"></div>
+  <div class="sf-g"><div class="sf-lbl">Branch</div><input class="sf-inp" type="text" id="cfgBranch" value="main" style="width:90px"></div>
+  <div class="sf-g"><div class="sf-lbl">File path</div><input class="sf-inp" type="text" id="cfgPath" value="data.json" style="width:100px"></div>
+  <button class="btn btn-green" style="align-self:flex-end" onclick="saveCfg()">Save</button>
 </div>
 
 <!-- TABS -->
 <div class="tabs">
-  <div class="tab active" id="tabServices" onclick="switchTab('services')">
-    Services <span class="tab-count" id="tabSvcCount">0</span>
-  </div>
-  <div class="tab" id="tabProcesses" onclick="switchTab('processes')">
-    Processes <span class="tab-count" id="tabProcCount">0</span>
-  </div>
+  <div class="tab active" id="t-ref"  onclick="switchTab('ref')">📚 Reference Data</div>
+  <div class="tab" id="t-svc"  onclick="switchTab('svc')">🔧 Services <span class="tab-c" id="tc-svc">0</span></div>
+  <div class="tab" id="t-proc" onclick="switchTab('proc')">🗺 Processes <span class="tab-c" id="tc-proc">0</span></div>
+  <div class="tab" id="t-art"  onclick="switchTab('art')">📄 Articles <span class="tab-c" id="tc-art">0</span></div>
 </div>
 
 <!-- MAIN -->
 <div class="main">
-
-  <!-- LIST PANE -->
   <div class="list-pane">
-    <div class="list-header">
-      <input class="list-search" type="text" id="listSearch" placeholder="Filter…" oninput="renderList()">
+    <!-- sub-nav for references -->
+    <div class="sub-nav" id="subNav">
+      <div class="sub-tab active" id="st-domains" onclick="switchRef('domains')">Domains</div>
+      <div class="sub-tab" id="st-topics"  onclick="switchRef('topics')">Topics</div>
+      <div class="sub-tab" id="st-systems" onclick="switchRef('systems')">Systems</div>
+      <div class="sub-tab" id="st-teams"   onclick="switchRef('teams')">Teams</div>
+    </div>
+    <div class="list-top">
+      <input class="list-search" type="text" id="listQ" placeholder="Filter…" oninput="renderList()">
       <button class="btn btn-green btn-sm" id="addBtn" onclick="startNew()">+ Add</button>
     </div>
     <div class="list-body" id="listBody"></div>
   </div>
-
-  <!-- EDIT PANE -->
   <div class="edit-pane" id="editPane">
-    <div class="edit-pane-empty">
-      <h3>Select an item to edit</h3>
-      <p>Choose a service or process from the list, or click + Add to create one.</p>
+    <div class="empty-pane">
+      <h3>Select an item</h3>
+      <p>Choose from the list or click + Add</p>
     </div>
   </div>
-
 </div>
 
-<!-- TOAST -->
 <div class="toast" id="toast"></div>
 
 <script>
-// ═══════════════════════════════════════════
+// ═══════════════════════════
 //  STATE
-// ═══════════════════════════════════════════
-let SERVICES  = [];
-let PROCESSES = [];
-let activeTab = 'services';
-let editingId = null; // null = new, string = existing
-let dirty = false;
+// ═══════════════════════════
+let DOMAINS=[], TOPICS=[], SYSTEMS=[], TEAMS=[], SERVICES=[], PROCESSES=[], ARTICLES=[];
+let activeTab = 'ref';
+let activeRef = 'domains';
+let editId    = null;
+let dirty     = false;
 
-const TOPIC_STYLES = {
-  'Time & Reporting':  {bg:'#E8F5E9', color:'#2E7D32'},
-  'Finance & Expenses':{bg:'#E3F2FD', color:'#1565C0'},
-  'Performance':       {bg:'#FFF3E0', color:'#E65100'},
-  'IT Resources':      {bg:'#ECEFF1', color:'#37474F'},
-  'Benefits':          {bg:'#FCE4EC', color:'#880E4F'},
-  'Team Management':   {bg:'#F3E5F5', color:'#4A148C'},
-};
-const TOPICS = Object.keys(TOPIC_STYLES);
-const OP_STATUSES = ['available','degraded','unavailable','maintenance'];
-const ACTION_TYPES = ['primary','related','support','admin'];
+const ACTION_TYPES   = ['primary','related','support','admin'];
 const HANDLING_TYPES = ['url','contact_owner','external_form','manual_step'];
+const OP_STATUSES    = ['available','degraded','unavailable','maintenance'];
 
-// ═══════════════════════════════════════════
-//  GITHUB CONFIG
-// ═══════════════════════════════════════════
-let ghCfg = {pat:'', repo:'stemmets/personal-workspace', branch:'main', path:'data.json'};
+// ═══════════════════════════
+//  CONFIG
+// ═══════════════════════════
+let cfg = {pat:'', repo:'stemmets/personal-workspace', branch:'main', path:'data.json'};
 
-function loadConfig(){
-  const s = localStorage.getItem('pw_admin_cfg');
-  if(s) try{ ghCfg = {...ghCfg, ...JSON.parse(s)}; } catch(e){}
-  document.getElementById('cfgPat').value    = ghCfg.pat;
-  document.getElementById('cfgRepo').value   = ghCfg.repo;
-  document.getElementById('cfgBranch').value = ghCfg.branch;
-  document.getElementById('cfgPath').value   = ghCfg.path;
+function loadCfg(){
+  const s = localStorage.getItem('pw_adm_cfg');
+  if(s) try{cfg={...cfg,...JSON.parse(s)}}catch(e){}
+  document.getElementById('cfgPat').value    = cfg.pat;
+  document.getElementById('cfgRepo').value   = cfg.repo;
+  document.getElementById('cfgBranch').value = cfg.branch;
+  document.getElementById('cfgPath').value   = cfg.path;
 }
-
-function saveConfig(){
-  ghCfg.pat    = document.getElementById('cfgPat').value.trim();
-  ghCfg.repo   = document.getElementById('cfgRepo').value.trim();
-  ghCfg.branch = document.getElementById('cfgBranch').value.trim();
-  ghCfg.path   = document.getElementById('cfgPath').value.trim();
-  localStorage.setItem('pw_admin_cfg', JSON.stringify(ghCfg));
-  showToast('Settings saved', 'success');
+function saveCfg(){
+  cfg.pat    = document.getElementById('cfgPat').value.trim();
+  cfg.repo   = document.getElementById('cfgRepo').value.trim();
+  cfg.branch = document.getElementById('cfgBranch').value.trim();
+  cfg.path   = document.getElementById('cfgPath').value.trim();
+  localStorage.setItem('pw_adm_cfg', JSON.stringify(cfg));
+  toast('Settings saved','ok');
 }
+function toggleSF(){ document.getElementById('sfBar').classList.toggle('open'); }
 
-function toggleSettings(){
-  document.getElementById('settingsBar').classList.toggle('open');
-}
+// ═══════════════════════════
+//  GITHUB
+// ═══════════════════════════
+function ghH(){ return {'Authorization':`token ${cfg.pat}`,'Accept':'application/vnd.github.v3+json','Content-Type':'application/json'}; }
 
-// ═══════════════════════════════════════════
-//  GITHUB OPERATIONS
-// ═══════════════════════════════════════════
-function ghHeaders(){
-  return {
-    'Authorization': `token ${ghCfg.pat}`,
-    'Accept': 'application/vnd.github.v3+json',
-    'Content-Type': 'application/json'
-  };
-}
-
-async function loadFromGitHub(){
-  if(!ghCfg.pat){ showToast('Set GitHub PAT in ⚙ Settings first', 'error'); return; }
-  setPubStatus('Loading…');
+async function loadFromGH(){
+  if(!cfg.pat){toast('Set GitHub PAT first','err');return;}
+  setPub('Loading…');
   try{
-    const url = `https://api.github.com/repos/${ghCfg.repo}/contents/${ghCfg.path}?ref=${ghCfg.branch}`;
-    const res = await fetch(url, { headers: ghHeaders() });
-    if(!res.ok) throw new Error(`GitHub ${res.status}`);
-    const file = await res.json();
-    const json = JSON.parse(atob(file.content.replace(/\n/g,'')));
-    SERVICES  = json.services  || [];
-    PROCESSES = json.processes || [];
+    const r = await fetch(`https://api.github.com/repos/${cfg.repo}/contents/${cfg.path}?ref=${cfg.branch}`,{headers:ghH()});
+    if(!r.ok) throw new Error(`GitHub ${r.status}`);
+    const f = await r.json();
+    applyData(JSON.parse(atob(f.content.replace(/\n/g,''))));
     saveDraft();
-    renderList();
-    updateTabCounts();
-    setPubStatus('Loaded from GitHub');
-    showToast(`Loaded ${SERVICES.length} services · ${PROCESSES.length} processes`, 'success');
-  } catch(e){
-    setPubStatus('');
-    showToast('Load failed: ' + e.message, 'error');
-  }
+    renderList(); updateCounts();
+    setPub('Loaded from GitHub');
+    toast(`Loaded successfully`,'ok');
+  }catch(e){setPub('');toast('Load failed: '+e.message,'err');}
 }
 
-async function publishToGitHub(){
-  if(!ghCfg.pat){ showToast('Set GitHub PAT in ⚙ Settings first', 'error'); return; }
-  setPubStatus('Publishing…');
+async function publishToGH(){
+  if(!cfg.pat){toast('Set GitHub PAT first','err');return;}
+  setPub('Publishing…');
   try{
-    // get current SHA
-    const getUrl = `https://api.github.com/repos/${ghCfg.repo}/contents/${ghCfg.path}?ref=${ghCfg.branch}`;
-    let sha = null;
-    const getRes = await fetch(getUrl, { headers: ghHeaders() });
-    if(getRes.ok){ const f = await getRes.json(); sha = f.sha; }
-
-    const content = JSON.stringify({services:SERVICES, processes:PROCESSES}, null, 2);
-    const encoded = btoa(unescape(encodeURIComponent(content)));
-    const body = {
-      message: `Update service catalog [admin panel]`,
-      content: encoded,
-      branch: ghCfg.branch
-    };
-    if(sha) body.sha = sha;
-
-    const putRes = await fetch(`https://api.github.com/repos/${ghCfg.repo}/contents/${ghCfg.path}`, {
-      method:'PUT', headers: ghHeaders(), body: JSON.stringify(body)
-    });
-    if(!putRes.ok){
-      const err = await putRes.json();
-      throw new Error(err.message || putRes.status);
-    }
-    dirty = false;
-    setPubStatus('Published ✓');
-    showToast('✓ Published! Vercel will deploy in ~30 seconds', 'success');
-  } catch(e){
-    setPubStatus('');
-    showToast('Publish failed: ' + e.message, 'error');
-  }
+    let sha=null;
+    const gr=await fetch(`https://api.github.com/repos/${cfg.repo}/contents/${cfg.path}?ref=${cfg.branch}`,{headers:ghH()});
+    if(gr.ok){const gf=await gr.json();sha=gf.sha;}
+    const content=JSON.stringify(exportData(),null,2);
+    const body={message:'Update service catalog [admin panel]',content:btoa(unescape(encodeURIComponent(content))),branch:cfg.branch};
+    if(sha) body.sha=sha;
+    const pr=await fetch(`https://api.github.com/repos/${cfg.repo}/contents/${cfg.path}`,{method:'PUT',headers:ghH(),body:JSON.stringify(body)});
+    if(!pr.ok){const e=await pr.json();throw new Error(e.message||pr.status);}
+    dirty=false; setPub('Published ✓');
+    toast('✓ Published! Vercel deploys in ~30s','ok');
+  }catch(e){setPub('');toast('Publish failed: '+e.message,'err');}
 }
 
-// ═══════════════════════════════════════════
-//  DRAFT (localStorage)
-// ═══════════════════════════════════════════
-function saveDraft(){
-  localStorage.setItem('pw_admin_draft', JSON.stringify({services:SERVICES, processes:PROCESSES}));
-  dirty = true;
-  setPubStatus('Unsaved changes');
-}
+// ═══════════════════════════
+//  DRAFT
+// ═══════════════════════════
+function exportData(){ return {domains:DOMAINS,topics:TOPICS,systems:SYSTEMS,teams:TEAMS,services:SERVICES,processes:PROCESSES,articles:ARTICLES}; }
+function applyData(d){ DOMAINS=d.domains||[];TOPICS=d.topics||[];SYSTEMS=d.systems||[];TEAMS=d.teams||[];SERVICES=d.services||[];PROCESSES=d.processes||[];ARTICLES=d.articles||[]; }
+function saveDraft(){ localStorage.setItem('pw_adm_draft',JSON.stringify(exportData())); dirty=true; setPub('Unsaved changes'); }
+function loadDraft(){ const s=localStorage.getItem('pw_adm_draft'); if(!s) return false; try{applyData(JSON.parse(s));return true;}catch(e){return false;} }
 
-function loadDraft(){
-  const s = localStorage.getItem('pw_admin_draft');
-  if(!s) return false;
-  try{
-    const d = JSON.parse(s);
-    SERVICES  = d.services  || [];
-    PROCESSES = d.processes || [];
-    return true;
-  } catch(e){ return false; }
-}
-
-// ═══════════════════════════════════════════
+// ═══════════════════════════
 //  UI HELPERS
-// ═══════════════════════════════════════════
-function setPubStatus(msg){ document.getElementById('pubStatus').textContent = msg; }
+// ═══════════════════════════
+function setPub(m){ document.getElementById('pubSt').textContent=m; }
+let _tt;
+function toast(msg,type=''){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.className='toast show'+(type?' '+type:'');
+  clearTimeout(_tt); _tt=setTimeout(()=>{t.className='toast';},3200);
+}
+function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 
-let toastTimer;
-function showToast(msg, type=''){
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.className = 'toast show' + (type ? ' '+type : '');
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(()=>{ t.className='toast'; }, 3500);
+function updateCounts(){
+  document.getElementById('tc-svc').textContent  = SERVICES.length;
+  document.getElementById('tc-proc').textContent = PROCESSES.length;
+  document.getElementById('tc-art').textContent  = ARTICLES.length;
 }
 
 function switchTab(tab){
-  activeTab = tab;
-  editingId = null;
-  document.getElementById('tabServices').classList.toggle('active', tab==='services');
-  document.getElementById('tabProcesses').classList.toggle('active', tab==='processes');
-  resetEditPane();
-  renderList();
+  activeTab=tab; editId=null;
+  ['ref','svc','proc','art'].forEach(t=>{
+    document.getElementById('t-'+t).classList.toggle('active',t===tab);
+  });
+  document.getElementById('subNav').style.display = tab==='ref' ? 'flex' : 'none';
+  resetPane(); renderList();
 }
 
-function updateTabCounts(){
-  document.getElementById('tabSvcCount').textContent  = SERVICES.length;
-  document.getElementById('tabProcCount').textContent = PROCESSES.length;
+function switchRef(ref){
+  activeRef=ref; editId=null;
+  ['domains','topics','systems','teams'].forEach(r=>{
+    document.getElementById('st-'+r).classList.toggle('active',r===ref);
+  });
+  resetPane(); renderList();
 }
 
-function resetEditPane(){
-  document.getElementById('editPane').innerHTML = `
-    <div class="edit-pane-empty">
-      <h3>Select an item to edit</h3>
-      <p>Choose a ${activeTab==='services'?'service':'process'} from the list, or click + Add to create one.</p>
-    </div>`;
+function resetPane(){
+  document.getElementById('editPane').innerHTML=`<div class="empty-pane"><h3>Select an item</h3><p>Choose from the list or click + Add</p></div>`;
 }
 
-// ═══════════════════════════════════════════
-//  LIST RENDERING
-// ═══════════════════════════════════════════
+// ═══════════════════════════
+//  LIST
+// ═══════════════════════════
 function renderList(){
-  const q = document.getElementById('listSearch').value.toLowerCase().trim();
-  const body = document.getElementById('listBody');
-  if(activeTab === 'services'){
-    const items = SERVICES.filter(s => !q || s.name.toLowerCase().includes(q) || (s.topic||'').toLowerCase().includes(q));
-    body.innerHTML = items.length === 0
-      ? `<div style="padding:20px;color:var(--text3);text-align:center;font-size:13px">No services found</div>`
-      : items.map(s => renderSvcRow(s)).join('');
-  } else {
-    const items = PROCESSES.filter(p => !q || p.name.toLowerCase().includes(q));
-    body.innerHTML = items.length === 0
-      ? `<div style="padding:20px;color:var(--text3);text-align:center;font-size:13px">No processes found</div>`
-      : items.map(p => renderProcRow(p)).join('');
+  const q=(document.getElementById('listQ').value||'').toLowerCase().trim();
+  const body=document.getElementById('listBody');
+  let html='';
+
+  if(activeTab==='ref'){
+    const map={domains:DOMAINS,topics:TOPICS,systems:SYSTEMS,teams:TEAMS};
+    const items=(map[activeRef]||[]).filter(i=>!q||i.name.toLowerCase().includes(q)||i.id.toLowerCase().includes(q));
+    if(!items.length){html='<div style="padding:20px;text-align:center;color:var(--text3);font-size:12px">Nothing here yet</div>';}
+    else items.forEach(i=>{
+      const extra = activeRef==='topics' ? `<span class="color-preview" style="background:${i.bg||'#eee'}"></span> ${i.domainId||''}` :
+                    activeRef==='systems' ? i.ownerTeamId||'' :
+                    activeRef==='teams'   ? (i.contactEmail||'') : (i.desc||'');
+      html+=`<div class="ref-row${editId===i.id?' active':''}" onclick="editItem('${i.id}')">
+        <span class="ref-id">${esc(i.id)}</span>
+        <span class="ref-name">${esc(i.name)}</span>
+        <span class="ref-extra">${esc(extra)}</span>
+        <button class="row-del" onclick="event.stopPropagation();delItem('${i.id}')">✕</button>
+      </div>`;
+    });
+  } else if(activeTab==='svc'){
+    const items=SERVICES.filter(s=>!q||s.name.toLowerCase().includes(q)||(s.topicId||'').includes(q));
+    if(!items.length){html='<div style="padding:20px;text-align:center;color:var(--text3);font-size:12px">No services</div>';}
+    else items.forEach(s=>{
+      const topic=TOPICS.find(t=>t.id===s.topicId)||{};
+      html+=`<div class="row${editId===s.id?' active':''}" onclick="editItem('${s.id}')">
+        <span class="op-dot op-${s.opStatus||'available'}"></span>
+        <div class="row-info"><div class="row-name">${esc(s.name)}</div><div class="row-sub">${esc((SYSTEMS.find(x=>x.id===s.systemId)||{}).name||s.systemId||'')}</div></div>
+        <span class="pill" style="background:${topic.bg||'#eee'};color:${topic.color||'#666'}">${esc(topic.name||s.topicId||'')}</span>
+        <button class="row-del" onclick="event.stopPropagation();delItem('${s.id}')">✕</button>
+      </div>`;
+    });
+  } else if(activeTab==='proc'){
+    const items=PROCESSES.filter(p=>!q||p.name.toLowerCase().includes(q));
+    if(!items.length){html='<div style="padding:20px;text-align:center;color:var(--text3);font-size:12px">No processes</div>';}
+    else items.forEach(p=>{
+      html+=`<div class="row${editId===p.id?' active':''}" onclick="editItem('${p.id}')">
+        <span style="font-size:16px;flex-shrink:0">${p.icon||'📋'}</span>
+        <div class="row-info"><div class="row-name">${esc(p.name)}</div><div class="row-sub">${(p.steps||[]).length} steps</div></div>
+        <button class="row-del" onclick="event.stopPropagation();delItem('${p.id}')">✕</button>
+      </div>`;
+    });
+  } else if(activeTab==='art'){
+    const items=ARTICLES.filter(a=>!q||a.title.toLowerCase().includes(q));
+    if(!items.length){html='<div style="padding:20px;text-align:center;color:var(--text3);font-size:12px">No articles yet</div>';}
+    else items.forEach(a=>{
+      html+=`<div class="row${editId===a.id?' active':''}" onclick="editItem('${a.id}')">
+        <div class="row-info"><div class="row-name">${esc(a.title)}</div><div class="row-sub">${esc(a.type||'')} · ${esc((SERVICES.find(s=>s.id===a.serviceId)||{}).name||a.serviceId||'')}</div></div>
+        <button class="row-del" onclick="event.stopPropagation();delItem('${a.id}')">✕</button>
+      </div>`;
+    });
   }
-  updateTabCounts();
+  body.innerHTML=html;
+  updateCounts();
 }
 
-function renderSvcRow(svc){
-  const ts = TOPIC_STYLES[svc.topic] || {bg:'#F5F5F5',color:'#424242'};
-  const isActive = editingId === svc.id;
-  return `
-<div class="svc-row${isActive?' active':''}" onclick="editItem('${svc.id}')">
-  <span class="op-dot op-${svc.opStatus||'available'}" title="${svc.opStatus||'available'}"></span>
-  <div class="svc-info">
-    <div class="svc-name">${esc(svc.name)}</div>
-    <div class="svc-sub">${esc(svc.system||'')} · ${(svc.actions||[]).length} actions</div>
-  </div>
-  <span class="topic-pill" style="background:${ts.bg};color:${ts.color}">${esc(svc.topic||'')}</span>
-  <button class="row-del" onclick="event.stopPropagation();deleteItem('${svc.id}')" title="Delete">✕</button>
-</div>`;
-}
-
-function renderProcRow(proc){
-  const isActive = editingId === proc.id;
-  return `
-<div class="svc-row${isActive?' active':''}" onclick="editItem('${proc.id}')">
-  <span style="font-size:18px;flex-shrink:0">${proc.icon||'📋'}</span>
-  <div class="svc-info">
-    <div class="svc-name">${esc(proc.name)}</div>
-    <div class="svc-sub">${esc(proc.owner||'')} · ${(proc.steps||[]).length} steps</div>
-  </div>
-  <button class="row-del" onclick="event.stopPropagation();deleteItem('${proc.id}')" title="Delete">✕</button>
-</div>`;
-}
-
-function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
-
-// ═══════════════════════════════════════════
-//  ADD / EDIT / DELETE
-// ═══════════════════════════════════════════
-function startNew(){
-  editingId = '__new__';
-  renderList(); // deselect rows
-  if(activeTab === 'services') renderServiceForm(null);
-  else renderProcessForm(null);
-}
+// ═══════════════════════════
+//  CRUD ACTIONS
+// ═══════════════════════════
+function startNew(){ editId='__new__'; renderList(); renderForm(null); }
 
 function editItem(id){
-  editingId = id;
-  renderList();
-  if(activeTab === 'services'){
-    const svc = SERVICES.find(s => s.id === id);
-    renderServiceForm(svc);
-  } else {
-    const proc = PROCESSES.find(p => p.id === id);
-    renderProcessForm(proc);
-  }
+  editId=id; renderList();
+  let item=null;
+  if(activeTab==='ref'){const arr={domains:DOMAINS,topics:TOPICS,systems:SYSTEMS,teams:TEAMS}[activeRef];item=arr.find(x=>x.id===id);}
+  else if(activeTab==='svc'){item=SERVICES.find(s=>s.id===id);}
+  else if(activeTab==='proc'){item=PROCESSES.find(p=>p.id===id);}
+  else if(activeTab==='art'){item=ARTICLES.find(a=>a.id===id);}
+  renderForm(item);
 }
 
-function deleteItem(id){
-  if(!confirm('Delete this item?')) return;
-  if(activeTab === 'services'){
-    SERVICES = SERVICES.filter(s => s.id !== id);
-  } else {
-    PROCESSES = PROCESSES.filter(p => p.id !== id);
-  }
-  if(editingId === id){ editingId = null; resetEditPane(); }
-  saveDraft();
-  renderList();
-  showToast('Deleted');
+function delItem(id){
+  if(!confirm('Delete?')) return;
+  if(activeTab==='ref'){
+    const map={domains:DOMAINS,topics:TOPICS,systems:SYSTEMS,teams:TEAMS};
+    const arr=map[activeRef]; const i=arr.findIndex(x=>x.id===id); if(i>=0) arr.splice(i,1);
+  } else if(activeTab==='svc'){ const i=SERVICES.findIndex(s=>s.id===id); if(i>=0) SERVICES.splice(i,1); }
+  else if(activeTab==='proc'){ const i=PROCESSES.findIndex(p=>p.id===id); if(i>=0) PROCESSES.splice(i,1); }
+  else if(activeTab==='art'){ const i=ARTICLES.findIndex(a=>a.id===id); if(i>=0) ARTICLES.splice(i,1); }
+  if(editId===id){editId=null;resetPane();}
+  saveDraft(); renderList(); toast('Deleted');
 }
 
-// ═══════════════════════════════════════════
+// ═══════════════════════════
+//  FORM ROUTER
+// ═══════════════════════════
+function renderForm(item){
+  if(activeTab==='ref'){
+    if(activeRef==='domains')  renderDomainForm(item);
+    else if(activeRef==='topics')  renderTopicForm(item);
+    else if(activeRef==='systems') renderSystemForm(item);
+    else if(activeRef==='teams')   renderTeamForm(item);
+  } else if(activeTab==='svc')  renderSvcForm(item);
+  else if(activeTab==='proc') renderProcForm(item);
+  else if(activeTab==='art')  renderArtForm(item);
+}
+
+// ═══════════════════════════
+//  REFERENCE FORMS
+// ═══════════════════════════
+function renderDomainForm(d){
+  const isNew=!d;
+  document.getElementById('editPane').innerHTML=`
+<div class="form-h">${isNew?'+ New Domain':esc(d.name)}<span class="badge">${isNew?'New':'Edit'}</span></div>
+<div class="sec">
+  <div class="sec-h">Domain</div>
+  <div class="fr2">
+    <div><label>ID (slug)</label><input type="text" id="dId" value="${esc(d?.id||'')}" ${isNew?'':'readonly style="background:#F5F5F5"'} oninput="autoId('dId','dName')"></div>
+    <div><label>Name</label><input type="text" id="dName" value="${esc(d?.name||'')}" oninput="autoId('dId','dName')" ${isNew?'':''}></div>
+  </div>
+  <div class="fr fr-last"><label>Description</label><input type="text" id="dDesc" value="${esc(d?.desc||'')}" placeholder="What this domain covers"></div>
+</div>
+<div class="f-foot">
+  <button class="btn btn-green" onclick="saveDomain()">💾 Save</button>
+  <button class="btn btn-outline" onclick="cancelEdit()">Cancel</button>
+</div>`;
+}
+function saveDomain(){
+  const id=v('dId'),name=v('dName');
+  if(!id||!name){toast('ID and name required','err');return;}
+  const obj={id,name,desc:v('dDesc')};
+  upsert(DOMAINS,obj); saveDraft(); renderList(); editId=id; renderList();
+  toast(`Domain "${name}" saved`,'ok');
+}
+
+function renderTopicForm(t){
+  const isNew=!t;
+  const domOpts=DOMAINS.map(d=>`<option value="${d.id}"${t?.domainId===d.id?' selected':''}>${d.name}</option>`).join('');
+  document.getElementById('editPane').innerHTML=`
+<div class="form-h">${isNew?'+ New Topic':esc(t.name)}<span class="badge">${isNew?'New':'Edit'}</span></div>
+<div class="sec">
+  <div class="sec-h">Topic</div>
+  <div class="fr2">
+    <div><label>ID (slug)</label><input type="text" id="tId" value="${esc(t?.id||'')}" ${isNew?'':'readonly style="background:#F5F5F5"'} oninput="autoId('tId','tName')"></div>
+    <div><label>Name</label><input type="text" id="tName" value="${esc(t?.name||'')}" oninput="autoId('tId','tName')"></div>
+  </div>
+  <div class="fr2">
+    <div><label>Domain</label><select id="tDomain">${domOpts}</select></div>
+    <div></div>
+  </div>
+  <div class="fr2 fr-last">
+    <div><label>Card background color</label><input type="text" id="tBg" value="${esc(t?.bg||'#F5F5F5')}" placeholder="#E8F5E9"></div>
+    <div><label>Text / icon color</label><input type="text" id="tColor" value="${esc(t?.color||'#424242')}" placeholder="#2E7D32"></div>
+  </div>
+</div>
+<div class="f-foot">
+  <button class="btn btn-green" onclick="saveTopic()">💾 Save</button>
+  <button class="btn btn-outline" onclick="cancelEdit()">Cancel</button>
+  <span class="f-hint">Colors used for chips and badges in the portal</span>
+</div>`;
+}
+function saveTopic(){
+  const id=v('tId'),name=v('tName');
+  if(!id||!name){toast('ID and name required','err');return;}
+  const obj={id,name,domainId:v('tDomain'),bg:v('tBg')||'#F5F5F5',color:v('tColor')||'#424242'};
+  upsert(TOPICS,obj); saveDraft(); editId=id; renderList();
+  toast(`Topic "${name}" saved`,'ok');
+}
+
+function renderSystemForm(s){
+  const isNew=!s;
+  const teamOpts=TEAMS.map(t=>`<option value="${t.id}"${s?.ownerTeamId===t.id?' selected':''}>${t.name}</option>`).join('');
+  document.getElementById('editPane').innerHTML=`
+<div class="form-h">${isNew?'+ New System':esc(s.name)}<span class="badge">${isNew?'New':'Edit'}</span></div>
+<div class="sec">
+  <div class="sec-h">System / Portal</div>
+  <div class="fr2">
+    <div><label>ID (slug)</label><input type="text" id="sysId" value="${esc(s?.id||'')}" ${isNew?'':'readonly style="background:#F5F5F5"'} oninput="autoId('sysId','sysName')"></div>
+    <div><label>Name</label><input type="text" id="sysName" value="${esc(s?.name||'')}" oninput="autoId('sysId','sysName')"></div>
+  </div>
+  <div class="fr2 fr-last">
+    <div><label>Base URL (optional)</label><input type="text" id="sysUrl" value="${esc(s?.baseUrl||'')}" placeholder="https://portal.company.com"></div>
+    <div><label>Owner team</label><select id="sysTeam">${teamOpts}</select></div>
+  </div>
+</div>
+<div class="f-foot">
+  <button class="btn btn-green" onclick="saveSystem()">💾 Save</button>
+  <button class="btn btn-outline" onclick="cancelEdit()">Cancel</button>
+</div>`;
+}
+function saveSystem(){
+  const id=v('sysId'),name=v('sysName');
+  if(!id||!name){toast('ID and name required','err');return;}
+  const obj={id,name,baseUrl:v('sysUrl'),ownerTeamId:v('sysTeam')};
+  upsert(SYSTEMS,obj); saveDraft(); editId=id; renderList();
+  toast(`System "${name}" saved`,'ok');
+}
+
+function renderTeamForm(t){
+  const isNew=!t;
+  document.getElementById('editPane').innerHTML=`
+<div class="form-h">${isNew?'+ New Team':esc(t.name)}<span class="badge">${isNew?'New':'Edit'}</span></div>
+<div class="sec">
+  <div class="sec-h">Owner Team</div>
+  <div class="fr2">
+    <div><label>ID (slug)</label><input type="text" id="tmId" value="${esc(t?.id||'')}" ${isNew?'':'readonly style="background:#F5F5F5"'} oninput="autoId('tmId','tmName')"></div>
+    <div><label>Name</label><input type="text" id="tmName" value="${esc(t?.name||'')}" oninput="autoId('tmId','tmName')"></div>
+  </div>
+  <div class="fr fr-last"><label>Contact email</label><input type="email" id="tmEmail" value="${esc(t?.contactEmail||'')}" placeholder="team@company.com"></div>
+</div>
+<div class="f-foot">
+  <button class="btn btn-green" onclick="saveTeam()">💾 Save</button>
+  <button class="btn btn-outline" onclick="cancelEdit()">Cancel</button>
+</div>`;
+}
+function saveTeam(){
+  const id=v('tmId'),name=v('tmName');
+  if(!id||!name){toast('ID and name required','err');return;}
+  const obj={id,name,contactEmail:v('tmEmail')};
+  upsert(TEAMS,obj); saveDraft(); editId=id; renderList();
+  toast(`Team "${name}" saved`,'ok');
+}
+
+// ═══════════════════════════
 //  SERVICE FORM
-// ═══════════════════════════════════════════
-function renderServiceForm(svc){
-  const isNew = !svc;
-  const ep = document.getElementById('editPane');
-  const topicOpts = TOPICS.map(t => `<option value="${t}"${(svc?.topic===t)?' selected':''}>${t}</option>`).join('');
-  const opOpts = OP_STATUSES.map(s => `<option value="${s}"${(svc?.opStatus===s)?' selected':''}>${s}</option>`).join('');
+// ═══════════════════════════
+let _ac=0,_ec=0,_pc=0;
 
-  ep.innerHTML = `
-<div class="form-title">
-  ${isNew ? '+ New Service' : esc(svc.name)}
-  <span class="badge">${isNew ? 'New' : 'Editing'}</span>
-</div>
+function renderSvcForm(svc){
+  const isNew=!svc;
+  const domOpts =DOMAINS.map(d=>`<option value="${d.id}"${svc?.domainId===d.id?' selected':''}>${d.name}</option>`).join('');
+  const topOpts =TOPICS.map(t=>`<option value="${t.id}"${svc?.topicId===t.id?' selected':''}>${t.name}</option>`).join('');
+  const sysOpts =SYSTEMS.map(s=>`<option value="${s.id}"${svc?.systemId===s.id?' selected':''}>${s.name}</option>`).join('');
+  const tmOpts  =TEAMS.map(t=>`<option value="${t.id}"${svc?.ownerTeamId===t.id?' selected':''}>${t.name}</option>`).join('');
+  const opOpts  =OP_STATUSES.map(s=>`<option${svc?.opStatus===s?' selected':''}>${s}</option>`).join('');
+  _ac=0;_ec=0;_pc=0;
 
-<div class="form-section">
-  <div class="form-section-title">Identity</div>
-  <div class="form-row-2">
-    <div class="form-row" style="margin-bottom:0">
-      <label>ID (slug)</label>
-      <input type="text" id="fId" value="${esc(svc?.id||'')}" placeholder="e.g. worklog" ${isNew?'':'readonly style="background:#F5F5F5;color:var(--text2)"'}>
-    </div>
-    <div class="form-row" style="margin-bottom:0">
-      <label>Status</label>
-      <select id="fStatus">
-        <option value="Active"${svc?.status==='Active'?' selected':''}>Active</option>
-        <option value="Inactive"${svc?.status==='Inactive'?' selected':''}>Inactive</option>
-        <option value="Deprecated"${svc?.status==='Deprecated'?' selected':''}>Deprecated</option>
-      </select>
-    </div>
+  document.getElementById('editPane').innerHTML=`
+<div class="form-h">${isNew?'+ New Service':esc(svc.name)}<span class="badge">${isNew?'New':'Edit'}</span></div>
+
+<div class="sec">
+  <div class="sec-h">Identity</div>
+  <div class="fr2">
+    <div><label>ID (slug)</label><input type="text" id="fId" value="${esc(svc?.id||'')}" ${isNew?'oninput="autoId(\'fId\',\'fName\')"':'readonly style="background:#F5F5F5"'}></div>
+    <div><label>Status</label><select id="fStatus"><option${svc?.status==='Active'?' selected':''}>Active</option><option${svc?.status==='Inactive'?' selected':''}>Inactive</option><option${svc?.status==='Deprecated'?' selected':''}>Deprecated</option></select></div>
   </div>
 </div>
 
-<div class="form-section">
-  <div class="form-section-title">Details</div>
-  <div class="form-row">
-    <label>Service name</label>
-    <input type="text" id="fName" value="${esc(svc?.name||'')}" placeholder="Worklog Submission" oninput="autoSlug()">
+<div class="sec">
+  <div class="sec-h">Details</div>
+  <div class="fr"><label>Name</label><input type="text" id="fName" value="${esc(svc?.name||'')}" oninput="${isNew?"autoId('fId','fName')":''}"></div>
+  <div class="fr"><label>Goal (one line)</label><input type="text" id="fGoal" value="${esc(svc?.goal||'')}"></div>
+  <div class="fr"><label>Description</label><textarea id="fDesc" rows="3">${esc(svc?.desc||'')}</textarea></div>
+  <div class="fr2">
+    <div><label>Domain</label><select id="fDomain">${domOpts}</select></div>
+    <div><label>Topic</label><select id="fTopic">${topOpts}</select></div>
   </div>
-  <div class="form-row">
-    <label>Goal (one line)</label>
-    <input type="text" id="fGoal" value="${esc(svc?.goal||'')}" placeholder="What is this service for?">
+  <div class="fr3">
+    <div><label>System</label><select id="fSystem">${sysOpts}</select></div>
+    <div><label>Owner team</label><select id="fTeam">${tmOpts}</select></div>
+    <div><label>Op. status</label><select id="fOp">${opOpts}</select></div>
   </div>
-  <div class="form-row">
-    <label>Description</label>
-    <textarea id="fDesc" rows="3" placeholder="Detailed description…">${esc(svc?.desc||'')}</textarea>
-  </div>
-  <div class="form-row-2">
-    <div>
-      <label>Topic</label>
-      <select id="fTopic">${topicOpts}</select>
-    </div>
-    <div>
-      <label>Domain</label>
-      <input type="text" id="fDomain" value="${esc(svc?.domain||'')}" placeholder="HR, Finance, IT…">
-    </div>
-  </div>
-  <div class="form-row-3">
-    <div>
-      <label>System / Portal</label>
-      <input type="text" id="fSystem" value="${esc(svc?.system||'')}" placeholder="HR Portal">
-    </div>
-    <div>
-      <label>Owner name</label>
-      <input type="text" id="fOwner" value="${esc(svc?.owner||'')}" placeholder="HR Department">
-    </div>
-    <div>
-      <label>Owner email</label>
-      <input type="email" id="fOwnerEmail" value="${esc(svc?.ownerEmail||'')}" placeholder="hr@company.com">
-    </div>
-  </div>
-  <div class="form-row-2">
-    <div>
-      <label>Operational status</label>
-      <select id="fOpStatus">${opOpts}</select>
-    </div>
-    <div>
-      <label>Review cycle (months)</label>
-      <input type="number" id="fReviewCycle" value="${svc?.reviewCycle||6}" min="1" max="24">
-    </div>
-  </div>
-  <div class="form-row">
-    <label>Last reviewed</label>
-    <input type="date" id="fReviewedAt" value="${svc?.reviewedAt||''}">
+  <div class="fr2 fr-last">
+    <div><label>Last reviewed</label><input type="date" id="fReviewed" value="${esc(svc?.reviewedAt||'')}"></div>
+    <div><label>Review cycle (months)</label><input type="number" id="fCycle" value="${svc?.reviewCycle||6}" min="1" max="24"></div>
   </div>
 </div>
 
-<div class="form-section">
-  <div class="form-section-title">
-    Preconditions
-    <button class="btn btn-outline btn-sm section-add" onclick="addPrecond()">+ Add</button>
-  </div>
-  <div id="fPrecondList">
-    ${(svc?.preconditions||[]).map((p,i)=>precondRow(p,i)).join('')}
-  </div>
-  <div id="fPrecondEmpty" style="font-size:12px;color:var(--text3);${(svc?.preconditions||[]).length?'display:none':''}">No preconditions — this service is available to everyone.</div>
+<div class="sec">
+  <div class="sec-h">Preconditions <button class="btn btn-outline btn-sm sec-add" onclick="addPrec()">+ Add</button></div>
+  <div id="fPrec">${(svc?.preconditions||[]).map((p,i)=>precRow(p,i)).join('')}</div>
+  <div id="fPrecEmpty" style="font-size:11px;color:var(--text3);${(svc?.preconditions||[]).length?'display:none':''}">No preconditions — available to all.</div>
 </div>
 
-<div class="form-section">
-  <div class="form-section-title">
-    Actions
-    <button class="btn btn-outline btn-sm section-add" onclick="addAction()">+ Add</button>
-  </div>
-  <div id="fActionList">
-    ${(svc?.actions||[]).map((a,i)=>actionRow(a,i)).join('')}
-  </div>
-  <div id="fActionEmpty" style="font-size:12px;color:var(--text3);${(svc?.actions||[]).length?'display:none':''}">No actions yet.</div>
+<div class="sec">
+  <div class="sec-h">Actions <button class="btn btn-outline btn-sm sec-add" onclick="addAct()">+ Add</button></div>
+  <div id="fActs">${(svc?.actions||[]).map((a,i)=>actRow(a,i)).join('')}</div>
+  <div id="fActsEmpty" style="font-size:11px;color:var(--text3);${(svc?.actions||[]).length?'display:none':''}">No actions yet.</div>
 </div>
 
-<div class="form-section">
-  <div class="form-section-title">
-    Ecosystem connections
-    <button class="btn btn-outline btn-sm section-add" onclick="addEco()">+ Add</button>
-  </div>
-  <div id="fEcoList">
-    ${(svc?.ecosystem||[]).map((e,i)=>ecoRow(e,i)).join('')}
-  </div>
-  <div id="fEcoEmpty" style="font-size:12px;color:var(--text3);${(svc?.ecosystem||[]).length?'display:none':''}">No ecosystem connections yet.</div>
+<div class="sec">
+  <div class="sec-h">Ecosystem connections <button class="btn btn-outline btn-sm sec-add" onclick="addEco()">+ Add</button></div>
+  <div id="fEco">${(svc?.ecosystem||[]).map((e,i)=>ecoRow(e,i)).join('')}</div>
+  <div id="fEcoEmpty" style="font-size:11px;color:var(--text3);${(svc?.ecosystem||[]).length?'display:none':''}">No connections yet.</div>
 </div>
 
-<div class="form-section">
-  <div class="form-section-title">Search tags</div>
-  <div class="form-row" style="margin-bottom:0">
-    <label>Tags (comma-separated)</label>
-    <input type="text" id="fTags" value="${esc((svc?.tags||[]).join(', '))}" placeholder="worklog, timesheet, hours, табель">
-  </div>
+<div class="sec">
+  <div class="sec-h">Search tags</div>
+  <div class="fr fr-last"><label>Tags (comma-separated)</label><input type="text" id="fTags" value="${esc((svc?.tags||[]).join(', '))}"></div>
 </div>
 
-<div class="form-actions">
-  <button class="btn btn-green" onclick="saveService()">💾 Save service</button>
+<div class="f-foot">
+  <button class="btn btn-green" onclick="saveSvc()">💾 Save service</button>
   <button class="btn btn-outline" onclick="cancelEdit()">Cancel</button>
-  <span class="form-hint">Changes are saved locally — click Publish to deploy</span>
-</div>
-`;
+  <span class="f-hint">Save locally → Publish to deploy</span>
+</div>`;
 }
 
-let precondCount = 0, actionCount = 0, ecoCount = 0;
-
-function precondRow(val, i){
-  precondCount = Math.max(precondCount, i+1);
-  return `<div class="dyn-item" id="prec-${i}" style="display:flex;align-items:center;gap:8px;padding:8px 12px">
+function precRow(val,i){ _pc=Math.max(_pc,i+1);
+  return `<div class="di" id="pr-${i}" style="display:flex;align-items:center;gap:7px;padding:7px 10px">
     <input type="text" value="${esc(val)}" placeholder="Requirement…" style="flex:1">
-    <button class="dyn-item-del" style="position:static" onclick="delDynRow('prec-${i}','fPrecondList','fPrecondEmpty')">✕</button>
-  </div>`;
-}
+    <button class="di-del" style="position:static" onclick="delDyn('pr-${i}','fPrec','fPrecEmpty')">✕</button>
+  </div>`; }
+function addPrec(){ const l=document.getElementById('fPrec'); l.insertAdjacentHTML('beforeend',precRow('',_pc++)); document.getElementById('fPrecEmpty').style.display='none'; }
 
-function addPrecond(){
-  const list = document.getElementById('fPrecondList');
-  list.insertAdjacentHTML('beforeend', precondRow('', precondCount++));
-  document.getElementById('fPrecondEmpty').style.display = 'none';
-}
+function actRow(a,i){ _ac=Math.max(_ac,i+1);
+  const tOpts=ACTION_TYPES.map(t=>`<option${a.type===t?' selected':''}>${t}</option>`).join('');
+  const hOpts=HANDLING_TYPES.map(h=>`<option value="${h}"${a.handling===h?' selected':''}>${h}</option>`).join('');
+  return `<div class="di" id="ac-${i}">
+    <button class="di-del" onclick="delDyn('ac-${i}','fActs','fActsEmpty')">✕</button>
+    <div class="di4"><div><label style="font-size:9px;margin-bottom:2px">Name</label><input type="text" value="${esc(a.name||'')}" placeholder="Action name"></div>
+    <div><label style="font-size:9px;margin-bottom:2px">Type</label><select>${tOpts}</select></div>
+    <div><label style="font-size:9px;margin-bottom:2px">Handling</label><select>${hOpts}</select></div>
+    <div><label style="font-size:9px;margin-bottom:2px">Tier</label><input type="number" value="${a.tier||1}" min="1" max="3"></div></div>
+    <div><label style="font-size:9px;margin-bottom:2px">Description</label><input type="text" value="${esc(a.desc||'')}" placeholder="What does this do?"></div>
+  </div>`; }
+function addAct(){ const l=document.getElementById('fActs'); l.insertAdjacentHTML('beforeend',actRow({type:'related',handling:'url',tier:1},_ac++)); document.getElementById('fActsEmpty').style.display='none'; }
 
-function actionRow(a, i){
-  actionCount = Math.max(actionCount, i+1);
-  const typeOpts = ACTION_TYPES.map(t=>`<option${a.type===t?' selected':''}>${t}</option>`).join('');
-  const handOpts = HANDLING_TYPES.map(h=>`<option value="${h}"${a.handling===h?' selected':''}>${h}</option>`).join('');
-  return `<div class="dyn-item" id="act-${i}">
-    <button class="dyn-item-del" onclick="delDynRow('act-${i}','fActionList','fActionEmpty')">✕</button>
-    <div class="dyn-row-4" style="margin-bottom:8px">
-      <div><label style="font-size:10px;margin-bottom:2px">Name</label><input type="text" value="${esc(a.name||'')}" placeholder="Submit Form"></div>
-      <div><label style="font-size:10px;margin-bottom:2px">Type</label><select>${typeOpts}</select></div>
-      <div><label style="font-size:10px;margin-bottom:2px">Handling</label><select>${handOpts}</select></div>
-      <div><label style="font-size:10px;margin-bottom:2px">Tier</label><input type="number" value="${a.tier||1}" min="1" max="3"></div>
-    </div>
-    <div><label style="font-size:10px;margin-bottom:2px">Description</label><input type="text" value="${esc(a.desc||'')}" placeholder="What does this action do?"></div>
-  </div>`;
-}
+function ecoRow(e,i){ _ec=Math.max(_ec,i+1);
+  return `<div class="di" id="ec-${i}">
+    <button class="di-del" onclick="delDyn('ec-${i}','fEco','fEcoEmpty')">✕</button>
+    <div class="di2"><div><label style="font-size:9px;margin-bottom:2px">Name</label><input type="text" value="${esc(e.name||'')}" placeholder="HR Portal"></div>
+    <div><label style="font-size:9px;margin-bottom:2px">Icon (emoji)</label><input type="text" value="${esc(e.icon||'')}" placeholder="📊"></div></div>
+    <div><label style="font-size:9px;margin-bottom:2px">Context note</label><input type="text" value="${esc(e.ctx||'')}" placeholder="How does this connect?"></div>
+  </div>`; }
+function addEco(){ const l=document.getElementById('fEco'); l.insertAdjacentHTML('beforeend',ecoRow({},_ec++)); document.getElementById('fEcoEmpty').style.display='none'; }
 
-function addAction(){
-  const list = document.getElementById('fActionList');
-  list.insertAdjacentHTML('beforeend', actionRow({type:'related',handling:'url',tier:1}, actionCount++));
-  document.getElementById('fActionEmpty').style.display = 'none';
-}
+function delDyn(id,listId,emptyId){ document.getElementById(id)?.remove(); if(!document.getElementById(listId).children.length) document.getElementById(emptyId).style.display=''; }
 
-function ecoRow(e, i){
-  ecoCount = Math.max(ecoCount, i+1);
-  return `<div class="dyn-item" id="eco-${i}">
-    <button class="dyn-item-del" onclick="delDynRow('eco-${i}','fEcoList','fEcoEmpty')">✕</button>
-    <div class="dyn-row-3" style="margin-bottom:8px">
-      <div><label style="font-size:10px;margin-bottom:2px">Name</label><input type="text" value="${esc(e.name||'')}" placeholder="HR Portal"></div>
-      <div><label style="font-size:10px;margin-bottom:2px">Icon (emoji)</label><input type="text" value="${esc(e.icon||'')}" placeholder="📊"></div>
-      <div></div>
-    </div>
-    <div><label style="font-size:10px;margin-bottom:2px">Context</label><input type="text" value="${esc(e.ctx||'')}" placeholder="How does this connect?"></div>
-  </div>`;
-}
-
-function addEco(){
-  const list = document.getElementById('fEcoList');
-  list.insertAdjacentHTML('beforeend', ecoRow({}, ecoCount++));
-  document.getElementById('fEcoEmpty').style.display = 'none';
-}
-
-function delDynRow(id, listId, emptyId){
-  document.getElementById(id)?.remove();
-  if(!document.getElementById(listId).children.length)
-    document.getElementById(emptyId).style.display = '';
-}
-
-function autoSlug(){
-  const idField = document.getElementById('fId');
-  if(idField && !idField.readOnly){
-    idField.value = document.getElementById('fName').value
-      .toLowerCase().trim()
-      .replace(/[^a-z0-9]+/g, '-')
-      .replace(/^-|-$/g, '');
-  }
-}
-
-function readPreconditions(){
-  return Array.from(document.getElementById('fPrecondList')?.querySelectorAll('input[type=text]')||[])
-    .map(i=>i.value.trim()).filter(Boolean);
-}
-
-function readActions(){
-  return Array.from(document.getElementById('fActionList')?.querySelectorAll('.dyn-item')||[]).map(el=>{
-    const inputs = el.querySelectorAll('input,select');
-    return { name: inputs[0]?.value||'', type: inputs[1]?.value||'related', handling: inputs[2]?.value||'url',
-             tier: parseInt(inputs[3]?.value||1), desc: inputs[4]?.value||'' };
+function saveSvc(){
+  const id=v('fId'),name=v('fName');
+  if(!id||!name){toast('ID and name required','err');return;}
+  if(!/^[a-z0-9-]+$/.test(id)){toast('ID must be lowercase letters, numbers, hyphens','err');return;}
+  const precs=Array.from(document.querySelectorAll('#fPrec .di input[type=text]')).map(i=>i.value.trim()).filter(Boolean);
+  const acts=Array.from(document.querySelectorAll('#fActs .di')).map(el=>{
+    const ins=el.querySelectorAll('input,select');
+    return{name:ins[0]?.value||'',type:ins[1]?.value||'related',handling:ins[2]?.value||'url',tier:parseInt(ins[3]?.value||1),desc:ins[4]?.value||''};
   }).filter(a=>a.name);
-}
-
-function readEcosystem(){
-  return Array.from(document.getElementById('fEcoList')?.querySelectorAll('.dyn-item')||[]).map(el=>{
-    const inputs = el.querySelectorAll('input[type=text]');
-    return { name: inputs[0]?.value||'', icon: inputs[1]?.value||'', ctx: inputs[2]?.value||'' };
+  const ecos=Array.from(document.querySelectorAll('#fEco .di')).map(el=>{
+    const ins=el.querySelectorAll('input[type=text]');
+    return{name:ins[0]?.value||'',icon:ins[1]?.value||'',ctx:ins[2]?.value||''};
   }).filter(e=>e.name);
+  const obj={id,name,goal:v('fGoal'),desc:v('fDesc'),domainId:v('fDomain'),topicId:v('fTopic'),systemId:v('fSystem'),ownerTeamId:v('fTeam'),status:v('fStatus'),opStatus:v('fOp'),
+    tags:(v('fTags')||'').split(',').map(t=>t.trim()).filter(Boolean),preconditions:precs,actions:acts,ecosystem:ecos,
+    reviewedAt:v('fReviewed'),reviewCycle:parseInt(v('fCycle')||6)};
+  upsert(SERVICES,obj); saveDraft(); editId=id; renderList();
+  toast(`Service "${name}" saved`,'ok');
 }
 
-function saveService(){
-  const id = document.getElementById('fId')?.value.trim();
-  const name = document.getElementById('fName')?.value.trim();
-  if(!id || !name){ showToast('ID and name are required', 'error'); return; }
-  if(!/^[a-z0-9-]+$/.test(id)){ showToast('ID must be lowercase letters, numbers, hyphens only', 'error'); return; }
-
-  const svc = {
-    id, name,
-    goal:        document.getElementById('fGoal')?.value.trim()||'',
-    desc:        document.getElementById('fDesc')?.value.trim()||'',
-    domain:      document.getElementById('fDomain')?.value.trim()||'',
-    topic:       document.getElementById('fTopic')?.value||'',
-    system:      document.getElementById('fSystem')?.value.trim()||'',
-    owner:       document.getElementById('fOwner')?.value.trim()||'',
-    ownerEmail:  document.getElementById('fOwnerEmail')?.value.trim()||'',
-    status:      document.getElementById('fStatus')?.value||'Active',
-    opStatus:    document.getElementById('fOpStatus')?.value||'available',
-    tags:        (document.getElementById('fTags')?.value||'').split(',').map(t=>t.trim()).filter(Boolean),
-    preconditions: readPreconditions(),
-    actions:     readActions(),
-    ecosystem:   readEcosystem(),
-    reviewedAt:  document.getElementById('fReviewedAt')?.value||'',
-    reviewCycle: parseInt(document.getElementById('fReviewCycle')?.value||6),
-  };
-
-  const idx = SERVICES.findIndex(s => s.id === id);
-  if(idx >= 0) SERVICES[idx] = svc;
-  else SERVICES.push(svc);
-
-  editingId = id;
-  saveDraft();
-  renderList();
-  showToast(`Service "${name}" saved`, 'success');
-}
-
-// ═══════════════════════════════════════════
+// ═══════════════════════════
 //  PROCESS FORM
-// ═══════════════════════════════════════════
-function renderProcessForm(proc){
-  const isNew = !proc;
-  const ep = document.getElementById('editPane');
-  const stepsJson = proc?.steps ? JSON.stringify(proc.steps, null, 2) : '[]';
-
-  ep.innerHTML = `
-<div class="form-title">
-  ${isNew ? '+ New Process' : esc(proc.name)}
-  <span class="badge">${isNew ? 'New' : 'Editing'}</span>
-</div>
-
-<div class="form-section">
-  <div class="form-section-title">Identity</div>
-  <div class="form-row-2">
-    <div>
-      <label>ID (slug)</label>
-      <input type="text" id="pId" value="${esc(proc?.id||'')}" placeholder="month-end" ${isNew?'':'readonly style="background:#F5F5F5;color:var(--text2)"'} oninput="autoProcSlug()">
-    </div>
-    <div>
-      <label>Owner</label>
-      <input type="text" id="pOwner" value="${esc(proc?.owner||'')}" placeholder="Finance Team">
-    </div>
+// ═══════════════════════════
+function renderProcForm(proc){
+  const isNew=!proc;
+  const tmOpts=TEAMS.map(t=>`<option value="${t.id}"${proc?.ownerTeamId===t.id?' selected':''}>${t.name}</option>`).join('');
+  document.getElementById('editPane').innerHTML=`
+<div class="form-h">${isNew?'+ New Process':esc(proc.name)}<span class="badge">${isNew?'New':'Edit'}</span></div>
+<div class="sec">
+  <div class="sec-h">Identity</div>
+  <div class="fr2">
+    <div><label>ID (slug)</label><input type="text" id="pId" value="${esc(proc?.id||'')}" ${isNew?'oninput="autoId(\'pId\',\'pName\')"':'readonly style="background:#F5F5F5"'}></div>
+    <div><label>Owner team</label><select id="pTeam">${tmOpts}</select></div>
   </div>
 </div>
-
-<div class="form-section">
-  <div class="form-section-title">Details</div>
-  <div class="form-row">
-    <label>Process name</label>
-    <input type="text" id="pName" value="${esc(proc?.name||'')}" placeholder="Month-End Time Reporting" oninput="autoProcSlug()">
-  </div>
-  <div class="form-row">
-    <label>Description</label>
-    <textarea id="pDesc" rows="2">${esc(proc?.desc||'')}</textarea>
-  </div>
-  <div class="form-row-3">
-    <div>
-      <label>Icon (emoji)</label>
-      <input type="text" id="pIcon" value="${esc(proc?.icon||'📋')}" placeholder="📋">
-    </div>
-    <div>
-      <label>Card background</label>
-      <input type="text" id="pColor" value="${esc(proc?.color||'#F5F5F5')}" placeholder="#E8F5E9">
-    </div>
-    <div>
-      <label>Icon color</label>
-      <input type="text" id="pIconColor" value="${esc(proc?.iconColor||'#424242')}" placeholder="#2E7D32">
-    </div>
+<div class="sec">
+  <div class="sec-h">Details</div>
+  <div class="fr"><label>Name</label><input type="text" id="pName" value="${esc(proc?.name||'')}" oninput="${isNew?"autoId('pId','pName')":''}"></div>
+  <div class="fr"><label>Description</label><textarea id="pDesc" rows="2">${esc(proc?.desc||'')}</textarea></div>
+  <div class="fr3 fr-last">
+    <div><label>Icon (emoji)</label><input type="text" id="pIcon" value="${esc(proc?.icon||'📋')}"></div>
+    <div><label>Card background</label><input type="text" id="pColor" value="${esc(proc?.color||'#F5F5F5')}"></div>
+    <div><label>Icon color</label><input type="text" id="pIconColor" value="${esc(proc?.iconColor||'#424242')}"></div>
   </div>
 </div>
-
-<div class="form-section">
-  <div class="form-section-title">Steps (JSON)</div>
-  <div style="font-size:11px;color:var(--text2);margin-bottom:8px;line-height:1.5">
-    Edit the step structure directly. Each step column contains <code>groups</code> with a <code>label</code> and <code>steps</code> array.<br>
-    Step fields: <code>type</code> (atomic|human), <code>role</code>, <code>roleCls</code> (employee|manager|hr|it|finance), <code>name</code>, <code>service</code>, <code>svcId</code>, <code>human</code> (for human steps).
-  </div>
-  <textarea class="json-editor" id="pSteps" rows="12" spellcheck="false">${esc(stepsJson)}</textarea>
-  <div class="json-error" id="pStepsError">Invalid JSON</div>
+<div class="sec">
+  <div class="sec-h">Steps (JSON)</div>
+  <div style="font-size:11px;color:var(--text2);margin-bottom:7px;line-height:1.5">Each element = one column. Fields: <code>type</code> (atomic|human), <code>role</code>, <code>roleCls</code> (employee|manager|hr|it|finance), <code>name</code>, <code>svcId</code>, <code>service</code>, <code>human</code>.</div>
+  <textarea class="json-ed" id="pSteps" rows="10" spellcheck="false">${esc(JSON.stringify(proc?.steps||[],null,2))}</textarea>
+  <div class="json-err" id="pStepsErr">Invalid JSON</div>
 </div>
-
-<div class="form-actions">
-  <button class="btn btn-green" onclick="saveProcess()">💾 Save process</button>
+<div class="f-foot">
+  <button class="btn btn-green" onclick="saveProc()">💾 Save process</button>
   <button class="btn btn-outline" onclick="cancelEdit()">Cancel</button>
-  <span class="form-hint">Changes are saved locally — click Publish to deploy</span>
-</div>
-`;
+</div>`;
 }
-
-function autoProcSlug(){
-  const idField = document.getElementById('pId');
-  if(idField && !idField.readOnly){
-    idField.value = (document.getElementById('pName')?.value||'')
-      .toLowerCase().trim().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
-  }
-}
-
-function saveProcess(){
-  const id   = document.getElementById('pId')?.value.trim();
-  const name = document.getElementById('pName')?.value.trim();
-  if(!id || !name){ showToast('ID and name are required', 'error'); return; }
-
+function saveProc(){
+  const id=v('pId'),name=v('pName');
+  if(!id||!name){toast('ID and name required','err');return;}
   let steps;
-  try{
-    steps = JSON.parse(document.getElementById('pSteps')?.value||'[]');
-    document.getElementById('pStepsError').style.display = 'none';
-  } catch(e){
-    document.getElementById('pStepsError').style.display = '';
-    showToast('Steps JSON is invalid', 'error'); return;
-  }
-
-  const proc = {
-    id, name,
-    desc:      document.getElementById('pDesc')?.value.trim()||'',
-    owner:     document.getElementById('pOwner')?.value.trim()||'',
-    icon:      document.getElementById('pIcon')?.value.trim()||'📋',
-    color:     document.getElementById('pColor')?.value.trim()||'#F5F5F5',
-    iconColor: document.getElementById('pIconColor')?.value.trim()||'#424242',
-    steps
-  };
-
-  const idx = PROCESSES.findIndex(p => p.id === id);
-  if(idx >= 0) PROCESSES[idx] = proc;
-  else PROCESSES.push(proc);
-
-  editingId = id;
-  saveDraft();
-  renderList();
-  showToast(`Process "${name}" saved`, 'success');
+  try{steps=JSON.parse(v('pSteps')||'[]');document.getElementById('pStepsErr').style.display='none';}
+  catch(e){document.getElementById('pStepsErr').style.display='';toast('Steps JSON invalid','err');return;}
+  const obj={id,name,desc:v('pDesc'),ownerTeamId:v('pTeam'),icon:v('pIcon'),color:v('pColor'),iconColor:v('pIconColor'),steps};
+  upsert(PROCESSES,obj); saveDraft(); editId=id; renderList();
+  toast(`Process "${name}" saved`,'ok');
 }
 
-function cancelEdit(){
-  editingId = null;
-  resetEditPane();
-  renderList();
+// ═══════════════════════════
+//  ARTICLE FORM
+// ═══════════════════════════
+function renderArtForm(art){
+  const isNew=!art;
+  const svcOpts=SERVICES.map(s=>`<option value="${s.id}"${art?.serviceId===s.id?' selected':''}>${s.name}</option>`).join('');
+  document.getElementById('editPane').innerHTML=`
+<div class="form-h">${isNew?'+ New Article':esc(art.title)}<span class="badge">${isNew?'New':'Edit'}</span></div>
+<div class="sec">
+  <div class="sec-h">Article</div>
+  <div class="fr2">
+    <div><label>ID (slug)</label><input type="text" id="aId" value="${esc(art?.id||'')}" ${isNew?'oninput="autoId(\'aId\',\'aTitle\')"':'readonly style="background:#F5F5F5"'}></div>
+    <div><label>Type</label><select id="aType"><option${art?.type==='guide'?' selected':''}>guide</option><option${art?.type==='faq'?' selected':''}>faq</option><option${art?.type==='policy'?' selected':''}>policy</option><option${art?.type==='reference'?' selected':''}>reference</option></select></div>
+  </div>
+  <div class="fr"><label>Title</label><input type="text" id="aTitle" value="${esc(art?.title||'')}" oninput="${isNew?"autoId('aId','aTitle')":''}"></div>
+  <div class="fr2">
+    <div><label>Linked service</label><select id="aSvc">${svcOpts}</select></div>
+    <div><label>Last reviewed</label><input type="date" id="aReviewed" value="${esc(art?.lastReviewedAt||'')}"></div>
+  </div>
+  <div class="fr fr-last"><label>URL</label><input type="text" id="aUrl" value="${esc(art?.url||'')}" placeholder="https://confluence.company.com/…"></div>
+</div>
+<div class="f-foot">
+  <button class="btn btn-green" onclick="saveArt()">💾 Save article</button>
+  <button class="btn btn-outline" onclick="cancelEdit()">Cancel</button>
+</div>`;
+}
+function saveArt(){
+  const id=v('aId'),title=v('aTitle');
+  if(!id||!title){toast('ID and title required','err');return;}
+  const obj={id,title,type:v('aType'),serviceId:v('aSvc'),url:v('aUrl'),lastReviewedAt:v('aReviewed')};
+  upsert(ARTICLES,obj); saveDraft(); editId=id; renderList();
+  toast(`Article "${title}" saved`,'ok');
 }
 
-// ═══════════════════════════════════════════
+// ═══════════════════════════
+//  UTILS
+// ═══════════════════════════
+function v(id){ return (document.getElementById(id)?.value||'').trim(); }
+function autoId(idField,nameField){
+  const f=document.getElementById(idField);
+  if(f&&!f.readOnly) f.value=(document.getElementById(nameField)?.value||'').toLowerCase().trim().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+}
+function upsert(arr,obj){ const i=arr.findIndex(x=>x.id===obj.id); if(i>=0) arr[i]=obj; else arr.push(obj); }
+function cancelEdit(){ editId=null; resetPane(); renderList(); }
+
+// ═══════════════════════════
 //  INIT
-// ═══════════════════════════════════════════
+// ═══════════════════════════
 async function init(){
-  loadConfig();
-
-  // 1) try draft first
+  loadCfg();
   if(loadDraft()){
-    setPubStatus('Draft loaded');
+    setPub('Draft loaded');
   } else {
-    // 2) try loading from same-origin data.json (e.g. Vercel deploy)
     try{
-      const res = await fetch('./data.json?t=' + Date.now());
-      if(res.ok){
-        const d = await res.json();
-        SERVICES  = d.services  || [];
-        PROCESSES = d.processes || [];
-        saveDraft();
-        setPubStatus('Loaded from data.json');
-      }
-    } catch(e){
-      // no data.json, start empty
-    }
+      const r=await fetch('./data.json?t='+Date.now());
+      if(r.ok){ applyData(await r.json()); saveDraft(); setPub('Loaded from data.json'); }
+    }catch(e){}
   }
-
-  renderList();
-  updateTabCounts();
+  renderList(); updateCounts();
 }
-
 init();
 </script>
 </body>

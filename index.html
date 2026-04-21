@@ -193,15 +193,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
   <p>Browse services by topic or search for anything — worklogs, invoices, IT requests, reviews, and more.</p>
 </div>
 
-<!-- TOPIC CHIPS -->
-<div class="chips-bar">
+<!-- TOPIC CHIPS — rendered dynamically from TOPICS array -->
+<div class="chips-bar" id="chipsBar">
   <div class="chip chip-all active" data-topic="all" onclick="setTopic('all')">All services</div>
-  <div class="chip chip-time" data-topic="Time & Reporting" onclick="setTopic('Time & Reporting')">⏱ Time & Reporting</div>
-  <div class="chip chip-finance" data-topic="Finance & Expenses" onclick="setTopic('Finance & Expenses')">💰 Finance & Expenses</div>
-  <div class="chip chip-perf" data-topic="Performance" onclick="setTopic('Performance')">🎯 Performance</div>
-  <div class="chip chip-it" data-topic="IT Resources" onclick="setTopic('IT Resources')">💻 IT Resources</div>
-  <div class="chip chip-benefits" data-topic="Benefits" onclick="setTopic('Benefits')">🎁 Benefits</div>
-  <div class="chip chip-team" data-topic="Team Management" onclick="setTopic('Team Management')">👥 Team Management</div>
 </div>
 
 <!-- SERVICES -->
@@ -234,16 +228,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 
 <script>
 // ══════════════════════════════════════
-//  DATA
+//  DATA — loaded from data.json
 // ══════════════════════════════════════
-const TOPIC_STYLES = {
-  'Time & Reporting':  {bg:'#E8F5E9', color:'#2E7D32', chipClass:'chip-time'},
-  'Finance & Expenses':{bg:'#E3F2FD', color:'#1565C0', chipClass:'chip-finance'},
-  'Performance':       {bg:'#FFF3E0', color:'#E65100', chipClass:'chip-perf'},
-  'IT Resources':      {bg:'#ECEFF1', color:'#37474F', chipClass:'chip-it'},
-  'Benefits':          {bg:'#FCE4EC', color:'#880E4F', chipClass:'chip-benefits'},
-  'Team Management':   {bg:'#F3E5F5', color:'#4A148C', chipClass:'chip-team'},
-};
+let DOMAINS = [], TOPICS = [], SYSTEMS = [], TEAMS = [];
+// lookup maps built after load
+let topicById = {}, systemById = {}, teamById = {};
 
 let SERVICES = [
   {
@@ -526,6 +515,21 @@ let activeTopic = 'all';
 let searchQuery  = '';
 let selectedSvc  = null;
 
+function buildLookups(){
+  topicById  = Object.fromEntries(TOPICS.map(t=>[t.id,t]));
+  systemById = Object.fromEntries(SYSTEMS.map(s=>[s.id,s]));
+  teamById   = Object.fromEntries(TEAMS.map(t=>[t.id,t]));
+}
+
+function renderChips(){
+  const bar = document.getElementById('chipsBar');
+  const icons = {'time-reporting':'⏱','finance-expenses':'💰','performance':'🎯','it-resources':'💻','benefits':'🎁','team-management':'👥'};
+  bar.innerHTML = `<div class="chip chip-all${activeTopic==='all'?' active':''}" data-topic="all" onclick="setTopic('all')">All services</div>`
+    + TOPICS.map(t=>`<div class="chip${activeTopic===t.id?' active':''}" data-topic="${t.id}"
+        style="background:${activeTopic===t.id?t.color:t.bg};color:${activeTopic===t.id?'#fff':t.color};border-color:${t.color}55"
+        onclick="setTopic('${t.id}')">${icons[t.id]||'•'} ${t.name}</div>`).join('');
+}
+
 // ══════════════════════════════════════
 //  RENDER: SERVICE CARDS
 // ══════════════════════════════════════
@@ -534,7 +538,9 @@ function handlingBadge(h){return {url:'dab-url',external_form:'dab-ext',contact_
 function handlingLabel(h){return {url:'Link',external_form:'External',contact_owner:'Contact',manual_step:'Instructions'}[h]||'Link'}
 
 function renderServiceCard(svc){
-  const ts = TOPIC_STYLES[svc.topic]||{bg:'#F5F5F5',color:'#424242'};
+  const topic = topicById[svc.topicId] || {};
+  const sys   = systemById[svc.systemId] || {};
+  const ts    = {bg: topic.bg||'#F5F5F5', color: topic.color||'#424242'};
   const primaryAct = svc.actions.find(a=>a.type==='primary');
   const otherCount = svc.actions.filter(a=>a.type!=='primary').length;
   const opDot = svc.opStatus ? `<span class="op-dot op-${svc.opStatus}" title="${svc.opStatus}"></span>` : '';
@@ -546,8 +552,8 @@ function renderServiceCard(svc){
 <div class="service-card" id="scard-${svc.id}" onclick="openDetail('${svc.id}')">
   <div class="sc-top">
     <div class="sc-badges">
-      <span class="topic-badge" style="background:${ts.bg};color:${ts.color}">${svc.topic}</span>
-      <span class="sys-badge">${svc.system}</span>
+      <span class="topic-badge" style="background:${ts.bg};color:${ts.color}">${topic.name||svc.topicId||''}</span>
+      <span class="sys-badge">${sys.name||svc.systemId||''}</span>
       ${opDot}
     </div>
     <div class="sc-name">${svc.name}</div>
@@ -594,7 +600,7 @@ function renderProcessCard(proc){
     <div class="proc-meta">
       <h3>${proc.name}</h3>
       <p>${proc.desc}</p>
-      <div class="proc-owner">Owner: ${proc.owner} · ${proc.steps.length} phases</div>
+      <div class="proc-owner">Owner: ${(teamById[proc.ownerTeamId]||{}).name||proc.ownerTeamId||''} · ${proc.steps.length} phases</div>
     </div>
     <span class="proc-toggle" id="ptog-${proc.id}">⌄</span>
   </div>
@@ -620,10 +626,14 @@ function openDetail(id){
   const card = document.getElementById('scard-'+id);
   if(card) card.classList.add('selected');
 
-  const ts = TOPIC_STYLES[svc.topic]||{bg:'#F5F5F5',color:'#424242'};
+  const topic = topicById[svc.topicId] || {};
+  const sys   = systemById[svc.systemId] || {};
+  const team  = teamById[svc.ownerTeamId] || {};
+  const ts    = {bg: topic.bg||'#F5F5F5', color: topic.color||'#424242'};
+  const domainName = (DOMAINS.find(d=>d.id===svc.domainId)||{}).name || svc.domainId || '';
   document.getElementById('dpTopic').innerHTML =
-    `<span style="color:${ts.color};background:${ts.bg};padding:2px 8px;border-radius:8px;font-size:10px">${svc.topic}</span>
-     <span style="color:#9E9E9E;font-size:10px">· ${svc.domain}</span>`;
+    `<span style="color:${ts.color};background:${ts.bg};padding:2px 8px;border-radius:8px;font-size:10px">${topic.name||svc.topicId||''}</span>
+     <span style="color:#9E9E9E;font-size:10px">· ${domainName}</span>`;
   document.getElementById('dpName').textContent = svc.name;
 
   let opChip = '';
@@ -632,8 +642,8 @@ function openDetail(id){
     const op = opMap[svc.opStatus]||{cls:'available',label:svc.opStatus};
     opChip = `<span class="dp-status-chip dp-status-${op.cls}">${op.label}</span>`;
   }
-  document.getElementById('dpSystem').innerHTML = `🖥 ${svc.system}${opChip}`;
-  document.getElementById('dpOwner').textContent = `Owner: ${svc.owner}`;
+  document.getElementById('dpSystem').innerHTML = `🖥 ${sys.name||svc.systemId||''}${opChip}`;
+  document.getElementById('dpOwner').textContent = `Owner: ${team.name||svc.ownerTeamId||''}`;
   document.getElementById('dpReview').textContent = svc.reviewedAt ? `Reviewed ${svc.reviewedAt} · every ${svc.reviewCycle}mo` : '';
 
   let body = '';
@@ -718,20 +728,20 @@ function closeDetail(){
 // ══════════════════════════════════════
 function setTopic(t){
   activeTopic = (activeTopic === t && t !== 'all') ? 'all' : t;
-  document.querySelectorAll('.chip').forEach(c=>{
-    c.classList.toggle('active', c.dataset.topic === activeTopic || (activeTopic==='all' && c.dataset.topic==='all'));
-  });
+  renderChips();
   applyFilters();
 }
 
 function applyFilters(){
   searchQuery = document.getElementById('searchInput').value.toLowerCase().trim();
   const filtered = SERVICES.filter(svc=>{
-    const topicMatch = activeTopic === 'all' || svc.topic === activeTopic;
+    const topicMatch = activeTopic === 'all' || svc.topicId === activeTopic;
     if(!topicMatch) return false;
     if(!searchQuery) return true;
-    const haystack = [svc.name, svc.goal, svc.desc, svc.topic, svc.system, ...svc.tags,
-      ...svc.actions.map(a=>a.name)].join(' ').toLowerCase();
+    const topic = topicById[svc.topicId] || {};
+    const sys   = systemById[svc.systemId] || {};
+    const haystack = [svc.name, svc.goal, svc.desc, topic.name||'', sys.name||'', ...(svc.tags||[]),
+      ...(svc.actions||[]).map(a=>a.name)].join(' ').toLowerCase();
     return haystack.includes(searchQuery);
   });
 
@@ -768,11 +778,17 @@ async function init(){
     const res = await fetch('./data.json?t=' + Date.now());
     if(!res.ok) throw new Error('HTTP ' + res.status);
     const data = await res.json();
+    if(data.domains)   DOMAINS   = data.domains;
+    if(data.topics)    TOPICS    = data.topics;
+    if(data.systems)   SYSTEMS   = data.systems;
+    if(data.teams)     TEAMS     = data.teams;
     if(data.services)  SERVICES  = data.services;
     if(data.processes) PROCESSES = data.processes;
   } catch(e) {
-    console.warn('data.json fetch failed, using inline data:', e.message);
+    console.warn('data.json fetch failed:', e.message);
   }
+  buildLookups();
+  renderChips();
   applyFilters();
 }
 init();
