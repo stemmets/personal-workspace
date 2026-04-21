@@ -1,663 +1,204 @@
 {
   "topics": [
-    {
-      "id": "time-reporting",
-      "name": "Time & Reporting",
-      "bg": "#E8F5E9",
-      "color": "#2E7D32"
-    },
-    {
-      "id": "finance-expenses",
-      "name": "Finance & Expenses",
-      "bg": "#E3F2FD",
-      "color": "#1565C0"
-    },
-    {
-      "id": "performance",
-      "name": "Performance",
-      "bg": "#FFF3E0",
-      "color": "#E65100"
-    },
-    {
-      "id": "it-resources",
-      "name": "IT Resources",
-      "bg": "#ECEFF1",
-      "color": "#37474F"
-    },
-    {
-      "id": "benefits",
-      "name": "Benefits",
-      "bg": "#FCE4EC",
-      "color": "#880E4F"
-    },
-    {
-      "id": "team-management",
-      "name": "Team Management",
-      "bg": "#F3E5F5",
-      "color": "#4A148C"
-    }
+    {"id": "time-reporting",   "name": "Time & Reporting",   "bg": "#E8F5E9", "color": "#2E7D32"},
+    {"id": "finance-expenses", "name": "Finance & Expenses", "bg": "#E3F2FD", "color": "#1565C0"},
+    {"id": "performance",      "name": "Performance",        "bg": "#FFF3E0", "color": "#E65100"},
+    {"id": "it-resources",     "name": "IT Resources",       "bg": "#ECEFF1", "color": "#37474F"},
+    {"id": "benefits",         "name": "Benefits",           "bg": "#FCE4EC", "color": "#880E4F"},
+    {"id": "team-management",  "name": "Team Management",    "bg": "#F3E5F5", "color": "#4A148C"}
   ],
   "systems": [
-    {
-      "id": "time-portal",
-      "name": "Time Tracking Portal",
-      "baseUrl": "",
-      "ownerTeamId": "finance-team"
-    },
-    {
-      "id": "finance-module",
-      "name": "Finance Module",
-      "baseUrl": "",
-      "ownerTeamId": "ar-team"
-    },
-    {
-      "id": "hr-portal",
-      "name": "HR Portal",
-      "baseUrl": "",
-      "ownerTeamId": "hr-dept"
-    },
-    {
-      "id": "ops-portal",
-      "name": "Operations Portal",
-      "baseUrl": "",
-      "ownerTeamId": "hr-dept"
-    }
+    {"id": "time-portal",    "name": "Time Tracking Portal", "baseUrl": "", "ownerTeamId": "finance-team"},
+    {"id": "finance-module", "name": "Finance Module",       "baseUrl": "", "ownerTeamId": "ar-team"},
+    {"id": "hr-portal",      "name": "HR Portal",            "baseUrl": "", "ownerTeamId": "hr-dept"},
+    {"id": "ops-portal",     "name": "Operations Portal",    "baseUrl": "", "ownerTeamId": "hr-dept"}
   ],
   "teams": [
-    {
-      "id": "finance-team",
-      "name": "Finance Team",
-      "contactEmail": "finance@company.com"
-    },
-    {
-      "id": "ar-team",
-      "name": "AR Team",
-      "contactEmail": "ar@company.com"
-    },
-    {
-      "id": "hr-dept",
-      "name": "HR Department",
-      "contactEmail": "hr@company.com"
-    },
-    {
-      "id": "it-dept",
-      "name": "IT Department",
-      "contactEmail": "it@company.com"
-    }
+    {"id": "finance-team", "name": "Finance Team",   "contactEmail": "finance@company.com"},
+    {"id": "ar-team",      "name": "AR Team",         "contactEmail": "ar@company.com"},
+    {"id": "hr-dept",      "name": "HR Department",   "contactEmail": "hr@company.com"},
+    {"id": "it-dept",      "name": "IT Department",   "contactEmail": "it@company.com"}
   ],
   "services": [
     {
-      "id": "worklog",
-      "name": "Worklog Submission",
+      "id": "worklog", "name": "Worklog Submission",
       "goal": "Record billable hours by project for payroll and client invoicing.",
-      "desc": "Submit your weekly hours against projects and tasks in the Time Tracking Portal. Worklogs feed directly into your PTR and client invoices. Jira tasks are auto-synced â just verify and adjust if needed. Google Calendar events can be imported as draft entries.",
-      "topicId": "time-reporting",
-      "systemId": "time-portal",
-      "ownerTeamId": "finance-team",
-      "status": "Active",
-      "opStatus": "available",
+      "desc": "Submit your weekly hours against projects and tasks in the Time Tracking Portal. Worklogs feed directly into your PTR and client invoices. Jira tasks are auto-synced — just verify and adjust if needed. Google Calendar events can be imported as draft entries.",
+      "topicId": "time-reporting", "systemId": "time-portal", "ownerTeamId": "finance-team",
+      "status": "Active", "opStatus": "available",
       "primaryUrl": "",
-      "audienceIds": [
-        "all"
-      ],
-      "tags": [
-        "worklog",
-        "timesheet",
-        "hours",
-        "billable",
-        "jira",
-        "ÑÐ°Ð±ÐµÐ»Ñ",
-        "ÑÑÐµÑ Ð²ÑÐµÐ¼ÐµÐ½Ð¸"
-      ],
+      "audienceIds": ["all"],
+      "tags": ["worklog","timesheet","hours","billable","jira","табель","учет времени"],
       "preconditions": [],
       "actions": [
-        {
-          "name": "Submit Worklog",
-          "type": "primary",
-          "handling": "url",
-          "tier": 1,
-          "desc": "Open worklog form in Time Tracking Portal"
-        },
-        {
-          "name": "View My Worklogs",
-          "type": "related",
-          "handling": "url",
-          "tier": 1,
-          "desc": "Browse history of submitted entries"
-        },
-        {
-          "name": "Jira Sync Settings",
-          "type": "related",
-          "handling": "url",
-          "tier": 2,
-          "desc": "Configure automatic Jira task import"
-        },
-        {
-          "name": "Export Report",
-          "type": "related",
-          "handling": "url",
-          "tier": 2,
-          "desc": "Download worklog data as CSV"
-        }
+        {"name": "Submit Worklog",     "type": "primary", "handling": "url", "tier": 1, "desc": "Open worklog form in Time Tracking Portal"},
+        {"name": "View My Worklogs",   "type": "related", "handling": "url", "tier": 1, "desc": "Browse history of submitted entries"},
+        {"name": "Jira Sync Settings", "type": "related", "handling": "url", "tier": 2, "desc": "Configure automatic Jira task import"},
+        {"name": "Export Report",      "type": "related", "handling": "url", "tier": 2, "desc": "Download worklog data as CSV"}
       ],
       "ecosystem": [
-        {
-          "name": "PTR Report",
-          "icon": "ð",
-          "ctx": "Hours aggregate into your monthly Project Time Report"
-        },
-        {
-          "name": "Client Invoice",
-          "icon": "ð§¾",
-          "ctx": "Approved PTR auto-generates the client invoice"
-        },
-        {
-          "name": "Manager Dashboard",
-          "icon": "ð",
-          "ctx": "Team utilization visible to your line manager"
-        },
-        {
-          "name": "Google Calendar",
-          "icon": "ð",
-          "ctx": "Calendar events can be imported as worklog draft entries"
-        }
+        {"name": "PTR Report",        "icon": "📊", "ctx": "Hours aggregate into your monthly Project Time Report"},
+        {"name": "Client Invoice",    "icon": "🧾", "ctx": "Approved PTR auto-generates the client invoice"},
+        {"name": "Manager Dashboard", "icon": "📈", "ctx": "Team utilization visible to your line manager"},
+        {"name": "Google Calendar",   "icon": "📅", "ctx": "Calendar events can be imported as worklog draft entries"}
       ],
-      "reviewedAt": "2026-03-15",
-      "reviewCycle": 6
+      "reviewedAt": "2026-03-15", "reviewCycle": 6
     },
     {
-      "id": "ptr",
-      "name": "Project Time Report (PTR)",
+      "id": "ptr", "name": "Project Time Report (PTR)",
       "goal": "Aggregate monthly time data and submit for manager approval before invoicing.",
       "desc": "At month end, your worklogs are compiled into a PTR. Review, adjust if needed, and submit for your line manager's approval. Once approved, invoice generation triggers automatically.",
-      "topicId": "time-reporting",
-      "systemId": "time-portal",
-      "ownerTeamId": "finance-team",
-      "status": "Active",
-      "opStatus": "available",
+      "topicId": "time-reporting", "systemId": "time-portal", "ownerTeamId": "finance-team",
+      "status": "Active", "opStatus": "available",
       "primaryUrl": "",
-      "audienceIds": [
-        "all"
-      ],
-      "tags": [
-        "PTR",
-        "monthly report",
-        "approval",
-        "time report",
-        "Ð¾ÑÑÐµÑ",
-        "Ð¿ÑÐ¾ÐµÐºÑ"
-      ],
-      "preconditions": [
-        "All worklogs submitted for the reporting period",
-        "Reporting period is open (1stâ5th of month)"
-      ],
+      "audienceIds": ["all"],
+      "tags": ["PTR","monthly report","approval","time report","отчет","проект"],
+      "preconditions": ["All worklogs submitted for the reporting period", "Reporting period is open (1st–5th of month)"],
       "actions": [
-        {
-          "name": "Submit PTR",
-          "type": "primary",
-          "handling": "url",
-          "tier": 1,
-          "desc": "Submit your monthly consolidated time report"
-        },
-        {
-          "name": "Track Approval Status",
-          "type": "related",
-          "handling": "url",
-          "tier": 1,
-          "desc": "See where your PTR is in the approval chain"
-        },
-        {
-          "name": "View PTR History",
-          "type": "related",
-          "handling": "url",
-          "tier": 2,
-          "desc": "Browse past PTRs and their statuses"
-        }
+        {"name": "Submit PTR",            "type": "primary", "handling": "url", "tier": 1, "desc": "Submit your monthly consolidated time report"},
+        {"name": "Track Approval Status", "type": "related", "handling": "url", "tier": 1, "desc": "See where your PTR is in the approval chain"},
+        {"name": "View PTR History",      "type": "related", "handling": "url", "tier": 2, "desc": "Browse past PTRs and their statuses"}
       ],
       "ecosystem": [
-        {
-          "name": "Invoice Generation",
-          "icon": "ð§¾",
-          "ctx": "PTR approval triggers automatic invoice creation"
-        },
-        {
-          "name": "Finance Reports",
-          "icon": "ð",
-          "ctx": "PTR data feeds into company-wide finance reporting"
-        },
-        {
-          "name": "AR Team Queue",
-          "icon": "ð¬",
-          "ctx": "Approved PTR enters accounts receivable workflow"
-        }
+        {"name": "Invoice Generation", "icon": "🧾", "ctx": "PTR approval triggers automatic invoice creation"},
+        {"name": "Finance Reports",    "icon": "📊", "ctx": "PTR data feeds into company-wide finance reporting"},
+        {"name": "AR Team Queue",      "icon": "📬", "ctx": "Approved PTR enters accounts receivable workflow"}
       ],
-      "reviewedAt": "2026-03-15",
-      "reviewCycle": 6
+      "reviewedAt": "2026-03-15", "reviewCycle": 6
     },
     {
-      "id": "invoice",
-      "name": "Invoice Generation",
+      "id": "invoice", "name": "Invoice Generation",
       "goal": "Generate and submit client invoices automatically from approved PTR data.",
       "desc": "Once your PTR is approved, the Finance Module generates a draft invoice with amounts pre-filled from your time data. Review project details and client information, then submit for AR processing.",
-      "topicId": "finance-expenses",
-      "systemId": "finance-module",
-      "ownerTeamId": "ar-team",
-      "status": "Active",
-      "opStatus": "available",
+      "topicId": "finance-expenses", "systemId": "finance-module", "ownerTeamId": "ar-team",
+      "status": "Active", "opStatus": "available",
       "primaryUrl": "",
-      "audienceIds": [
-        "all"
-      ],
-      "tags": [
-        "invoice",
-        "billing",
-        "accounts receivable",
-        "AR",
-        "ÑÑÐµÑ",
-        "Ð¸Ð½Ð²Ð¾Ð¹Ñ"
-      ],
-      "preconditions": [
-        "PTR approved by line manager",
-        "Client contract active in system"
-      ],
+      "audienceIds": ["all"],
+      "tags": ["invoice","billing","accounts receivable","AR","счет","инвойс"],
+      "preconditions": ["PTR approved by line manager", "Client contract active in system"],
       "actions": [
-        {
-          "name": "Generate Invoice",
-          "type": "primary",
-          "handling": "url",
-          "tier": 1,
-          "desc": "Create invoice draft from approved PTR"
-        },
-        {
-          "name": "View Invoice History",
-          "type": "related",
-          "handling": "url",
-          "tier": 1,
-          "desc": "Browse past invoices and payment statuses"
-        },
-        {
-          "name": "Submit for AR Review",
-          "type": "related",
-          "handling": "url",
-          "tier": 2,
-          "desc": "Forward completed invoice to AR team queue"
-        },
-        {
-          "name": "Contact AR Team",
-          "type": "support",
-          "handling": "contact_owner",
-          "tier": 2,
-          "desc": "Get help from the AR team directly"
-        }
+        {"name": "Generate Invoice",     "type": "primary", "handling": "url",           "tier": 1, "desc": "Create invoice draft from approved PTR"},
+        {"name": "View Invoice History", "type": "related", "handling": "url",           "tier": 1, "desc": "Browse past invoices and payment statuses"},
+        {"name": "Submit for AR Review", "type": "related", "handling": "url",           "tier": 2, "desc": "Forward completed invoice to AR team queue"},
+        {"name": "Contact AR Team",      "type": "support", "handling": "contact_owner", "tier": 2, "desc": "Get help from the AR team directly"}
       ],
       "ecosystem": [
-        {
-          "name": "AR Dashboard",
-          "icon": "ð",
-          "ctx": "Invoice enters the accounts receivable tracking queue"
-        },
-        {
-          "name": "Client Records",
-          "icon": "ð",
-          "ctx": "Invoice linked to client contract history"
-        },
-        {
-          "name": "Billing Report",
-          "icon": "ð",
-          "ctx": "Revenue data reflected in monthly billing report"
-        }
+        {"name": "AR Dashboard",   "icon": "📋", "ctx": "Invoice enters the accounts receivable tracking queue"},
+        {"name": "Client Records", "icon": "🗂",  "ctx": "Invoice linked to client contract history"},
+        {"name": "Billing Report", "icon": "📊", "ctx": "Revenue data reflected in monthly billing report"}
       ],
-      "reviewedAt": "2026-02-20",
-      "reviewCycle": 6
+      "reviewedAt": "2026-02-20", "reviewCycle": 6
     },
     {
-      "id": "perf-review",
-      "name": "Performance Review",
-      "goal": "Complete quarterly 360Â° feedback for professional development and compensation decisions.",
+      "id": "perf-review", "name": "Performance Review",
+      "goal": "Complete quarterly 360° feedback for professional development and compensation decisions.",
       "desc": "Participate in the quarterly performance cycle: submit your self-assessment, provide peer feedback for colleagues, and receive consolidated scores from your manager and HR BP.",
-      "topicId": "performance",
-      "systemId": "hr-portal",
-      "ownerTeamId": "hr-dept",
-      "status": "Active",
-      "opStatus": "available",
+      "topicId": "performance", "systemId": "hr-portal", "ownerTeamId": "hr-dept",
+      "status": "Active", "opStatus": "available",
       "primaryUrl": "",
-      "audienceIds": [
-        "all"
-      ],
-      "tags": [
-        "performance review",
-        "360",
-        "feedback",
-        "KPI",
-        "Ð¾ÑÐµÐ½ÐºÐ°",
-        "Ð°ÑÑÐµÑÑÐ°ÑÐ¸Ñ",
-        "ÑÐµÐ²ÑÑ"
-      ],
+      "audienceIds": ["all"],
+      "tags": ["performance review","360","feedback","KPI","оценка","аттестация","ревью"],
       "preconditions": [],
       "actions": [
-        {
-          "name": "Start Self-Review",
-          "type": "primary",
-          "handling": "url",
-          "tier": 1,
-          "desc": "Open your quarterly self-assessment form"
-        },
-        {
-          "name": "Submit Peer Feedback",
-          "type": "related",
-          "handling": "url",
-          "tier": 1,
-          "desc": "Provide structured feedback for a colleague"
-        },
-        {
-          "name": "View My Results",
-          "type": "related",
-          "handling": "url",
-          "tier": 1,
-          "desc": "See your consolidated scores and manager comments"
-        },
-        {
-          "name": "View Team Results",
-          "type": "admin",
-          "handling": "url",
-          "tier": 2,
-          "desc": "Manager view: team performance overview (restricted)"
-        }
+        {"name": "Start Self-Review",    "type": "primary", "handling": "url", "tier": 1, "desc": "Open your quarterly self-assessment form"},
+        {"name": "Submit Peer Feedback", "type": "related", "handling": "url", "tier": 1, "desc": "Provide structured feedback for a colleague"},
+        {"name": "View My Results",      "type": "related", "handling": "url", "tier": 1, "desc": "See your consolidated scores and manager comments"},
+        {"name": "View Team Results",    "type": "admin",   "handling": "url", "tier": 2, "desc": "Manager view: team performance overview (restricted)"}
       ],
       "ecosystem": [
-        {
-          "name": "Compensation Review",
-          "icon": "ð°",
-          "ctx": "Review scores inform annual compensation adjustments"
-        },
-        {
-          "name": "Career Matrix",
-          "icon": "ð¯",
-          "ctx": "Scores mapped against role progression matrix"
-        },
-        {
-          "name": "HR Dashboard",
-          "icon": "ð",
-          "ctx": "Aggregate performance data for HR analytics"
-        }
+        {"name": "Compensation Review", "icon": "💰", "ctx": "Review scores inform annual compensation adjustments"},
+        {"name": "Career Matrix",       "icon": "🎯", "ctx": "Scores mapped against role progression matrix"},
+        {"name": "HR Dashboard",        "icon": "📊", "ctx": "Aggregate performance data for HR analytics"}
       ],
-      "reviewedAt": "2026-01-10",
-      "reviewCycle": 3
+      "reviewedAt": "2026-01-10", "reviewCycle": 3
     },
     {
-      "id": "bonus",
-      "name": "Appreciation Bonus",
+      "id": "bonus", "name": "Appreciation Bonus",
       "goal": "Nominate colleagues or receive recognition bonuses for outstanding contributions.",
       "desc": "Submit a bonus nomination for a colleague who made exceptional impact. Nomination goes through manager approval, Finance verifies budget, then HR processes payment in the next payroll cycle.",
-      "topicId": "performance",
-      "systemId": "hr-portal",
-      "ownerTeamId": "hr-dept",
-      "status": "Active",
-      "opStatus": "available",
+      "topicId": "performance", "systemId": "hr-portal", "ownerTeamId": "hr-dept",
+      "status": "Active", "opStatus": "available",
       "primaryUrl": "",
-      "audienceIds": [
-        "all"
-      ],
-      "tags": [
-        "bonus",
-        "appreciation",
-        "nomination",
-        "recognition",
-        "Ð±Ð¾Ð½ÑÑ",
-        "Ð½Ð¾Ð¼Ð¸Ð½Ð°ÑÐ¸Ñ",
-        "Ð±Ð»Ð°Ð³Ð¾Ð´Ð°ÑÐ½Ð¾ÑÑÑ"
-      ],
-      "preconditions": [
-        "Bonus budget approved for current quarter",
-        "Nominee has active contractor agreement"
-      ],
+      "audienceIds": ["all"],
+      "tags": ["bonus","appreciation","nomination","recognition","бонус","номинация","благодарность"],
+      "preconditions": ["Bonus budget approved for current quarter", "Nominee has active contractor agreement"],
       "actions": [
-        {
-          "name": "Submit Nomination",
-          "type": "primary",
-          "handling": "url",
-          "tier": 1,
-          "desc": "Nominate a colleague for appreciation bonus"
-        },
-        {
-          "name": "Track My Nominations",
-          "type": "related",
-          "handling": "url",
-          "tier": 1,
-          "desc": "Check status of nominations you submitted"
-        },
-        {
-          "name": "View Received Bonuses",
-          "type": "related",
-          "handling": "url",
-          "tier": 2,
-          "desc": "History of bonuses you have received"
-        }
+        {"name": "Submit Nomination",     "type": "primary", "handling": "url", "tier": 1, "desc": "Nominate a colleague for appreciation bonus"},
+        {"name": "Track My Nominations",  "type": "related", "handling": "url", "tier": 1, "desc": "Check status of nominations you submitted"},
+        {"name": "View Received Bonuses", "type": "related", "handling": "url", "tier": 2, "desc": "History of bonuses you have received"}
       ],
       "ecosystem": [
-        {
-          "name": "Finance Payroll",
-          "icon": "ð³",
-          "ctx": "Approved bonus triggers payment in next payroll cycle"
-        },
-        {
-          "name": "HR Records",
-          "icon": "ð",
-          "ctx": "Bonus history recorded against contractor profile"
-        },
-        {
-          "name": "Manager Alert",
-          "icon": "ð",
-          "ctx": "Line manager notified when team member receives bonus"
-        }
+        {"name": "Finance Payroll", "icon": "💳", "ctx": "Approved bonus triggers payment in next payroll cycle"},
+        {"name": "HR Records",      "icon": "📁", "ctx": "Bonus history recorded against contractor profile"},
+        {"name": "Manager Alert",   "icon": "🔔", "ctx": "Line manager notified when team member receives bonus"}
       ],
-      "reviewedAt": "2026-02-01",
-      "reviewCycle": 3
+      "reviewedAt": "2026-02-01", "reviewCycle": 3
     },
     {
-      "id": "it-support",
-      "name": "IT Support",
+      "id": "it-support", "name": "IT Support",
       "goal": "Request hardware, software access, or technical troubleshooting from the IT team.",
       "desc": "Submit an IT support ticket for hardware issues, new software access requests, or technical problems. The Operations Portal routes your request to the correct IT specialist based on type and priority.",
-      "topicId": "it-resources",
-      "systemId": "ops-portal",
-      "ownerTeamId": "it-dept",
-      "status": "Active",
-      "opStatus": "available",
+      "topicId": "it-resources", "systemId": "ops-portal", "ownerTeamId": "it-dept",
+      "status": "Active", "opStatus": "available",
       "primaryUrl": "",
-      "audienceIds": [
-        "all"
-      ],
-      "tags": [
-        "IT support",
-        "hardware",
-        "software",
-        "access",
-        "technical",
-        "laptop",
-        "IT Ð·Ð°Ð¿ÑÐ¾Ñ",
-        "Ð¾Ð±Ð¾ÑÑÐ´Ð¾Ð²Ð°Ð½Ð¸Ðµ"
-      ],
+      "audienceIds": ["all"],
+      "tags": ["IT support","hardware","software","access","technical","laptop","IT запрос","оборудование"],
       "preconditions": [],
       "actions": [
-        {
-          "name": "Submit IT Request",
-          "type": "primary",
-          "handling": "url",
-          "tier": 1,
-          "desc": "Create a new IT support ticket"
-        },
-        {
-          "name": "Track My Tickets",
-          "type": "related",
-          "handling": "url",
-          "tier": 1,
-          "desc": "Check status of open and resolved tickets"
-        },
-        {
-          "name": "Request Software Access",
-          "type": "related",
-          "handling": "external_form",
-          "tier": 2,
-          "desc": "Fill access request form for new software"
-        },
-        {
-          "name": "Contact IT via Chat",
-          "type": "support",
-          "handling": "contact_owner",
-          "tier": 2,
-          "desc": "Send direct message to IT team"
-        }
+        {"name": "Submit IT Request",       "type": "primary", "handling": "url",           "tier": 1, "desc": "Create a new IT support ticket"},
+        {"name": "Track My Tickets",        "type": "related", "handling": "url",           "tier": 1, "desc": "Check status of open and resolved tickets"},
+        {"name": "Request Software Access", "type": "related", "handling": "external_form", "tier": 2, "desc": "Fill access request form for new software"},
+        {"name": "Contact IT via Chat",     "type": "support", "handling": "contact_owner", "tier": 2, "desc": "Send direct message to IT team"}
       ],
       "ecosystem": [
-        {
-          "name": "IT Asset Registry",
-          "icon": "ð¥",
-          "ctx": "Hardware requests logged in the asset management system"
-        },
-        {
-          "name": "Access Management",
-          "icon": "ð",
-          "ctx": "Software access grants tracked centrally by IT"
-        }
+        {"name": "IT Asset Registry", "icon": "🖥", "ctx": "Hardware requests logged in the asset management system"},
+        {"name": "Access Management", "icon": "🔑", "ctx": "Software access grants tracked centrally by IT"}
       ],
-      "reviewedAt": "2026-01-20",
-      "reviewCycle": 6
+      "reviewedAt": "2026-01-20", "reviewCycle": 6
     },
     {
-      "id": "benefits",
-      "name": "My Benefits",
-      "goal": "Access and manage your contractor benefits â coworking, events, and perks.",
+      "id": "benefits", "name": "My Benefits",
+      "goal": "Access and manage your contractor benefits — coworking, events, and perks.",
       "desc": "View your available benefits and submit reimbursement claims. Covers coworking space rent reimbursement up to your monthly limit, company event registration, and other contractor perks.",
-      "topicId": "benefits",
-      "systemId": "hr-portal",
-      "ownerTeamId": "hr-dept",
-      "status": "Active",
-      "opStatus": "available",
+      "topicId": "benefits", "systemId": "hr-portal", "ownerTeamId": "hr-dept",
+      "status": "Active", "opStatus": "available",
       "primaryUrl": "",
-      "audienceIds": [
-        "all"
-      ],
-      "tags": [
-        "benefits",
-        "coworking",
-        "events",
-        "perks",
-        "reimbursement",
-        "ÐºÐ¾Ð²Ð¾ÑÐºÐ¸Ð½Ð³",
-        "Ð»ÑÐ³Ð¾ÑÑ",
-        "Ð¼ÐµÑÐ¾Ð¿ÑÐ¸ÑÑÐ¸Ñ"
-      ],
+      "audienceIds": ["all"],
+      "tags": ["benefits","coworking","events","perks","reimbursement","коворкинг","льготы","мероприятия"],
       "preconditions": [],
       "actions": [
-        {
-          "name": "View My Benefits",
-          "type": "primary",
-          "handling": "url",
-          "tier": 1,
-          "desc": "Browse all available benefits and allowances"
-        },
-        {
-          "name": "Submit Coworking Claim",
-          "type": "related",
-          "handling": "url",
-          "tier": 1,
-          "desc": "Submit monthly coworking rent reimbursement"
-        },
-        {
-          "name": "Register for Event",
-          "type": "related",
-          "handling": "url",
-          "tier": 2,
-          "desc": "Sign up for company events and off-sites"
-        }
+        {"name": "View My Benefits",       "type": "primary", "handling": "url", "tier": 1, "desc": "Browse all available benefits and allowances"},
+        {"name": "Submit Coworking Claim", "type": "related", "handling": "url", "tier": 1, "desc": "Submit monthly coworking rent reimbursement"},
+        {"name": "Register for Event",     "type": "related", "handling": "url", "tier": 2, "desc": "Sign up for company events and off-sites"}
       ],
       "ecosystem": [
-        {
-          "name": "Finance Payroll",
-          "icon": "ð³",
-          "ctx": "Approved reimbursements included in your monthly payment"
-        },
-        {
-          "name": "HR Records",
-          "icon": "ð",
-          "ctx": "Benefit usage tracked against your annual allowance"
-        }
+        {"name": "Finance Payroll", "icon": "💳", "ctx": "Approved reimbursements included in your monthly payment"},
+        {"name": "HR Records",      "icon": "📁", "ctx": "Benefit usage tracked against your annual allowance"}
       ],
-      "reviewedAt": "2026-03-01",
-      "reviewCycle": 6
+      "reviewedAt": "2026-03-01", "reviewCycle": 6
     },
     {
-      "id": "termination",
-      "name": "Agreement Termination",
+      "id": "termination", "name": "Agreement Termination",
       "goal": "Initiate the offboarding process to formally terminate a contractor agreement.",
       "desc": "Submit a termination request to begin formal offboarding. Triggers a cascade across HR, Finance, IT, and Time Tracking: final PTR and invoice created, IT assets flagged for return, portal access revoked.",
-      "topicId": "team-management",
-      "systemId": "ops-portal",
-      "ownerTeamId": "hr-dept",
-      "status": "Active",
-      "opStatus": "available",
+      "topicId": "team-management", "systemId": "ops-portal", "ownerTeamId": "hr-dept",
+      "status": "Active", "opStatus": "available",
       "primaryUrl": "",
-      "audienceIds": [
-        "managers",
-        "hr"
-      ],
-      "tags": [
-        "termination",
-        "offboarding",
-        "agreement",
-        "separation",
-        "ÑÐ°ÑÑÐ¾ÑÐ¶ÐµÐ½Ð¸Ðµ",
-        "Ð¾ÑÑÐ±Ð¾ÑÐ´Ð¸Ð½Ð³"
-      ],
+      "audienceIds": ["managers", "hr"],
+      "tags": ["termination","offboarding","agreement","separation","расторжение","оффбординг"],
       "preconditions": [],
       "actions": [
-        {
-          "name": "Submit Termination Request",
-          "type": "primary",
-          "handling": "external_form",
-          "tier": 1,
-          "desc": "Fill the termination request form to start offboarding"
-        },
-        {
-          "name": "Check Offboarding Status",
-          "type": "related",
-          "handling": "url",
-          "tier": 1,
-          "desc": "Track cascade progress across all systems"
-        },
-        {
-          "name": "Contact HR",
-          "type": "support",
-          "handling": "contact_owner",
-          "tier": 2,
-          "desc": "Speak with HR BP about termination details"
-        }
+        {"name": "Submit Termination Request", "type": "primary", "handling": "external_form", "tier": 1, "desc": "Fill the termination request form to start offboarding"},
+        {"name": "Check Offboarding Status",   "type": "related", "handling": "url",           "tier": 1, "desc": "Track cascade progress across all systems"},
+        {"name": "Contact HR",                 "type": "support", "handling": "contact_owner", "tier": 2, "desc": "Speak with HR BP about termination details"}
       ],
       "ecosystem": [
-        {
-          "name": "HR Portal",
-          "icon": "ð¤",
-          "ctx": "Contractor status updated to Terminated, access revoked"
-        },
-        {
-          "name": "Time Tracking",
-          "icon": "â±",
-          "ctx": "Access locked; final PTR auto-triggered for review"
-        },
-        {
-          "name": "Finance",
-          "icon": "ð°",
-          "ctx": "Final invoice and outstanding accruals processed"
-        },
-        {
-          "name": "IT Assets",
-          "icon": "ð¥",
-          "ctx": "Equipment return workflow initiated with IT team"
-        }
+        {"name": "HR Portal",     "icon": "👤", "ctx": "Contractor status updated to Terminated, access revoked"},
+        {"name": "Time Tracking", "icon": "⏱", "ctx": "Access locked; final PTR auto-triggered for review"},
+        {"name": "Finance",       "icon": "💰", "ctx": "Final invoice and outstanding accruals processed"},
+        {"name": "IT Assets",     "icon": "🖥", "ctx": "Equipment return workflow initiated with IT team"}
       ],
-      "reviewedAt": "2026-02-15",
-      "reviewCycle": 12
+      "reviewedAt": "2026-02-15", "reviewCycle": 12
     }
   ],
   "processes": [
@@ -665,487 +206,234 @@
       "id": "month-end",
       "name": "Month-End Time Reporting",
       "goal": "Close the monthly time reporting cycle and trigger client invoicing.",
-      "desc": "Complete your monthly time reporting cycle â from worklog submission through PTR approval to invoice generation.",
       "scope": "From worklog submission through PTR approval to invoice generation. Excludes payroll processing and client payment tracking.",
       "triggerCondition": "Reporting period opens on the 1st of each month. Deadline: 5th of month.",
       "outputs": "Approved PTR and generated client invoice submitted to AR team.",
+      "desc": "Complete your monthly time reporting cycle — from worklog submission through PTR approval to invoice generation.",
       "ownerTeamId": "finance-team",
       "primaryUrl": "",
-      "audienceIds": [
-        "all"
-      ],
-      "topicIds": [
-        "time-reporting",
-        "finance-expenses"
-      ],
+      "audienceIds": ["all"],
+      "topicIds": ["time-reporting", "finance-expenses"],
       "relatedProcessIds": [],
-      "tags": [
-        "month-end",
-        "PTR",
-        "invoice",
-        "worklog",
-        "monthly"
-      ],
-      "icon": "🥶",
-      "color": "#E8F5E9",
-      "iconColor": "#2E7D32",
+      "tags": ["month-end", "PTR", "invoice", "worklog", "monthly"],
+      "icon": "📅", "color": "#E8F5E9", "iconColor": "#2E7D32",
       "steps": [
-        {
-          "groups": [
-            {
-              "label": null,
-              "steps": [
-                {
-                  "type": "atomic",
-                  "role": "Employee",
-                  "roleCls": "employee",
-                  "name": "Submit Worklogs",
-                  "service": "Worklog Submission",
-                  "svcId": "worklog",
-                  "triggerInput": "Reporting period opens (1st of month)",
-                  "successOutput": "All billable hours recorded in Time Tracking Portal",
-                  "failureOutput": "Incomplete worklogs block PTR submission"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "groups": [
-            {
-              "label": null,
-              "steps": [
-                {
-                  "type": "atomic",
-                  "role": "Employee",
-                  "roleCls": "employee",
-                  "name": "Submit PTR",
-                  "service": "Project Time Report",
-                  "svcId": "ptr",
-                  "triggerInput": "All worklogs submitted for the period",
-                  "successOutput": "PTR sent to line manager for review",
-                  "failureOutput": "PTR cannot be submitted with missing worklogs"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "groups": [
-            {
-              "label": null,
-              "steps": [
-                {
-                  "type": "human",
-                  "role": "Line Manager",
-                  "roleCls": "manager",
-                  "name": "Approve PTR",
-                  "human": "Review and approve in portal or via email notification",
-                  "triggerInput": "PTR submitted by employee",
-                  "successOutput": "PTR approved â invoice generation triggered automatically",
-                  "failureOutput": "PTR returned with comments for correction"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "groups": [
-            {
-              "label": null,
-              "steps": [
-                {
-                  "type": "atomic",
-                  "role": "Employee",
-                  "roleCls": "employee",
-                  "name": "Generate Invoice",
-                  "service": "Invoice Generation",
-                  "svcId": "invoice",
-                  "triggerInput": "PTR approval confirmed",
-                  "successOutput": "Draft invoice sent to AR team queue",
-                  "failureOutput": "Invoice generation fails if PTR data is incomplete"
-                }
-              ]
-            }
-          ]
-        }
+        {"groups":[{"label":null,"steps":[{
+          "type": "atomic", "role": "Employee", "roleCls": "employee",
+          "name": "Submit Worklogs", "service": "Worklog Submission", "svcId": "worklog",
+          "triggerInput": "Reporting period opens (1st of month)",
+          "successOutput": "All billable hours recorded in Time Tracking Portal",
+          "failureOutput": "Incomplete worklogs block PTR submission"
+        }]}]},
+        {"groups":[{"label":null,"steps":[{
+          "type": "atomic", "role": "Employee", "roleCls": "employee",
+          "name": "Submit PTR", "service": "Project Time Report", "svcId": "ptr",
+          "triggerInput": "All worklogs submitted for the period",
+          "successOutput": "PTR sent to line manager for review",
+          "failureOutput": "PTR cannot be submitted with missing worklogs"
+        }]}]},
+        {"groups":[{"label":null,"steps":[{
+          "type": "human", "role": "Line Manager", "roleCls": "manager",
+          "name": "Approve PTR",
+          "human": "Review and approve in portal or via email notification",
+          "triggerInput": "PTR submitted by employee",
+          "successOutput": "PTR approved — invoice generation triggered automatically",
+          "failureOutput": "PTR returned with comments for correction"
+        }]}]},
+        {"groups":[{"label":null,"steps":[{
+          "type": "atomic", "role": "Employee", "roleCls": "employee",
+          "name": "Generate Invoice", "service": "Invoice Generation", "svcId": "invoice",
+          "triggerInput": "PTR approval confirmed",
+          "successOutput": "Draft invoice sent to AR team queue",
+          "failureOutput": "Invoice generation fails if PTR data is incomplete"
+        }]}]}
       ]
     },
     {
       "id": "perf-cycle",
       "name": "Quarterly Performance Review",
       "goal": "Evaluate contractor performance and feed results into compensation and career decisions.",
-      "desc": "Full 360Â° performance cycle â self-assessment, peer feedback, manager scoring, HR calibration, and results.",
       "scope": "Self-assessment and peer feedback through manager scoring, HR calibration, and results release. Excludes compensation change execution.",
       "triggerCondition": "Start of each quarter (Jan, Apr, Jul, Oct). HR BP opens the review cycle in HR Portal.",
       "outputs": "Consolidated performance scores per contractor, visible in HR Portal and fed into compensation review.",
+      "desc": "Full 360° performance cycle — self-assessment, peer feedback, manager scoring, HR calibration, and results.",
       "ownerTeamId": "hr-dept",
       "primaryUrl": "",
-      "audienceIds": [
-        "all"
-      ],
-      "topicIds": [
-        "performance"
-      ],
+      "audienceIds": ["all"],
+      "topicIds": ["performance"],
       "relatedProcessIds": [],
-      "tags": [
-        "performance",
-        "360",
-        "quarterly",
-        "feedback",
-        "KPI"
-      ],
-      "icon": "🤖",
-      "color": "#FFF3E0",
-      "iconColor": "#E65100",
+      "tags": ["performance", "360", "quarterly", "feedback", "KPI"],
+      "icon": "🎯", "color": "#FFF3E0", "iconColor": "#E65100",
       "steps": [
-        {
-          "groups": [
-            {
-              "label": "Parallel (simultaneous)",
-              "steps": [
-                {
-                  "type": "atomic",
-                  "role": "Employee",
-                  "roleCls": "employee",
-                  "name": "Self-Assessment",
-                  "service": "Performance Review",
-                  "svcId": "perf-review",
-                  "triggerInput": "Quarterly review cycle announced by HR",
-                  "successOutput": "Self-assessment submitted",
-                  "failureOutput": "Incomplete submission escalated to HR BP"
-                },
-                {
-                  "type": "atomic",
-                  "role": "Peers",
-                  "roleCls": "employee",
-                  "name": "Peer Feedback",
-                  "service": "Performance Review",
-                  "svcId": "perf-review",
-                  "triggerInput": "Quarterly review cycle announced by HR",
-                  "successOutput": "Peer reviews submitted",
-                  "failureOutput": "Missing peer reviews flagged by HR BP"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "groups": [
-            {
-              "label": null,
-              "steps": [
-                {
-                  "type": "human",
-                  "role": "Line Manager",
-                  "roleCls": "manager",
-                  "name": "Manager Scoring",
-                  "human": "Score employee in HR system based on project delivery and peer feedback",
-                  "triggerInput": "Self-assessment and peer feedback received",
-                  "successOutput": "Manager scores recorded in HR system",
-                  "failureOutput": "Missing feedback â HR BP notified to chase"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "groups": [
-            {
-              "label": null,
-              "steps": [
-                {
-                  "type": "human",
-                  "role": "HR BP",
-                  "roleCls": "hr",
-                  "name": "HR Calibration",
-                  "human": "Calibrate scores across the team cohort for fairness",
-                  "triggerInput": "All manager scores submitted",
-                  "successOutput": "Scores calibrated and finalised",
-                  "failureOutput": "Score outliers flagged for re-review with manager"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "groups": [
-            {
-              "label": null,
-              "steps": [
-                {
-                  "type": "atomic",
-                  "role": "Employee",
-                  "roleCls": "employee",
-                  "name": "View Results",
-                  "service": "Performance Review",
-                  "svcId": "perf-review",
-                  "triggerInput": "HR calibration complete",
-                  "successOutput": "Results visible to employee and manager",
-                  "failureOutput": "Access issues â contact HR BP"
-                }
-              ]
-            }
-          ]
-        }
+        {"groups":[{"label":"Parallel (simultaneous)","steps":[
+          {
+            "type": "atomic", "role": "Employee", "roleCls": "employee",
+            "name": "Self-Assessment", "service": "Performance Review", "svcId": "perf-review",
+            "triggerInput": "Quarterly review cycle announced by HR",
+            "successOutput": "Self-assessment submitted",
+            "failureOutput": "Incomplete submission escalated to HR BP"
+          },
+          {
+            "type": "atomic", "role": "Peers", "roleCls": "employee",
+            "name": "Peer Feedback", "service": "Performance Review", "svcId": "perf-review",
+            "triggerInput": "Quarterly review cycle announced by HR",
+            "successOutput": "Peer reviews submitted",
+            "failureOutput": "Missing peer reviews flagged by HR BP"
+          }
+        ]}]},
+        {"groups":[{"label":null,"steps":[{
+          "type": "human", "role": "Line Manager", "roleCls": "manager",
+          "name": "Manager Scoring",
+          "human": "Score employee in HR system based on project delivery and peer feedback",
+          "triggerInput": "Self-assessment and peer feedback received",
+          "successOutput": "Manager scores recorded in HR system",
+          "failureOutput": "Missing feedback — HR BP notified to chase"
+        }]}]},
+        {"groups":[{"label":null,"steps":[{
+          "type": "human", "role": "HR BP", "roleCls": "hr",
+          "name": "HR Calibration",
+          "human": "Calibrate scores across the team cohort for fairness",
+          "triggerInput": "All manager scores submitted",
+          "successOutput": "Scores calibrated and finalised",
+          "failureOutput": "Score outliers flagged for re-review with manager"
+        }]}]},
+        {"groups":[{"label":null,"steps":[{
+          "type": "atomic", "role": "Employee", "roleCls": "employee",
+          "name": "View Results", "service": "Performance Review", "svcId": "perf-review",
+          "triggerInput": "HR calibration complete",
+          "successOutput": "Results visible to employee and manager",
+          "failureOutput": "Access issues — contact HR BP"
+        }]}]}
       ]
     },
     {
       "id": "onboarding",
       "name": "Contractor Onboarding",
-      "goal": "Get a new contractor fully operational â access, equipment, and first worklog â within their first week.",
-      "desc": "Everything needed to get a new contractor fully operational â from signed agreement to first worklog.",
+      "goal": "Get a new contractor fully operational — access, equipment, and first worklog — within their first week.",
       "scope": "From signed contractor agreement through equipment provisioning and portal setup to first submitted worklog. Excludes legal contract negotiation.",
       "triggerCondition": "Contractor agreement signed and confirmed in legal system by HR BP.",
       "outputs": "Contractor is active: has equipment, all portal access granted, company policies understood, first worklog submitted.",
+      "desc": "Everything needed to get a new contractor fully operational — from signed agreement to first worklog.",
       "ownerTeamId": "hr-dept",
       "primaryUrl": "",
-      "audienceIds": [
-        "managers",
-        "hr"
-      ],
-      "topicIds": [
-        "time-reporting",
-        "it-resources",
-        "team-management"
-      ],
-      "relatedProcessIds": [
-        "termination-process"
-      ],
-      "tags": [
-        "onboarding",
-        "new contractor",
-        "equipment",
-        "access",
-        "Ð¿ÐµÑÐ²ÑÐ¹ Ð´ÐµÐ½Ñ"
-      ],
-      "icon": "😈",
-      "color": "#F3E5F5",
-      "iconColor": "#7B1FA2",
+      "audienceIds": ["hr", "managers"],
+      "topicIds": ["team-management", "it-resources", "time-reporting"],
+      "relatedProcessIds": ["termination-process"],
+      "tags": ["onboarding", "new contractor", "equipment", "access", "первый день"],
+      "icon": "🚀", "color": "#F3E5F5", "iconColor": "#7B1FA2",
       "steps": [
-        {
-          "groups": [
-            {
-              "label": null,
-              "steps": [
-                {
-                  "type": "human",
-                  "role": "HR BP",
-                  "roleCls": "hr",
-                  "name": "Agreement Signed",
-                  "human": "Contractor agreement finalized and signed in legal system",
-                  "triggerInput": "Contractor offer accepted",
-                  "successOutput": "Signed agreement recorded in legal system",
-                  "failureOutput": "Onboarding paused until agreement is signed"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "groups": [
-            {
-              "label": "Parallel (all at once)",
-              "steps": [
-                {
-                  "type": "atomic",
-                  "role": "Employee",
-                  "roleCls": "employee",
-                  "name": "Set Up Time Tracking",
-                  "service": "Worklog Submission",
-                  "svcId": "worklog",
-                  "triggerInput": "Agreement signed",
-                  "successOutput": "Contractor has Time Tracking Portal access and first project assigned",
-                  "failureOutput": "Access issue â Finance team contacted"
-                },
-                {
-                  "type": "atomic",
-                  "role": "IT",
-                  "roleCls": "it",
-                  "name": "Provision Equipment",
-                  "service": "IT Support",
-                  "svcId": "it-support",
-                  "triggerInput": "Agreement signed",
-                  "successOutput": "Laptop and required software delivered",
-                  "failureOutput": "Equipment delay â IT team provides loaner or remote setup"
-                },
-                {
-                  "type": "human",
-                  "role": "HR BP",
-                  "roleCls": "hr",
-                  "name": "HR Intro Meeting",
-                  "human": "30-min intro call: benefits, policies, key contacts",
-                  "triggerInput": "Agreement signed",
-                  "successOutput": "Contractor understands company policies and key contacts",
-                  "failureOutput": "Meeting rescheduled â policies shared via email"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "groups": [
-            {
-              "label": null,
-              "steps": [
-                {
-                  "type": "atomic",
-                  "role": "Employee",
-                  "roleCls": "employee",
-                  "name": "Submit First Worklog",
-                  "service": "Worklog Submission",
-                  "svcId": "worklog",
-                  "triggerInput": "Time Tracking Portal access confirmed",
-                  "successOutput": "Contractor is fully operational",
-                  "failureOutput": "Worklog issues â Finance team contacted"
-                }
-              ]
-            }
-          ]
-        }
+        {"groups":[{"label":null,"steps":[{
+          "type": "human", "role": "HR BP", "roleCls": "hr",
+          "name": "Agreement Signed",
+          "human": "Contractor agreement finalized and signed in legal system",
+          "triggerInput": "Contractor offer accepted",
+          "successOutput": "Signed agreement recorded in legal system",
+          "failureOutput": "Onboarding paused until agreement is signed"
+        }]}]},
+        {"groups":[{"label":"Parallel (all at once)","steps":[
+          {
+            "type": "atomic", "role": "Employee", "roleCls": "employee",
+            "name": "Set Up Time Tracking", "service": "Worklog Submission", "svcId": "worklog",
+            "triggerInput": "Agreement signed",
+            "successOutput": "Contractor has Time Tracking Portal access and first project assigned",
+            "failureOutput": "Access issue — Finance team contacted"
+          },
+          {
+            "type": "atomic", "role": "IT", "roleCls": "it",
+            "name": "Provision Equipment", "service": "IT Support", "svcId": "it-support",
+            "triggerInput": "Agreement signed",
+            "successOutput": "Laptop and required software delivered",
+            "failureOutput": "Equipment delay — IT team provides loaner or remote setup"
+          },
+          {
+            "type": "human", "role": "HR BP", "roleCls": "hr",
+            "name": "HR Intro Meeting",
+            "human": "30-min intro call: benefits, policies, key contacts",
+            "triggerInput": "Agreement signed",
+            "successOutput": "Contractor understands company policies and key contacts",
+            "failureOutput": "Meeting rescheduled — policies shared via email"
+          }
+        ]}]},
+        {"groups":[{"label":null,"steps":[{
+          "type": "atomic", "role": "Employee", "roleCls": "employee",
+          "name": "Submit First Worklog", "service": "Worklog Submission", "svcId": "worklog",
+          "triggerInput": "Time Tracking Portal access confirmed",
+          "successOutput": "Contractor is fully operational",
+          "failureOutput": "Worklog issues — Finance team contacted"
+        }]}]}
       ]
     },
     {
       "id": "termination-process",
       "name": "Agreement Termination",
       "goal": "Formally terminate a contractor agreement and complete all offboarding steps across HR, Finance, and IT.",
-      "desc": "Submit a termination request to begin formal offboarding. Triggers a cascade across HR, Finance, IT, and Time Tracking.",
       "scope": "From termination request submission to automated notifications and offboarding cascade. Excludes legal archiving of contract documents.",
       "triggerCondition": "Manager or HR BP submits Agreement Termination request form in Operations Portal.",
       "outputs": "Contractor access revoked, final PTR and invoice triggered, IT equipment return initiated, all stakeholders notified.",
+      "desc": "Submit a termination request to begin formal offboarding. Triggers a cascade across HR, Finance, IT, and Time Tracking.",
       "ownerTeamId": "hr-dept",
       "primaryUrl": "",
-      "audienceIds": [
-        "managers",
-        "hr"
-      ],
-      "topicIds": [
-        "team-management"
-      ],
-      "relatedProcessIds": [
-        "onboarding"
-      ],
-      "tags": [
-        "termination",
-        "offboarding",
-        "ÑÐ°ÑÑÐ¾ÑÐ¶ÐµÐ½Ð¸Ðµ",
-        "agreement"
-      ],
-      "icon": "🙀",
-      "color": "#FCE4EC",
-      "iconColor": "#880E4F",
+      "audienceIds": ["managers", "hr"],
+      "topicIds": ["team-management"],
+      "relatedProcessIds": ["onboarding"],
+      "tags": ["termination", "offboarding", "расторжение", "agreement"],
+      "icon": "🔚", "color": "#FCE4EC", "iconColor": "#880E4F",
       "steps": [
-        {
-          "groups": [
-            {
-              "label": null,
-              "steps": [
-                {
-                  "type": "atomic",
-                  "role": "Manager / HR BP",
-                  "roleCls": "manager",
-                  "name": "Submit Termination Request",
-                  "service": "Agreement Termination",
-                  "svcId": "termination",
-                  "triggerInput": "Decision on contractor termination agreed",
-                  "successOutput": "Termination request saved and sent to backend",
-                  "failureOutput": "Form incomplete â requester contacted by portal admin"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "groups": [
-            {
-              "label": null,
-              "steps": [
-                {
-                  "type": "atomic",
-                  "role": "Operations Portal",
-                  "roleCls": "it",
-                  "name": "Send Notification Email",
-                  "service": "Agreement Termination",
-                  "svcId": "termination",
-                  "triggerInput": "Termination request submitted",
-                  "successOutput": "Email notification sent to all stakeholders (HR, Finance, IT, managers)",
-                  "failureOutput": "Request status set to Failed â visible on History page"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "groups": [
-            {
-              "label": "Parallel (all at once)",
-              "steps": [
-                {
-                  "type": "human",
-                  "role": "HR BP",
-                  "roleCls": "hr",
-                  "name": "Revoke Portal Access",
-                  "human": "Deactivate contractor account in HR Portal and all connected systems",
-                  "triggerInput": "Termination notification email sent",
-                  "successOutput": "All portal access revoked",
-                  "failureOutput": "Access issue escalated to IT"
-                },
-                {
-                  "type": "atomic",
-                  "role": "Finance",
-                  "roleCls": "finance",
-                  "name": "Trigger Final PTR & Invoice",
-                  "service": "Project Time Report",
-                  "svcId": "ptr",
-                  "triggerInput": "Termination notification email sent",
-                  "successOutput": "Final PTR auto-created; invoice generated after approval",
-                  "failureOutput": "Missing worklogs â Finance team contacts manager"
-                },
-                {
-                  "type": "atomic",
-                  "role": "IT",
-                  "roleCls": "it",
-                  "name": "Initiate Equipment Return",
-                  "service": "IT Support",
-                  "svcId": "it-support",
-                  "triggerInput": "Termination notification email sent",
-                  "successOutput": "Equipment return ticket created and assigned",
-                  "failureOutput": "Equipment location unknown â IT contacts manager"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "groups": [
-            {
-              "label": null,
-              "steps": [
-                {
-                  "type": "human",
-                  "role": "HR BP",
-                  "roleCls": "hr",
-                  "name": "Review & Confirm Completion",
-                  "human": "Check all offboarding steps completed; mark process as closed",
-                  "triggerInput": "All parallel steps resolved",
-                  "successOutput": "Offboarding complete â contractor record archived",
-                  "failureOutput": "Outstanding items tracked until resolved"
-                }
-              ]
-            }
-          ]
-        }
+        {"groups":[{"label":null,"steps":[{
+          "type": "atomic", "role": "Manager / HR BP", "roleCls": "manager",
+          "name": "Submit Termination Request", "service": "Agreement Termination", "svcId": "termination",
+          "triggerInput": "Decision on contractor termination agreed",
+          "successOutput": "Termination request saved and sent to backend",
+          "failureOutput": "Form incomplete — requester contacted by portal admin"
+        }]}]},
+        {"groups":[{"label":null,"steps":[{
+          "type": "atomic", "role": "Operations Portal", "roleCls": "it",
+          "name": "Send Notification Email", "service": "Agreement Termination", "svcId": "termination",
+          "triggerInput": "Termination request submitted",
+          "successOutput": "Email notification sent to all stakeholders (HR, Finance, IT, managers)",
+          "failureOutput": "Request status set to Failed — visible on History page"
+        }]}]},
+        {"groups":[{"label":"Parallel (all at once)","steps":[
+          {
+            "type": "human", "role": "HR BP", "roleCls": "hr",
+            "name": "Revoke Portal Access",
+            "human": "Deactivate contractor account in HR Portal and all connected systems",
+            "triggerInput": "Termination notification email sent",
+            "successOutput": "All portal access revoked",
+            "failureOutput": "Access issue escalated to IT"
+          },
+          {
+            "type": "atomic", "role": "Finance", "roleCls": "finance",
+            "name": "Trigger Final PTR & Invoice", "service": "Project Time Report", "svcId": "ptr",
+            "triggerInput": "Termination notification email sent",
+            "successOutput": "Final PTR auto-created; invoice generated after approval",
+            "failureOutput": "Missing worklogs — Finance team contacts manager"
+          },
+          {
+            "type": "atomic", "role": "IT", "roleCls": "it",
+            "name": "Initiate Equipment Return", "service": "IT Support", "svcId": "it-support",
+            "triggerInput": "Termination notification email sent",
+            "successOutput": "Equipment return ticket created and assigned",
+            "failureOutput": "Equipment location unknown — IT contacts manager"
+          }
+        ]}]},
+        {"groups":[{"label":null,"steps":[{
+          "type": "human", "role": "HR BP", "roleCls": "hr",
+          "name": "Review & Confirm Completion",
+          "human": "Check all offboarding steps completed; mark process as closed",
+          "triggerInput": "All parallel steps resolved",
+          "successOutput": "Offboarding complete — contractor record archived",
+          "failureOutput": "Outstanding items tracked until resolved"
+        }]}]}
       ]
     }
   ],
   "articles": [
     {
       "id": "termination-form-guide",
-      "title": "Agreement Termination",
+      "title": "Agreement Termination — How to Fill the Form",
       "type": "guide",
-      "serviceIds": [
-        "termination"
-      ],
+      "serviceIds": ["termination"],
       "responsibleId": "hr-dept",
       "url": "https://github.com/stemmets/personal-workspace"
     },
@@ -1153,11 +441,7 @@
       "id": "contractor-handbook",
       "title": "Contractor Handbook",
       "type": "reference",
-      "serviceIds": [
-        "benefits",
-        "worklog",
-        "termination"
-      ],
+      "serviceIds": ["benefits", "worklog", "termination"],
       "responsibleId": "hr-dept",
       "url": ""
     }
