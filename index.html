@@ -81,6 +81,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .btn-primary:hover{background:var(--green-dk)}
 .btn-primary.contact{background:var(--blue)} .btn-primary.contact:hover{background:#1565C0}
 .btn-primary.manual{background:#757575} .btn-primary.manual:hover{background:#424242}
+.sc-plink{padding:6px 12px;background:#E3F2FD;color:#1565C0;border-radius:6px;font-size:12px;font-weight:600;text-decoration:none;display:flex;align-items:center;gap:4px;transition:background .1s;white-space:nowrap}
+.sc-plink:hover{background:#BBDEFB}
 .sc-more{font-size:11px;color:var(--text3);margin-left:auto}
 .sc-precond{padding:6px 16px 10px;font-size:11px;color:#E65100;background:var(--orange-lt);display:flex;align-items:flex-start;gap:5px}
 
@@ -96,6 +98,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .proc-meta h3{font-size:14px;font-weight:700;color:var(--text)}
 .proc-meta p{font-size:12px;color:var(--text2);margin-top:2px}
 .proc-owner{font-size:11px;color:var(--text3);margin-top:3px}
+.proc-link{display:inline-flex;align-items:center;gap:4px;margin-top:6px;font-size:11px;font-weight:600;color:#1565C0;background:#E3F2FD;padding:3px 10px;border-radius:8px;text-decoration:none;transition:background .15s}
+.proc-link:hover{background:#BBDEFB}
 .proc-toggle{margin-left:auto;font-size:18px;color:var(--text3);transition:transform .2s;cursor:pointer;padding:0 4px;line-height:1}
 .proc-toggle.open{transform:rotate(180deg)}
 .proc-steps{padding:0 18px 16px;display:none}
@@ -163,6 +167,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .dp-eco-ctx{font-size:11px;color:var(--text2);margin-top:2px;line-height:1.4}
 .dp-tags{display:flex;flex-wrap:wrap;gap:5px}
 .dp-tag{font-size:11px;background:#F3F4F6;color:var(--text2);padding:3px 9px;border-radius:12px}
+.dp-primary-link{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;background:#E8F5E9;color:#2E7D32;border-radius:8px;font-size:13px;font-weight:700;text-decoration:none;transition:background .15s;margin-bottom:4px}
+.dp-primary-link:hover{background:#C8E6C9}
 .dp-articles{display:flex;flex-direction:column;gap:6px}
 .dp-article-row{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:8px;background:#FAFAFA;border:1px solid var(--border);text-decoration:none;color:inherit;transition:background .15s}
 .dp-article-row:hover{background:#F0F4FF;border-color:#BFCFFF}
@@ -212,7 +218,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 
 <!-- PROCESSES -->
 <div class="section" id="processSection">
-  <div class="section-title">🗺 Resolution Paths <span class="section-count" id="procCount">3</span></div>
+  <div class="section-title">🗺 Processes <span class="section-count" id="procCount">3</span></div>
   <div class="process-list" id="processList"></div>
 </div>
 
@@ -570,6 +576,7 @@ function renderServiceCard(svc){
   <div class="sc-divider"></div>
   <div class="sc-bottom">
     ${primaryAct ? `<button class="btn-primary ${btnCls}" onclick="event.stopPropagation();openDetail('${svc.id}')">${handlingIcon(primaryAct.handling)} ${primaryAct.name}</button>` : ''}
+    ${svc.primaryUrl ? `<a class="sc-plink" href="${svc.primaryUrl}" target="_blank" rel="noopener" onclick="event.stopPropagation()">🔗 Open</a>` : ''}
     ${otherCount > 0 ? `<span class="sc-more">+ ${otherCount} action${otherCount>1?'s':''}</span>` : ''}
   </div>
 </div>`;
@@ -608,6 +615,7 @@ function renderProcessCard(proc){
       <h3>${proc.name}</h3>
       <p>${proc.desc}</p>
       <div class="proc-owner">Owner: ${(teamById[proc.ownerTeamId]||{}).name||proc.ownerTeamId||''} · ${proc.steps.length} phases</div>
+      ${proc.primaryUrl ? `<a class="proc-link" href="${proc.primaryUrl}" target="_blank" rel="noopener" onclick="event.stopPropagation()">🔗 Open process →</a>` : ''}
     </div>
     <span class="proc-toggle" id="ptog-${proc.id}">⌄</span>
   </div>
@@ -652,6 +660,13 @@ function openDetail(id){
   document.getElementById('dpReview').textContent = svc.reviewedAt ? `Reviewed ${svc.reviewedAt} · every ${svc.reviewCycle}mo` : '';
 
   let body = '';
+
+  // Primary link
+  if(svc.primaryUrl){
+    body += `<div class="dp-section" style="padding-bottom:0">
+      <a class="dp-primary-link" href="${svc.primaryUrl}" target="_blank" rel="noopener">🔗 Open service →</a>
+    </div>`;
+  }
 
   // Business Goal
   body += `<div class="dp-section">
@@ -777,11 +792,12 @@ function applyFilters(){
 
   // filter processes by topic/search
   const procFiltered = PROCESSES.filter(proc=>{
-    if(searchQuery){
-      const hay = [proc.name, proc.desc, ...proc.steps.flatMap(col=>col.groups.flatMap(g=>g.steps.map(s=>s.name+' '+(s.service||''))))].join(' ').toLowerCase();
-      return hay.includes(searchQuery);
-    }
-    return true;
+    const topicMatch = activeTopic === 'all' || (proc.topicIds||[]).includes(activeTopic);
+    if(!topicMatch) return false;
+    if(!searchQuery) return true;
+    const hay = [proc.name, proc.desc, ...(proc.tags||[]),
+      ...proc.steps.flatMap(col=>col.groups.flatMap(g=>g.steps.map(s=>s.name+' '+(s.service||''))))].join(' ').toLowerCase();
+    return hay.includes(searchQuery);
   });
   const procList = document.getElementById('processList');
   procList.innerHTML = procFiltered.map(renderProcessCard).join('');

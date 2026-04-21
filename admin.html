@@ -187,6 +187,14 @@ let dirty     = false;
 const ACTION_TYPES   = ['primary','related','support','admin'];
 const HANDLING_TYPES = ['url','contact_owner','external_form','manual_step'];
 const OP_STATUSES    = ['available','degraded','unavailable','maintenance'];
+const AUDIENCE_ROLES = [
+  {id:'all',      name:'All contractors'},
+  {id:'managers', name:'Managers & Team Leads'},
+  {id:'hr',       name:'HR team'},
+  {id:'finance',  name:'Finance team'},
+  {id:'it',       name:'IT team'},
+  {id:'ops',      name:'Operations team'},
+];
 
 // ═══════════════════════════
 //  CONFIG
@@ -397,30 +405,6 @@ function renderForm(item){
 // ═══════════════════════════
 //  REFERENCE FORMS
 // ═══════════════════════════
-function renderDomainForm(d){
-  const isNew=!d;
-  document.getElementById('editPane').innerHTML=`
-<div class="form-h">${isNew?'+ New Domain':esc(d.name)}<span class="badge">${isNew?'New':'Edit'}</span></div>
-<div class="sec">
-  <div class="sec-h">Domain</div>
-  <div class="fr2">
-    <div><label>ID (slug)</label><input type="text" id="dId" value="${esc(d?.id||'')}" ${isNew?'':'readonly style="background:#F5F5F5"'} oninput="autoId('dId','dName')"></div>
-    <div><label>Name</label><input type="text" id="dName" value="${esc(d?.name||'')}" oninput="autoId('dId','dName')" ${isNew?'':''}></div>
-  </div>
-  <div class="fr fr-last"><label>Description</label><input type="text" id="dDesc" value="${esc(d?.desc||'')}" placeholder="What this domain covers"></div>
-</div>
-<div class="f-foot">
-  <button class="btn btn-green" onclick="saveDomain()">💾 Save</button>
-  <button class="btn btn-outline" onclick="cancelEdit()">Cancel</button>
-</div>`;
-}
-function saveDomain(){
-  const id=v('dId'),name=v('dName');
-  if(!id||!name){toast('ID and name required','err');return;}
-  const obj={id,name,desc:v('dDesc')};
-  upsert(DOMAINS,obj); saveDraft(); renderList(); editId=id; renderList();
-  toast(`Domain "${name}" saved`,'ok');
-}
 
 function renderTopicForm(t){
   const isNew=!t;
@@ -521,11 +505,13 @@ let _ac=0,_ec=0,_pc=0;
 
 function renderSvcForm(svc){
   const isNew=!svc;
-  const domOpts =DOMAINS.map(d=>`<option value="${d.id}"${svc?.domainId===d.id?' selected':''}>${d.name}</option>`).join('');
   const topOpts =TOPICS.map(t=>`<option value="${t.id}"${svc?.topicId===t.id?' selected':''}>${t.name}</option>`).join('');
   const sysOpts =SYSTEMS.map(s=>`<option value="${s.id}"${svc?.systemId===s.id?' selected':''}>${s.name}</option>`).join('');
   const tmOpts  =TEAMS.map(t=>`<option value="${t.id}"${svc?.ownerTeamId===t.id?' selected':''}>${t.name}</option>`).join('');
   const opOpts  =OP_STATUSES.map(s=>`<option${svc?.opStatus===s?' selected':''}>${s}</option>`).join('');
+  const svcAudience=svc?.audienceIds||['all'];
+  const audChecks=AUDIENCE_ROLES.map(r=>`<label style="display:flex;align-items:center;gap:6px;padding:4px 8px;border-radius:6px;cursor:pointer;background:#FAFAFA;border:1px solid #E0E0E0;font-size:12px;white-space:nowrap">
+    <input type="checkbox" value="${r.id}" ${svcAudience.includes(r.id)?'checked':''}> ${r.name}</label>`).join('');
   _ac=0;_ec=0;_pc=0;
 
   document.getElementById('editPane').innerHTML=`
@@ -544,14 +530,17 @@ function renderSvcForm(svc){
   <div class="fr"><label>Name</label><input type="text" id="fName" value="${esc(svc?.name||'')}" oninput="${isNew?"autoId('fId','fName')":''}"></div>
   <div class="fr"><label>Goal (one line)</label><input type="text" id="fGoal" value="${esc(svc?.goal||'')}"></div>
   <div class="fr"><label>Description</label><textarea id="fDesc" rows="3">${esc(svc?.desc||'')}</textarea></div>
+  <div class="fr"><label>Primary link (URL)</label><input type="text" id="fPrimaryUrl" value="${esc(svc?.primaryUrl||'')}" placeholder="https://portal.company.com/service/…"></div>
   <div class="fr2">
-    <div><label>Domain</label><select id="fDomain">${domOpts}</select></div>
     <div><label>Topic</label><select id="fTopic">${topOpts}</select></div>
-  </div>
-  <div class="fr3">
-    <div><label>System</label><select id="fSystem">${sysOpts}</select></div>
-    <div><label>Owner team</label><select id="fTeam">${tmOpts}</select></div>
     <div><label>Op. status</label><select id="fOp">${opOpts}</select></div>
+  </div>
+  <div class="fr2">
+    <div><label>System</label><select id="fSystem">${sysOpts}</select></div>
+    <div><label>Responsible team</label><select id="fTeam">${tmOpts}</select></div>
+  </div>
+  <div class="fr"><label>Visible to (audience)</label>
+    <div id="fAudience" style="display:flex;flex-wrap:wrap;gap:6px;padding:8px 0">${audChecks}</div>
   </div>
   <div class="fr2 fr-last">
     <div><label>Last reviewed</label><input type="date" id="fReviewed" value="${esc(svc?.reviewedAt||'')}"></div>
@@ -633,7 +622,9 @@ function saveSvc(){
     const ins=el.querySelectorAll('input[type=text]');
     return{name:ins[0]?.value||'',icon:ins[1]?.value||'',ctx:ins[2]?.value||''};
   }).filter(e=>e.name);
-  const obj={id,name,goal:v('fGoal'),desc:v('fDesc'),domainId:v('fDomain'),topicId:v('fTopic'),systemId:v('fSystem'),ownerTeamId:v('fTeam'),status:v('fStatus'),opStatus:v('fOp'),
+  const audienceIds=Array.from(document.querySelectorAll('#fAudience input:checked')).map(c=>c.value);
+  const obj={id,name,goal:v('fGoal'),desc:v('fDesc'),topicId:v('fTopic'),systemId:v('fSystem'),ownerTeamId:v('fTeam'),status:v('fStatus'),opStatus:v('fOp'),
+    primaryUrl:v('fPrimaryUrl'),audienceIds,
     tags:(v('fTags')||'').split(',').map(t=>t.trim()).filter(Boolean),preconditions:precs,actions:acts,ecosystem:ecos,
     reviewedAt:v('fReviewed'),reviewCycle:parseInt(v('fCycle')||6)};
   upsert(SERVICES,obj); saveDraft(); editId=id; renderList();
@@ -650,6 +641,9 @@ function renderProcForm(proc){
     <input type="checkbox" value="${t.id}" ${(proc?.topicIds||[]).includes(t.id)?'checked':''}> ${t.name}</label>`).join('');
   const relChecks=PROCESSES.filter(p=>p.id!==proc?.id).map(p=>`<label style="display:flex;align-items:center;gap:5px;font-size:11px;font-weight:400;text-transform:none;letter-spacing:0;margin-bottom:3px;cursor:pointer">
     <input type="checkbox" value="${p.id}" ${(proc?.relatedProcessIds||[]).includes(p.id)?'checked':''}> ${p.name}</label>`).join('');
+  const procAudience=proc?.audienceIds||['all'];
+  const audChecks=AUDIENCE_ROLES.map(r=>`<label style="display:flex;align-items:center;gap:6px;padding:4px 8px;border-radius:6px;cursor:pointer;background:#FAFAFA;border:1px solid #E0E0E0;font-size:12px;white-space:nowrap">
+    <input type="checkbox" value="${r.id}" ${procAudience.includes(r.id)?'checked':''}> ${r.name}</label>`).join('');
   document.getElementById('editPane').innerHTML=`
 <div class="form-h">${isNew?'+ New Process':esc(proc.name)}<span class="badge">${isNew?'New':'Edit'}</span></div>
 
@@ -657,7 +651,7 @@ function renderProcForm(proc){
   <div class="sec-h">Identity</div>
   <div class="fr2">
     <div><label>ID (slug)</label><input type="text" id="pId" value="${esc(proc?.id||'')}" ${isNew?'oninput="autoId(\'pId\',\'pName\')"':'readonly style="background:#F5F5F5"'}></div>
-    <div><label>Owner team</label><select id="pTeam">${tmOpts}</select></div>
+    <div><label>Responsible team</label><select id="pTeam">${tmOpts}</select></div>
   </div>
   <div class="fr2 fr-last">
     <div><label>Tags (comma-separated)</label><input type="text" id="pTags" value="${esc((proc?.tags||[]).join(', '))}"></div>
@@ -668,11 +662,19 @@ function renderProcForm(proc){
 <div class="sec">
   <div class="sec-h">Process Passport</div>
   <div class="fr"><label>Name</label><input type="text" id="pName" value="${esc(proc?.name||'')}" oninput="${isNew?"autoId('pId','pName')":''}"></div>
+  <div class="fr"><label>Primary link (URL)</label><input type="text" id="pPrimaryUrl" value="${esc(proc?.primaryUrl||'')}" placeholder="https://portal.company.com/process/…"></div>
   <div class="fr"><label>Goal / Objective</label><input type="text" id="pGoal" value="${esc(proc?.goal||'')}" placeholder="What does this process achieve?"></div>
   <div class="fr"><label>Description (for portal card)</label><textarea id="pDesc" rows="2">${esc(proc?.desc||'')}</textarea></div>
   <div class="fr"><label>Scope</label><textarea id="pScope" rows="2" placeholder="What is included and excluded from this process?">${esc(proc?.scope||'')}</textarea></div>
   <div class="fr"><label>Trigger condition (what starts the process)</label><input type="text" id="pTrigger" value="${esc(proc?.triggerCondition||'')}" placeholder="e.g. Reporting period opens on 1st of month"></div>
   <div class="fr fr-last"><label>Outputs (what comes out at the end)</label><input type="text" id="pOutputs" value="${esc(proc?.outputs||'')}" placeholder="e.g. Approved PTR and generated invoice"></div>
+</div>
+
+<div class="sec">
+  <div class="sec-h">Visibility</div>
+  <div class="fr fr-last"><label>Visible to (audience)</label>
+    <div id="pAudience" style="display:flex;flex-wrap:wrap;gap:6px;padding:8px 0">${audChecks}</div>
+  </div>
 </div>
 
 <div class="sec">
@@ -686,7 +688,7 @@ function renderProcForm(proc){
 
 ${relChecks ? `<div class="sec">
   <div class="sec-h">Related processes</div>
-  <div>${relChecks}</div>
+  <div id="pRelated">${relChecks}</div>
 </div>` : ''}
 
 <div class="sec">
@@ -708,8 +710,9 @@ function saveProc(){
   catch(e){document.getElementById('pStepsErr').style.display='';toast('Steps JSON invalid','err');return;}
   const topicIds=Array.from(document.querySelectorAll('#pTopics input:checked')).map(c=>c.value);
   const relIds=Array.from(document.querySelectorAll('#pRelated input:checked')).map(c=>c.value);
+  const audienceIds=Array.from(document.querySelectorAll('#pAudience input:checked')).map(c=>c.value);
   const obj={id,name,goal:v('pGoal'),desc:v('pDesc'),scope:v('pScope'),triggerCondition:v('pTrigger'),outputs:v('pOutputs'),
-    ownerTeamId:v('pTeam'),topicIds,relatedProcessIds:relIds,
+    ownerTeamId:v('pTeam'),primaryUrl:v('pPrimaryUrl'),audienceIds,topicIds,relatedProcessIds:relIds,
     tags:(v('pTags')||'').split(',').map(t=>t.trim()).filter(Boolean),
     icon:v('pIcon'),color:v('pColor'),iconColor:v('pIconColor'),steps};
   upsert(PROCESSES,obj); saveDraft(); editId=id; renderList();
@@ -736,7 +739,10 @@ function renderArtForm(art){
   <div class="fr"><label>Linked services</label>
     <div id="aSvcs" style="display:flex;flex-wrap:wrap;gap:6px;padding:8px 0">${svcChecks}</div>
   </div>
-  <div class="fr fr-last"><label>URL</label><input type="text" id="aUrl" value="${esc(art?.url||'')}" placeholder="https://confluence.company.com/…"></div>
+  <div class="fr2">
+    <div><label>Responsible team</label><select id="aResp"><option value="">— not set —</option>${TEAMS.map(t=>`<option value="${t.id}"${art?.responsibleId===t.id?' selected':''}>${t.name}</option>`).join('')}</select></div>
+    <div><label>URL</label><input type="text" id="aUrl" value="${esc(art?.url||'')}" placeholder="https://confluence.company.com/…"></div>
+  </div>
 </div>
 <div class="f-foot">
   <button class="btn btn-green" onclick="saveArt()">💾 Save article</button>
@@ -747,7 +753,7 @@ function saveArt(){
   const id=v('aId'),title=v('aTitle');
   if(!id||!title){toast('ID and title required','err');return;}
   const serviceIds=Array.from(document.querySelectorAll('#aSvcs input:checked')).map(c=>c.value);
-  const obj={id,title,type:v('aType'),serviceIds,url:v('aUrl')};
+  const obj={id,title,type:v('aType'),serviceIds,responsibleId:v('aResp')||undefined,url:v('aUrl')};
   upsert(ARTICLES,obj); saveDraft(); editId=id; renderList();
   toast(`Article "${title}" saved`,'ok');
 }
