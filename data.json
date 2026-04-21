@@ -957,9 +957,10 @@
       "id": "some-corp-docs",
       "title": "Some Corp Docs",
       "type": "guide",
-      "serviceId": "it-support",
-      "url": "https://github.com/stemmets/personal-workspace",
-      "lastReviewedAt": ""
+      "serviceIds": [
+        "worklog"
+      ],
+      "url": "https://github.com/stemmets/personal-workspace"
     }
   ]
 }
