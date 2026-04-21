@@ -588,12 +588,15 @@
       "name": "Agreement Termination",
       "goal": "Initiate the offboarding process to formally terminate a contractor agreement.",
       "desc": "Submit a termination request to begin formal offboarding. Triggers a cascade across HR, Finance, IT, and Time Tracking: final PTR and invoice created, IT assets flagged for return, portal access revoked.",
-      "domainId": "hr",
       "topicId": "team-management",
       "systemId": "ops-portal",
       "ownerTeamId": "hr-dept",
       "status": "Active",
       "opStatus": "available",
+      "primaryUrl": "https://docs.google.com/presentation/d/1BLcJ14Si3czGXBpA59PhUmsiNUyclMS3PGzzT0JHmos/edit?slide=id.p4#slide=id.p4",
+      "audienceIds": [
+        "managers"
+      ],
       "tags": [
         "termination",
         "offboarding",
