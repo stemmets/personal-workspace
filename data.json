@@ -925,8 +925,8 @@
       "id": "some-corp-docs",
       "title": "Some Corp Docs",
       "type": "guide",
-      "serviceId": "ptr",
-      "url": "",
+      "serviceId": "it-support",
+      "url": "https://github.com/stemmets/personal-workspace",
       "lastReviewedAt": ""
     }
   ]
