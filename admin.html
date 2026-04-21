@@ -154,8 +154,7 @@ textarea{resize:vertical;line-height:1.5}
   <div class="list-pane">
     <!-- sub-nav for references -->
     <div class="sub-nav" id="subNav">
-      <div class="sub-tab active" id="st-domains" onclick="switchRef('domains')">Domains</div>
-      <div class="sub-tab" id="st-topics"  onclick="switchRef('topics')">Topics</div>
+      <div class="sub-tab active" id="st-topics"  onclick="switchRef('topics')">Topics</div>
       <div class="sub-tab" id="st-systems" onclick="switchRef('systems')">Systems</div>
       <div class="sub-tab" id="st-teams"   onclick="switchRef('teams')">Teams</div>
     </div>
@@ -179,7 +178,7 @@ textarea{resize:vertical;line-height:1.5}
 // ═══════════════════════════
 //  STATE
 // ═══════════════════════════
-let DOMAINS=[], TOPICS=[], SYSTEMS=[], TEAMS=[], SERVICES=[], PROCESSES=[], ARTICLES=[];
+let TOPICS=[], SYSTEMS=[], TEAMS=[], SERVICES=[], PROCESSES=[], ARTICLES=[];
 let activeTab = 'ref';
 let activeRef = 'domains';
 let editId    = null;
@@ -252,8 +251,8 @@ async function publishToGH(){
 // ═══════════════════════════
 //  DRAFT
 // ═══════════════════════════
-function exportData(){ return {domains:DOMAINS,topics:TOPICS,systems:SYSTEMS,teams:TEAMS,services:SERVICES,processes:PROCESSES,articles:ARTICLES}; }
-function applyData(d){ DOMAINS=d.domains||[];TOPICS=d.topics||[];SYSTEMS=d.systems||[];TEAMS=d.teams||[];SERVICES=d.services||[];PROCESSES=d.processes||[];ARTICLES=d.articles||[]; }
+function exportData(){ return {topics:TOPICS,systems:SYSTEMS,teams:TEAMS,services:SERVICES,processes:PROCESSES,articles:ARTICLES}; }
+function applyData(d){ TOPICS=d.topics||[];SYSTEMS=d.systems||[];TEAMS=d.teams||[];SERVICES=d.services||[];PROCESSES=d.processes||[];ARTICLES=d.articles||[]; }
 function saveDraft(){ localStorage.setItem('pw_adm_draft',JSON.stringify(exportData())); dirty=true; setPub('Unsaved changes'); }
 function loadDraft(){ const s=localStorage.getItem('pw_adm_draft'); if(!s) return false; try{applyData(JSON.parse(s));return true;}catch(e){return false;} }
 
@@ -286,7 +285,7 @@ function switchTab(tab){
 
 function switchRef(ref){
   activeRef=ref; editId=null;
-  ['domains','topics','systems','teams'].forEach(r=>{
+  ['topics','systems','teams'].forEach(r=>{
     document.getElementById('st-'+r).classList.toggle('active',r===ref);
   });
   resetPane(); renderList();
@@ -305,13 +304,13 @@ function renderList(){
   let html='';
 
   if(activeTab==='ref'){
-    const map={domains:DOMAINS,topics:TOPICS,systems:SYSTEMS,teams:TEAMS};
+    const map={topics:TOPICS,systems:SYSTEMS,teams:TEAMS};
     const items=(map[activeRef]||[]).filter(i=>!q||i.name.toLowerCase().includes(q)||i.id.toLowerCase().includes(q));
     if(!items.length){html='<div style="padding:20px;text-align:center;color:var(--text3);font-size:12px">Nothing here yet</div>';}
     else items.forEach(i=>{
-      const extra = activeRef==='topics' ? `<span class="color-preview" style="background:${i.bg||'#eee'}"></span> ${i.domainId||''}` :
-                    activeRef==='systems' ? i.ownerTeamId||'' :
-                    activeRef==='teams'   ? (i.contactEmail||'') : (i.desc||'');
+      const extra = activeRef==='topics'  ? `<span class="color-preview" style="background:${i.bg||'#eee'}"></span>` :
+                    activeRef==='systems' ? (i.ownerTeamId||'') :
+                    activeRef==='teams'   ? (i.contactEmail||'') : '';
       html+=`<div class="ref-row${editId===i.id?' active':''}" onclick="editItem('${i.id}')">
         <span class="ref-id">${esc(i.id)}</span>
         <span class="ref-name">${esc(i.name)}</span>
@@ -346,7 +345,7 @@ function renderList(){
     if(!items.length){html='<div style="padding:20px;text-align:center;color:var(--text3);font-size:12px">No articles yet</div>';}
     else items.forEach(a=>{
       html+=`<div class="row${editId===a.id?' active':''}" onclick="editItem('${a.id}')">
-        <div class="row-info"><div class="row-name">${esc(a.title)}</div><div class="row-sub">${esc(a.type||'')} · ${esc((SERVICES.find(s=>s.id===a.serviceId)||{}).name||a.serviceId||'')}</div></div>
+        <div class="row-info"><div class="row-name">${esc(a.title)}</div><div class="row-sub">${esc(a.type||'')} · ${(a.serviceIds||[]).map(sid=>(SERVICES.find(s=>s.id===sid)||{}).name||sid).join(', ')||'—'}</div></div>
         <button class="row-del" onclick="event.stopPropagation();delItem('${a.id}')">✕</button>
       </div>`;
     });
@@ -363,7 +362,7 @@ function startNew(){ editId='__new__'; renderList(); renderForm(null); }
 function editItem(id){
   editId=id; renderList();
   let item=null;
-  if(activeTab==='ref'){const arr={domains:DOMAINS,topics:TOPICS,systems:SYSTEMS,teams:TEAMS}[activeRef];item=arr.find(x=>x.id===id);}
+  if(activeTab==='ref'){const arr={topics:TOPICS,systems:SYSTEMS,teams:TEAMS}[activeRef];item=arr.find(x=>x.id===id);}
   else if(activeTab==='svc'){item=SERVICES.find(s=>s.id===id);}
   else if(activeTab==='proc'){item=PROCESSES.find(p=>p.id===id);}
   else if(activeTab==='art'){item=ARTICLES.find(a=>a.id===id);}
@@ -373,7 +372,7 @@ function editItem(id){
 function delItem(id){
   if(!confirm('Delete?')) return;
   if(activeTab==='ref'){
-    const map={domains:DOMAINS,topics:TOPICS,systems:SYSTEMS,teams:TEAMS};
+    const map={topics:TOPICS,systems:SYSTEMS,teams:TEAMS};
     const arr=map[activeRef]; const i=arr.findIndex(x=>x.id===id); if(i>=0) arr.splice(i,1);
   } else if(activeTab==='svc'){ const i=SERVICES.findIndex(s=>s.id===id); if(i>=0) SERVICES.splice(i,1); }
   else if(activeTab==='proc'){ const i=PROCESSES.findIndex(p=>p.id===id); if(i>=0) PROCESSES.splice(i,1); }
@@ -387,8 +386,7 @@ function delItem(id){
 // ═══════════════════════════
 function renderForm(item){
   if(activeTab==='ref'){
-    if(activeRef==='domains')  renderDomainForm(item);
-    else if(activeRef==='topics')  renderTopicForm(item);
+    if(activeRef==='topics')   renderTopicForm(item);
     else if(activeRef==='systems') renderSystemForm(item);
     else if(activeRef==='teams')   renderTeamForm(item);
   } else if(activeTab==='svc')  renderSvcForm(item);
@@ -426,34 +424,38 @@ function saveDomain(){
 
 function renderTopicForm(t){
   const isNew=!t;
-  const domOpts=DOMAINS.map(d=>`<option value="${d.id}"${t?.domainId===d.id?' selected':''}>${d.name}</option>`).join('');
+  const prev = t ? `<span style="display:inline-block;padding:3px 10px;border-radius:10px;font-size:11px;background:${t.bg||'#eee'};color:${t.color||'#333'};margin-left:8px">${t.name}</span>` : '';
   document.getElementById('editPane').innerHTML=`
-<div class="form-h">${isNew?'+ New Topic':esc(t.name)}<span class="badge">${isNew?'New':'Edit'}</span></div>
+<div class="form-h">${isNew?'+ New Topic':esc(t.name)}${prev}<span class="badge">${isNew?'New':'Edit'}</span></div>
 <div class="sec">
   <div class="sec-h">Topic</div>
   <div class="fr2">
     <div><label>ID (slug)</label><input type="text" id="tId" value="${esc(t?.id||'')}" ${isNew?'':'readonly style="background:#F5F5F5"'} oninput="autoId('tId','tName')"></div>
     <div><label>Name</label><input type="text" id="tName" value="${esc(t?.name||'')}" oninput="autoId('tId','tName')"></div>
   </div>
-  <div class="fr2">
-    <div><label>Domain</label><select id="tDomain">${domOpts}</select></div>
-    <div></div>
-  </div>
   <div class="fr2 fr-last">
-    <div><label>Card background color</label><input type="text" id="tBg" value="${esc(t?.bg||'#F5F5F5')}" placeholder="#E8F5E9"></div>
-    <div><label>Text / icon color</label><input type="text" id="tColor" value="${esc(t?.color||'#424242')}" placeholder="#2E7D32"></div>
+    <div><label>Card background color</label><input type="text" id="tBg" value="${esc(t?.bg||'#F5F5F5')}" placeholder="#E8F5E9" oninput="previewTopic()"></div>
+    <div><label>Text / icon color</label><input type="text" id="tColor" value="${esc(t?.color||'#424242')}" placeholder="#2E7D32" oninput="previewTopic()"></div>
   </div>
+  <div id="tPreview" style="margin-top:8px;font-size:11px;color:var(--text3)">Preview: <span id="tPreviewChip" style="display:inline-block;padding:3px 10px;border-radius:10px;font-size:11px;background:${t?.bg||'#F5F5F5'};color:${t?.color||'#424242'}">${esc(t?.name||'Topic Name')}</span></div>
 </div>
 <div class="f-foot">
   <button class="btn btn-green" onclick="saveTopic()">💾 Save</button>
   <button class="btn btn-outline" onclick="cancelEdit()">Cancel</button>
-  <span class="f-hint">Colors used for chips and badges in the portal</span>
+  <span class="f-hint">Colors used for filter chips and service badges in the portal</span>
 </div>`;
+}
+function previewTopic(){
+  const chip=document.getElementById('tPreviewChip');
+  if(!chip) return;
+  chip.style.background=v('tBg')||'#F5F5F5';
+  chip.style.color=v('tColor')||'#424242';
+  chip.textContent=v('tName')||'Topic Name';
 }
 function saveTopic(){
   const id=v('tId'),name=v('tName');
   if(!id||!name){toast('ID and name required','err');return;}
-  const obj={id,name,domainId:v('tDomain'),bg:v('tBg')||'#F5F5F5',color:v('tColor')||'#424242'};
+  const obj={id,name,bg:v('tBg')||'#F5F5F5',color:v('tColor')||'#424242'};
   upsert(TOPICS,obj); saveDraft(); editId=id; renderList();
   toast(`Topic "${name}" saved`,'ok');
 }
@@ -644,29 +646,53 @@ function saveSvc(){
 function renderProcForm(proc){
   const isNew=!proc;
   const tmOpts=TEAMS.map(t=>`<option value="${t.id}"${proc?.ownerTeamId===t.id?' selected':''}>${t.name}</option>`).join('');
+  const topicChecks=TOPICS.map(t=>`<label style="display:flex;align-items:center;gap:5px;font-size:11px;font-weight:400;text-transform:none;letter-spacing:0;margin-bottom:3px;cursor:pointer">
+    <input type="checkbox" value="${t.id}" ${(proc?.topicIds||[]).includes(t.id)?'checked':''}> ${t.name}</label>`).join('');
+  const relChecks=PROCESSES.filter(p=>p.id!==proc?.id).map(p=>`<label style="display:flex;align-items:center;gap:5px;font-size:11px;font-weight:400;text-transform:none;letter-spacing:0;margin-bottom:3px;cursor:pointer">
+    <input type="checkbox" value="${p.id}" ${(proc?.relatedProcessIds||[]).includes(p.id)?'checked':''}> ${p.name}</label>`).join('');
   document.getElementById('editPane').innerHTML=`
 <div class="form-h">${isNew?'+ New Process':esc(proc.name)}<span class="badge">${isNew?'New':'Edit'}</span></div>
+
 <div class="sec">
   <div class="sec-h">Identity</div>
   <div class="fr2">
     <div><label>ID (slug)</label><input type="text" id="pId" value="${esc(proc?.id||'')}" ${isNew?'oninput="autoId(\'pId\',\'pName\')"':'readonly style="background:#F5F5F5"'}></div>
     <div><label>Owner team</label><select id="pTeam">${tmOpts}</select></div>
   </div>
+  <div class="fr2 fr-last">
+    <div><label>Tags (comma-separated)</label><input type="text" id="pTags" value="${esc((proc?.tags||[]).join(', '))}"></div>
+    <div><label>Topics (check all that apply)</label><div id="pTopics" style="margin-top:2px">${topicChecks||'<span style="font-size:11px;color:var(--text3)">No topics defined yet</span>'}</div></div>
+  </div>
 </div>
+
 <div class="sec">
-  <div class="sec-h">Details</div>
+  <div class="sec-h">Process Passport</div>
   <div class="fr"><label>Name</label><input type="text" id="pName" value="${esc(proc?.name||'')}" oninput="${isNew?"autoId('pId','pName')":''}"></div>
-  <div class="fr"><label>Description</label><textarea id="pDesc" rows="2">${esc(proc?.desc||'')}</textarea></div>
+  <div class="fr"><label>Goal / Objective</label><input type="text" id="pGoal" value="${esc(proc?.goal||'')}" placeholder="What does this process achieve?"></div>
+  <div class="fr"><label>Description (for portal card)</label><textarea id="pDesc" rows="2">${esc(proc?.desc||'')}</textarea></div>
+  <div class="fr"><label>Scope</label><textarea id="pScope" rows="2" placeholder="What is included and excluded from this process?">${esc(proc?.scope||'')}</textarea></div>
+  <div class="fr"><label>Trigger condition (what starts the process)</label><input type="text" id="pTrigger" value="${esc(proc?.triggerCondition||'')}" placeholder="e.g. Reporting period opens on 1st of month"></div>
+  <div class="fr fr-last"><label>Outputs (what comes out at the end)</label><input type="text" id="pOutputs" value="${esc(proc?.outputs||'')}" placeholder="e.g. Approved PTR and generated invoice"></div>
+</div>
+
+<div class="sec">
+  <div class="sec-h">Visual</div>
   <div class="fr3 fr-last">
     <div><label>Icon (emoji)</label><input type="text" id="pIcon" value="${esc(proc?.icon||'📋')}"></div>
     <div><label>Card background</label><input type="text" id="pColor" value="${esc(proc?.color||'#F5F5F5')}"></div>
     <div><label>Icon color</label><input type="text" id="pIconColor" value="${esc(proc?.iconColor||'#424242')}"></div>
   </div>
 </div>
+
+${relChecks ? `<div class="sec">
+  <div class="sec-h">Related processes</div>
+  <div>${relChecks}</div>
+</div>` : ''}
+
 <div class="sec">
   <div class="sec-h">Steps (JSON)</div>
-  <div style="font-size:11px;color:var(--text2);margin-bottom:7px;line-height:1.5">Each element = one column. Fields: <code>type</code> (atomic|human), <code>role</code>, <code>roleCls</code> (employee|manager|hr|it|finance), <code>name</code>, <code>svcId</code>, <code>service</code>, <code>human</code>.</div>
-  <textarea class="json-ed" id="pSteps" rows="10" spellcheck="false">${esc(JSON.stringify(proc?.steps||[],null,2))}</textarea>
+  <div style="font-size:11px;color:var(--text2);margin-bottom:7px;line-height:1.6">Each element = one step column. Step fields: <code>type</code> (atomic|human), <code>role</code>, <code>roleCls</code> (employee|manager|hr|it|finance), <code>name</code>, <code>svcId</code>, <code>service</code>, <code>human</code>, <code>triggerInput</code>, <code>successOutput</code>, <code>failureOutput</code>.</div>
+  <textarea class="json-ed" id="pSteps" rows="12" spellcheck="false">${esc(JSON.stringify(proc?.steps||[],null,2))}</textarea>
   <div class="json-err" id="pStepsErr">Invalid JSON</div>
 </div>
 <div class="f-foot">
@@ -680,7 +706,12 @@ function saveProc(){
   let steps;
   try{steps=JSON.parse(v('pSteps')||'[]');document.getElementById('pStepsErr').style.display='none';}
   catch(e){document.getElementById('pStepsErr').style.display='';toast('Steps JSON invalid','err');return;}
-  const obj={id,name,desc:v('pDesc'),ownerTeamId:v('pTeam'),icon:v('pIcon'),color:v('pColor'),iconColor:v('pIconColor'),steps};
+  const topicIds=Array.from(document.querySelectorAll('#pTopics input:checked')).map(c=>c.value);
+  const relIds=Array.from(document.querySelectorAll('#pRelated input:checked')).map(c=>c.value);
+  const obj={id,name,goal:v('pGoal'),desc:v('pDesc'),scope:v('pScope'),triggerCondition:v('pTrigger'),outputs:v('pOutputs'),
+    ownerTeamId:v('pTeam'),topicIds,relatedProcessIds:relIds,
+    tags:(v('pTags')||'').split(',').map(t=>t.trim()).filter(Boolean),
+    icon:v('pIcon'),color:v('pColor'),iconColor:v('pIconColor'),steps};
   upsert(PROCESSES,obj); saveDraft(); editId=id; renderList();
   toast(`Process "${name}" saved`,'ok');
 }
@@ -690,7 +721,9 @@ function saveProc(){
 // ═══════════════════════════
 function renderArtForm(art){
   const isNew=!art;
-  const svcOpts=SERVICES.map(s=>`<option value="${s.id}"${art?.serviceId===s.id?' selected':''}>${s.name}</option>`).join('');
+  const artServiceIds=art?.serviceIds||[];
+  const svcChecks=SERVICES.map(s=>`<label style="display:flex;align-items:center;gap:6px;padding:4px 8px;border-radius:6px;cursor:pointer;background:#FAFAFA;border:1px solid #E0E0E0;font-size:12px;white-space:nowrap">
+    <input type="checkbox" value="${s.id}" ${artServiceIds.includes(s.id)?'checked':''}> ${esc(s.name)}</label>`).join('');
   document.getElementById('editPane').innerHTML=`
 <div class="form-h">${isNew?'+ New Article':esc(art.title)}<span class="badge">${isNew?'New':'Edit'}</span></div>
 <div class="sec">
@@ -700,9 +733,8 @@ function renderArtForm(art){
     <div><label>Type</label><select id="aType"><option${art?.type==='guide'?' selected':''}>guide</option><option${art?.type==='faq'?' selected':''}>faq</option><option${art?.type==='policy'?' selected':''}>policy</option><option${art?.type==='reference'?' selected':''}>reference</option></select></div>
   </div>
   <div class="fr"><label>Title</label><input type="text" id="aTitle" value="${esc(art?.title||'')}" oninput="${isNew?"autoId('aId','aTitle')":''}"></div>
-  <div class="fr2">
-    <div><label>Linked service</label><select id="aSvc">${svcOpts}</select></div>
-    <div><label>Last reviewed</label><input type="date" id="aReviewed" value="${esc(art?.lastReviewedAt||'')}"></div>
+  <div class="fr"><label>Linked services</label>
+    <div id="aSvcs" style="display:flex;flex-wrap:wrap;gap:6px;padding:8px 0">${svcChecks}</div>
   </div>
   <div class="fr fr-last"><label>URL</label><input type="text" id="aUrl" value="${esc(art?.url||'')}" placeholder="https://confluence.company.com/…"></div>
 </div>
@@ -714,7 +746,8 @@ function renderArtForm(art){
 function saveArt(){
   const id=v('aId'),title=v('aTitle');
   if(!id||!title){toast('ID and title required','err');return;}
-  const obj={id,title,type:v('aType'),serviceId:v('aSvc'),url:v('aUrl'),lastReviewedAt:v('aReviewed')};
+  const serviceIds=Array.from(document.querySelectorAll('#aSvcs input:checked')).map(c=>c.value);
+  const obj={id,title,type:v('aType'),serviceIds,url:v('aUrl')};
   upsert(ARTICLES,obj); saveDraft(); editId=id; renderList();
   toast(`Article "${title}" saved`,'ok');
 }

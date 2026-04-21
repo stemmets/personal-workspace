@@ -163,6 +163,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .dp-eco-ctx{font-size:11px;color:var(--text2);margin-top:2px;line-height:1.4}
 .dp-tags{display:flex;flex-wrap:wrap;gap:5px}
 .dp-tag{font-size:11px;background:#F3F4F6;color:var(--text2);padding:3px 9px;border-radius:12px}
+.dp-articles{display:flex;flex-direction:column;gap:6px}
+.dp-article-row{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:8px;background:#FAFAFA;border:1px solid var(--border);text-decoration:none;color:inherit;transition:background .15s}
+.dp-article-row:hover{background:#F0F4FF;border-color:#BFCFFF}
+.dp-article-icon{font-size:16px;flex-shrink:0}
+.dp-article-name{flex:1;font-size:13px;font-weight:500;color:var(--text)}
+.dp-article-type{font-size:11px;color:var(--text3);background:#EFEFEF;padding:2px 7px;border-radius:8px;white-space:nowrap}
 .dp-footer{padding:14px 20px;border-top:1px solid var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:space-between}
 .dp-owner{font-size:11px;color:var(--text3)}
 .dp-review{font-size:10px;color:var(--text3)}
@@ -230,7 +236,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 // ══════════════════════════════════════
 //  DATA — loaded from data.json
 // ══════════════════════════════════════
-let DOMAINS = [], TOPICS = [], SYSTEMS = [], TEAMS = [];
+let TOPICS = [], SYSTEMS = [], TEAMS = [];
+let ARTICLES = [];
 // lookup maps built after load
 let topicById = {}, systemById = {}, teamById = {};
 
@@ -630,10 +637,8 @@ function openDetail(id){
   const sys   = systemById[svc.systemId] || {};
   const team  = teamById[svc.ownerTeamId] || {};
   const ts    = {bg: topic.bg||'#F5F5F5', color: topic.color||'#424242'};
-  const domainName = (DOMAINS.find(d=>d.id===svc.domainId)||{}).name || svc.domainId || '';
   document.getElementById('dpTopic').innerHTML =
-    `<span style="color:${ts.color};background:${ts.bg};padding:2px 8px;border-radius:8px;font-size:10px">${topic.name||svc.topicId||''}</span>
-     <span style="color:#9E9E9E;font-size:10px">· ${domainName}</span>`;
+    `<span style="color:${ts.color};background:${ts.bg};padding:2px 8px;border-radius:8px;font-size:10px">${topic.name||svc.topicId||''}</span>`;
   document.getElementById('dpName').textContent = svc.name;
 
   let opChip = '';
@@ -711,6 +716,23 @@ function openDetail(id){
     </div>`;
   }
 
+  // Documents & Articles
+  const artTypeIcon = {guide:'📖', faq:'❓', policy:'📋', reference:'🔗'};
+  const artTypeLabel = {guide:'Guide', faq:'FAQ', policy:'Policy', reference:'Reference'};
+  const relatedArts = ARTICLES.filter(a=>(a.serviceIds||[]).includes(svc.id));
+  if(relatedArts.length){
+    const artRows = relatedArts.map(a=>`
+      <a class="dp-article-row" href="${a.url||'#'}" target="_blank" rel="noopener">
+        <span class="dp-article-icon">${artTypeIcon[a.type]||'📄'}</span>
+        <span class="dp-article-name">${a.title}</span>
+        <span class="dp-article-type">${artTypeLabel[a.type]||a.type||''}</span>
+      </a>`).join('');
+    body += `<div class="dp-section">
+      <div class="dp-section-title">📚 Documents & Guides</div>
+      <div class="dp-articles">${artRows}</div>
+    </div>`;
+  }
+
   document.getElementById('dpBody').innerHTML = body;
   document.getElementById('detailOverlay').classList.add('open');
   document.getElementById('detailPanel').classList.add('open');
@@ -778,12 +800,12 @@ async function init(){
     const res = await fetch('./data.json?t=' + Date.now());
     if(!res.ok) throw new Error('HTTP ' + res.status);
     const data = await res.json();
-    if(data.domains)   DOMAINS   = data.domains;
     if(data.topics)    TOPICS    = data.topics;
     if(data.systems)   SYSTEMS   = data.systems;
     if(data.teams)     TEAMS     = data.teams;
     if(data.services)  SERVICES  = data.services;
     if(data.processes) PROCESSES = data.processes;
+    if(data.articles)  ARTICLES  = data.articles;
   } catch(e) {
     console.warn('data.json fetch failed:', e.message);
   }
