@@ -901,7 +901,9 @@
       "triggerCondition": "The decision on the contractor's termination has been agreed or discussed for the future",
       "outputs": "Start of the Off-boarding process",
       "ownerTeamId": "hr-dept",
-      "topicIds": [],
+      "topicIds": [
+        "team-management"
+      ],
       "relatedProcessIds": [],
       "tags": [
         "HR department",
