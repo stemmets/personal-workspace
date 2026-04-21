@@ -94,6 +94,12 @@
       "name": "Operations Portal",
       "baseUrl": "",
       "ownerTeamId": "hr-dept"
+    },
+    {
+      "id": "proto-io",
+      "name": "Proto.io",
+      "baseUrl": "",
+      "ownerTeamId": "dev-pro-university"
     }
   ],
   "teams": [
@@ -116,6 +122,11 @@
       "id": "it-dept",
       "name": "IT Department",
       "contactEmail": "it@company.com"
+    },
+    {
+      "id": "dev-pro-university",
+      "name": "Dev.Pro University",
+      "contactEmail": ""
     }
   ],
   "services": [
@@ -909,5 +920,14 @@
       ]
     }
   ],
-  "articles": []
+  "articles": [
+    {
+      "id": "some-corp-docs",
+      "title": "Some Corp Docs",
+      "type": "guide",
+      "serviceId": "ptr",
+      "url": "",
+      "lastReviewedAt": ""
+    }
+  ]
 }
