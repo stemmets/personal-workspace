@@ -773,14 +773,14 @@
     },
     {
       "id": "perf-cycle",
-      "name": "Quarterly Performance Review",
-      "goal": "Evaluate contractor performance and feed results into compensation and career decisions.",
-      "desc": "Full 360Â° performance cycle â self-assessment, peer feedback, manager scoring, HR calibration, and results.",
-      "scope": "Self-assessment and peer feedback through manager scoring, HR calibration, and results release. Excludes compensation change execution.",
-      "triggerCondition": "Start of each quarter (Jan, Apr, Jul, Oct). HR BP opens the review cycle in HR Portal.",
-      "outputs": "Consolidated performance scores per contractor, visible in HR Portal and fed into compensation review.",
+      "name": "Performace Review",
+      "goal": "Run a structured performance review for a contractor — from quarterly planning through ceremony and outcome",
+      "desc": "Full 360° performance cycle: self-assessment, peer feedback, manager scoring, HR calibration, and results.",
+      "scope": "From contractor appearing in quarterly PR plan through budget alignment, monthly scheduling, configuration, ceremony setup to finalization. Excludes legal contract changes.",
+      "triggerCondition": "Contractor's planned PR date triggers automatic inclusion in quarterly planning tasks",
+      "outputs": "One of: PDP / Performance Improvement Plan created; compensation change decision made; health check recorded",
       "ownerTeamId": "hr-dept",
-      "primaryUrl": "",
+      "primaryUrl": "https://talentgrowthportal.dev.pro/profile/performance-review",
       "audienceIds": [
         "all"
       ],
@@ -802,48 +802,113 @@
         {
           "groups": [
             {
-              "label": "Parallel (simultaneous)",
+              "label": null,
               "steps": [
                 {
-                  "type": "atomic",
-                  "role": "Employee",
-                  "roleCls": "employee",
-                  "name": "Self-Assessment",
-                  "service": "Performance Review",
-                  "svcId": "perf-review",
-                  "triggerInput": "Quarterly review cycle announced by HR",
-                  "successOutput": "Self-assessment submitted",
-                  "failureOutput": "Incomplete submission escalated to HR BP"
+                  "type": "human",
+                  "role": "Manager",
+                  "roleCls": "manager",
+                  "name": "Quarterly PR Planning",
+                  "human": "Review the contractor list for the upcoming quarter. For each contractor: specify expectations and select the planned review type",
+                  "triggerInput": "Contractor's planned PR date falls within the upcoming quarter",
+                  "successOutput": "Quarterly contractor list with expectations and review types submitted",
+                  "failureOutput": "Missing contractor data — planning incomplete, HR notified"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "groups": [
+            {
+              "label": null,
+              "steps": [
+                {
+                  "type": "human",
+                  "role": "Budget Owner",
+                  "roleCls": "manager",
+                  "name": "Budget Owner Review",
+                  "human": "Review the planned PR list and contractor expectations. Confirm budget scope and approve which reviews will proceed this quarter",
+                  "triggerInput": "Manager submits quarterly PR plan",
+                  "successOutput": "Budget scope confirmed, reviews approved to proceed",
+                  "failureOutput": "Budget not confirmed — reviews deferred, manager notified"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "groups": [
+            {
+              "label": null,
+              "steps": [
+                {
+                  "type": "human",
+                  "role": "Manager",
+                  "roleCls": "manager",
+                  "name": "Monthly PR Planning",
+                  "human": "Update contractor list for the upcoming month. Confirm expectations and decisions, schedule specific PR dates, initiate reviews",
+                  "triggerInput": "Budget scope confirmed by Budget Owner",
+                  "successOutput": "Monthly PR dates scheduled, contractors added to review pipeline",
+                  "failureOutput": "Schedule conflicts — dates renegotiated with HR"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "groups": [
+            {
+              "label": null,
+              "steps": [
+                {
+                  "type": "human",
+                  "role": "Manager",
+                  "roleCls": "manager",
+                  "name": "PR Initialization",
+                  "human": "Set contractor's assessment level. Confirm and lock the PR date",
+                  "triggerInput": "Contractor confirmed in monthly plan",
+                  "successOutput": "Assessment level set, PR date locked",
+                  "failureOutput": "Date conflict — rescheduled with HR"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "groups": [
+            {
+              "label": "Optional: configure in parallel",
+              "steps": [
+                {
+                  "type": "human",
+                  "role": "Manager",
+                  "roleCls": "manager",
+                  "name": "Customer Feedback Setup",
+                  "human": "If customer feedback needed: create outbound emails — system inserts feedback form links. Manager sends emails. Customer responses flow into contractor's PR form automatically",
+                  "triggerInput": "PR initialized, customer feedback required",
+                  "successOutput": "Customer feedback forms sent; responses collected into PR form",
+                  "failureOutput": "No customer response — proceed without or reschedule"
                 },
                 {
-                  "type": "atomic",
-                  "role": "Peers",
-                  "roleCls": "employee",
-                  "name": "Peer Feedback",
-                  "service": "Performance Review",
-                  "svcId": "perf-review",
-                  "triggerInput": "Quarterly review cycle announced by HR",
-                  "successOutput": "Peer reviews submitted",
-                  "failureOutput": "Missing peer reviews flagged by HR BP"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "groups": [
-            {
-              "label": null,
-              "steps": [
-                {
                   "type": "human",
-                  "role": "Line Manager",
+                  "role": "Manager",
                   "roleCls": "manager",
-                  "name": "Manager Scoring",
-                  "human": "Score employee in HR system based on project delivery and peer feedback",
-                  "triggerInput": "Self-assessment and peer feedback received",
-                  "successOutput": "Manager scores recorded in HR system",
-                  "failureOutput": "Missing feedback â HR BP notified to chase"
+                  "name": "Internal Feedback Setup",
+                  "human": "If internal feedback needed: select colleagues — system sends feedback forms to selected reviewers. Responses collected back into system automatically",
+                  "triggerInput": "PR initialized, internal feedback required",
+                  "successOutput": "Colleague feedback forms sent and responses collected",
+                  "failureOutput": "Insufficient responses — manager decides to proceed or wait"
+                },
+                {
+                  "type": "human",
+                  "role": "Manager / Tech Expert",
+                  "roleCls": "it",
+                  "name": "Technical Assessment",
+                  "human": "If technical assessment needed: manager assigns a tech expert or requests one. Tech expert receives task, conducts assessment, and fills evaluation form in system",
+                  "triggerInput": "PR initialized, technical assessment required",
+                  "successOutput": "Technical evaluation form completed and submitted",
+                  "failureOutput": "No tech expert available — HR notified to find alternative"
                 }
               ]
             }
@@ -856,13 +921,15 @@
               "steps": [
                 {
                   "type": "human",
-                  "role": "HR BP",
+                  "role": "HR Manager",
                   "roleCls": "hr",
-                  "name": "HR Calibration",
-                  "human": "Calibrate scores across the team cohort for fairness",
-                  "triggerInput": "All manager scores submitted",
-                  "successOutput": "Scores calibrated and finalised",
-                  "failureOutput": "Score outliers flagged for re-review with manager"
+                  "name": "PR Ceremony Setup",
+                  "human": "Create calendar appointment. Find available slot across all participants. Set up meeting in calendar",
+                  "service": "Performance Review",
+                  "svcId": "perf-review",
+                  "triggerInput": "All configuration steps done, PR date confirmed",
+                  "successOutput": "PR ceremony scheduled in all participants' calendars",
+                  "failureOutput": "No slot found — date adjusted with manager"
                 }
               ]
             }
@@ -874,15 +941,16 @@
               "label": null,
               "steps": [
                 {
-                  "type": "atomic",
-                  "role": "Employee",
-                  "roleCls": "employee",
-                  "name": "View Results",
+                  "type": "human",
+                  "role": "HR Manager",
+                  "roleCls": "hr",
+                  "name": "PR Finalization",
+                  "human": "After ceremony: enter contractor feedback, select output type and finalize process",
                   "service": "Performance Review",
                   "svcId": "perf-review",
-                  "triggerInput": "HR calibration complete",
-                  "successOutput": "Results visible to employee and manager",
-                  "failureOutput": "Access issues â contact HR BP"
+                  "triggerInput": "PR ceremony conducted",
+                  "successOutput": "Process finalized: PDP created / compensation change initiated / health check recorded",
+                  "failureOutput": "Incomplete feedback — HR follows up with participants"
                 }
               ]
             }
