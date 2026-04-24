@@ -180,10 +180,7 @@
       "tags": [
         "PTR",
         "monthly report",
-        "approval",
-        "time report",
-        "Ð¾ÑÑÐµÑ",
-        "Ð¿ÑÐ¾ÐµÐºÑ"
+        "approval"
       ],
       "preconditions": [
         "All worklogs submitted for the reporting period",
@@ -249,10 +246,7 @@
       "tags": [
         "invoice",
         "billing",
-        "accounts receivable",
-        "AR",
-        "ÑÑÐµÑ",
-        "Ð¸Ð½Ð²Ð¾Ð¹Ñ"
+        "accounts receivable"
       ],
       "preconditions": [
         "PTR approved by line manager",
@@ -326,10 +320,7 @@
         "performance review",
         "360",
         "feedback",
-        "KPI",
-        "Ð¾ÑÐµÐ½ÐºÐ°",
-        "Ð°ÑÑÐµÑÑÐ°ÑÐ¸Ñ",
-        "ÑÐµÐ²ÑÑ"
+        "KPI"
       ],
       "preconditions": [],
       "actions": [
@@ -400,10 +391,7 @@
         "bonus",
         "appreciation",
         "nomination",
-        "recognition",
-        "Ð±Ð¾Ð½ÑÑ",
-        "Ð½Ð¾Ð¼Ð¸Ð½Ð°ÑÐ¸Ñ",
-        "Ð±Ð»Ð°Ð³Ð¾Ð´Ð°ÑÐ½Ð¾ÑÑÑ"
+        "recognition"
       ],
       "preconditions": [
         "Bonus budget approved for current quarter",
@@ -472,9 +460,7 @@
         "software",
         "access",
         "technical",
-        "laptop",
-        "IT Ð·Ð°Ð¿ÑÐ¾Ñ",
-        "Ð¾Ð±Ð¾ÑÑÐ´Ð¾Ð²Ð°Ð½Ð¸Ðµ"
+        "laptop"
       ],
       "preconditions": [],
       "actions": [
@@ -541,10 +527,7 @@
         "coworking",
         "events",
         "perks",
-        "reimbursement",
-        "ÐºÐ¾Ð²Ð¾ÑÐºÐ¸Ð½Ð³",
-        "Ð»ÑÐ³Ð¾ÑÑ",
-        "Ð¼ÐµÑÐ¾Ð¿ÑÐ¸ÑÑÐ¸Ñ"
+        "reimbursement"
       ],
       "preconditions": [],
       "actions": [
@@ -604,9 +587,7 @@
         "termination",
         "offboarding",
         "agreement",
-        "separation",
-        "ÑÐ°ÑÑÐ¾ÑÐ¶ÐµÐ½Ð¸Ðµ",
-        "Ð¾ÑÑÐ±Ð¾ÑÐ´Ð¸Ð½Ð³"
+        "separation"
       ],
       "preconditions": [],
       "actions": [
