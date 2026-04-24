@@ -90,7 +90,7 @@
       "id": "worklog",
       "name": "Worklog Submission",
       "goal": "Record billable hours by project for payroll and client invoicing.",
-      "desc": "Submit your weekly hours against projects and tasks in the Time Tracking Portal. Worklogs feed directly into your PTR and client invoices. Jira tasks are auto-synced â just verify and adjust if needed. Google Calendar events can be imported as draft entries.",
+      "desc": "Submit your weekly hours against projects and tasks in the Time Tracking Portal. Worklogs feed directly into your PTR and client invoices. Jira tasks are auto-synced. Just verify and adjust if needed. Google Calendar events can be imported as draft entries.",
       "topicId": "time-reporting",
       "systemId": "time-portal",
       "ownerTeamId": "finance-team",
@@ -143,22 +143,22 @@
       "ecosystem": [
         {
           "name": "PTR Report",
-          "icon": "ð",
+          "icon": "🥲",
           "ctx": "Hours aggregate into your monthly Project Time Report"
         },
         {
           "name": "Client Invoice",
-          "icon": "ð§¾",
+          "icon": "",
           "ctx": "Approved PTR auto-generates the client invoice"
         },
         {
           "name": "Manager Dashboard",
-          "icon": "ð",
+          "icon": "",
           "ctx": "Team utilization visible to your line manager"
         },
         {
           "name": "Google Calendar",
-          "icon": "ð",
+          "icon": "😇",
           "ctx": "Calendar events can be imported as worklog draft entries"
         }
       ],
