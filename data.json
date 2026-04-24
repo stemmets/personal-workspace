@@ -644,7 +644,7 @@
       "id": "month-end",
       "name": "Month-End Time Reporting",
       "goal": "Close the monthly time reporting cycle and trigger client invoicing.",
-      "desc": "Complete your monthly time reporting cycle â from worklog submission through PTR approval to invoice generation.",
+      "desc": "Complete your monthly time reporting cycle from worklog submission through PTR approval to invoice generation.",
       "scope": "From worklog submission through PTR approval to invoice generation. Excludes payroll processing and client payment tracking.",
       "triggerCondition": "Reporting period opens on the 1st of each month. Deadline: 5th of month.",
       "outputs": "Approved PTR and generated client invoice submitted to AR team.",
