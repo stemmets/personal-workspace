@@ -105,9 +105,7 @@
         "timesheet",
         "hours",
         "billable",
-        "jira",
-        "ÑÐ°Ð±ÐµÐ»Ñ",
-        "ÑÑÐµÑ Ð²ÑÐµÐ¼ÐµÐ½Ð¸"
+        "jira"
       ],
       "preconditions": [],
       "actions": [
@@ -217,17 +215,17 @@
       "ecosystem": [
         {
           "name": "Invoice Generation",
-          "icon": "ð§¾",
+          "icon": "🕵️‍♂️",
           "ctx": "PTR approval triggers automatic invoice creation"
         },
         {
           "name": "Finance Reports",
-          "icon": "ð",
+          "icon": "👨‍🚒",
           "ctx": "PTR data feeds into company-wide finance reporting"
         },
         {
           "name": "AR Team Queue",
-          "icon": "ð¬",
+          "icon": "🧙",
           "ctx": "Approved PTR enters accounts receivable workflow"
         }
       ],
@@ -293,17 +291,17 @@
       "ecosystem": [
         {
           "name": "AR Dashboard",
-          "icon": "ð",
+          "icon": "🥷",
           "ctx": "Invoice enters the accounts receivable tracking queue"
         },
         {
           "name": "Client Records",
-          "icon": "ð",
+          "icon": "☂️",
           "ctx": "Invoice linked to client contract history"
         },
         {
           "name": "Billing Report",
-          "icon": "ð",
+          "icon": "🎩",
           "ctx": "Revenue data reflected in monthly billing report"
         }
       ],
@@ -367,17 +365,17 @@
       "ecosystem": [
         {
           "name": "Compensation Review",
-          "icon": "ð°",
+          "icon": "🧋",
           "ctx": "Review scores inform annual compensation adjustments"
         },
         {
           "name": "Career Matrix",
-          "icon": "ð¯",
+          "icon": "🫐",
           "ctx": "Scores mapped against role progression matrix"
         },
         {
           "name": "HR Dashboard",
-          "icon": "ð",
+          "icon": "🍟",
           "ctx": "Aggregate performance data for HR analytics"
         }
       ],
@@ -437,17 +435,17 @@
       "ecosystem": [
         {
           "name": "Finance Payroll",
-          "icon": "ð³",
+          "icon": "🎬",
           "ctx": "Approved bonus triggers payment in next payroll cycle"
         },
         {
           "name": "HR Records",
-          "icon": "ð",
+          "icon": "🎮",
           "ctx": "Bonus history recorded against contractor profile"
         },
         {
           "name": "Manager Alert",
-          "icon": "ð",
+          "icon": "🎤",
           "ctx": "Line manager notified when team member receives bonus"
         }
       ],
@@ -512,12 +510,12 @@
       "ecosystem": [
         {
           "name": "IT Asset Registry",
-          "icon": "ð¥",
+          "icon": "✈️",
           "ctx": "Hardware requests logged in the asset management system"
         },
         {
           "name": "Access Management",
-          "icon": "ð",
+          "icon": "🗺",
           "ctx": "Software access grants tracked centrally by IT"
         }
       ],
@@ -575,12 +573,12 @@
       "ecosystem": [
         {
           "name": "Finance Payroll",
-          "icon": "ð³",
+          "icon": "🌆",
           "ctx": "Approved reimbursements included in your monthly payment"
         },
         {
           "name": "HR Records",
-          "icon": "ð",
+          "icon": "🌁",
           "ctx": "Benefit usage tracked against your annual allowance"
         }
       ],
@@ -637,22 +635,22 @@
       "ecosystem": [
         {
           "name": "HR Portal",
-          "icon": "ð¤",
+          "icon": "📐",
           "ctx": "Contractor status updated to Terminated, access revoked"
         },
         {
           "name": "Time Tracking",
-          "icon": "â±",
+          "icon": "🖊",
           "ctx": "Access locked; final PTR auto-triggered for review"
         },
         {
           "name": "Finance",
-          "icon": "ð°",
+          "icon": "🧷",
           "ctx": "Final invoice and outstanding accruals processed"
         },
         {
           "name": "IT Assets",
-          "icon": "ð¥",
+          "icon": "🔐",
           "ctx": "Equipment return workflow initiated with IT team"
         }
       ],
