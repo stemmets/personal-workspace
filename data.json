@@ -940,8 +940,8 @@
     {
       "id": "onboarding",
       "name": "Contractor Onboarding",
-      "goal": "Get a new contractor fully operational â access, equipment, and first worklog â within their first week.",
-      "desc": "Everything needed to get a new contractor fully operational â from signed agreement to first worklog.",
+      "goal": "Get a new contractor fully operational â access, equipment, and first worklog within their first week.",
+      "desc": "Everything needed to get a new contractor fully operational from signed agreement to first worklog.",
       "scope": "From signed contractor agreement through equipment provisioning and portal setup to first submitted worklog. Excludes legal contract negotiation.",
       "triggerCondition": "Contractor agreement signed and confirmed in legal system by HR BP.",
       "outputs": "Contractor is active: has equipment, all portal access granted, company policies understood, first worklog submitted.",
