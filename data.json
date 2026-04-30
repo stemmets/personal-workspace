@@ -96,7 +96,7 @@
       "ownerTeamId": "finance-team",
       "status": "Active",
       "opStatus": "available",
-      "primaryUrl": "",
+      "primaryUrl": "https://my.dev.pro/profile",
       "audienceIds": [
         "all"
       ],
