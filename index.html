@@ -187,6 +187,53 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .dp-owner{font-size:11px;color:var(--text3)}
 .dp-review{font-size:10px;color:var(--text3)}
 
+/* ── DASHBOARD ──────────────── */
+.dashboard{padding:20px 24px 4px;max-width:1200px;margin:0 auto}
+.dash-grid{display:grid;grid-template-columns:1.4fr 1fr 1.25fr 0.95fr;gap:12px}
+@media(max-width:960px){.dash-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:540px){.dash-grid{grid-template-columns:1fr}}
+.dash-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);display:flex;flex-direction:column;overflow:hidden}
+
+/* welcome card */
+.dash-welcome{border-left:3px solid var(--green);background:var(--green-lt)}
+.dash-welcome-inner{padding:14px 16px;display:flex;flex-direction:column;gap:9px;height:100%}
+.dash-greeting{font-size:16px;font-weight:700;color:var(--text)}
+.dash-portal-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--green-dk);margin-bottom:1px}
+.dash-career-list{display:flex;flex-direction:column;gap:2px}
+.dash-career-item{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--text2);text-decoration:none;padding:4px 0;border-bottom:1px solid #D5EDD6}
+.dash-career-item:last-child{border-bottom:none}
+.dash-career-item:hover{color:var(--green)}
+.dash-career-icon{font-size:13px;width:18px;text-align:center;flex-shrink:0}
+.dash-explore-btn{display:inline-flex;align-items:center;gap:5px;margin-top:4px;padding:6px 14px;background:var(--green);color:#fff;border-radius:6px;font-size:12px;font-weight:600;text-decoration:none;align-self:flex-start;transition:background .1s}
+.dash-explore-btn:hover{background:var(--green-dk)}
+
+/* card head */
+.dash-card-head{padding:10px 14px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);flex-shrink:0}
+.dash-head-label{font-size:12px;font-weight:700;color:var(--text2)}
+.dash-head-link{font-size:13px;color:var(--text3);text-decoration:none;line-height:1;padding:2px 4px;border-radius:4px;transition:color .1s,background .1s}
+.dash-head-link:hover{color:var(--green);background:var(--green-lt)}
+
+/* rows */
+.dash-card-body{padding:8px 14px;display:flex;flex-direction:column;flex:1}
+.dash-row{display:flex;align-items:center;gap:9px;padding:7px 0}
+.dash-row-icon{font-size:16px;flex-shrink:0;width:22px;text-align:center}
+.dash-row-info{flex:1;min-width:0}
+.dash-row-label{font-size:11px;color:var(--text2);display:block}
+.dash-row-value{font-size:13px;font-weight:700;color:var(--text);display:block;margin-top:1px}
+.dash-row-sub{font-size:11px;font-weight:400;color:var(--text3)}
+.dash-divider{height:1px;background:var(--border);margin:0 -2px}
+.dash-action-link{font-size:11px;font-weight:600;color:var(--green-dk);text-decoration:none;white-space:nowrap;padding:3px 9px;border-radius:5px;background:var(--green-lt);flex-shrink:0;transition:background .1s}
+.dash-action-link:hover{background:#C8E6C9}
+
+/* time tracking */
+.dash-time-body{align-items:center;justify-content:center;gap:14px;padding:14px 14px 10px}
+.dash-hours-big{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.dash-hours-num{font-size:44px;font-weight:800;color:var(--text);line-height:1}
+.dash-hours-info{display:flex;flex-direction:column}
+.dash-hours-info span{font-size:11px;color:var(--text3);line-height:1.5}
+.dash-log-btn{display:inline-flex;align-items:center;gap:4px;padding:6px 14px;background:var(--green-lt);color:var(--green-dk);border-radius:6px;font-size:12px;font-weight:600;text-decoration:none;transition:background .1s;align-self:flex-start}
+.dash-log-btn:hover{background:#C8E6C9}
+
 /* ── MISC ───────────────────── */
 .no-results{text-align:center;padding:40px;color:var(--text3)}
 </style>
@@ -207,10 +254,107 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
   <div class="header-meta" id="resultCount"></div>
 </div>
 
-<!-- HERO -->
-<div class="hero">
-  <h2>👋 Good morning. What do you need today?</h2>
-  <p>Browse services by topic or search for anything — worklogs, invoices, IT requests, reviews, and more.</p>
+<!-- DASHBOARD TILES -->
+<div class="dashboard">
+  <div class="dash-grid">
+
+    <!-- Welcome / Career card -->
+    <div class="dash-card dash-welcome">
+      <div class="dash-welcome-inner">
+        <div class="dash-greeting" id="dashGreeting">👋 Good morning!</div>
+        <div>
+          <div class="dash-portal-label">Talent Growth Portal</div>
+          <div class="dash-career-list">
+            <a class="dash-career-item" href="#"><span class="dash-career-icon">📈</span>Grade Framework</a>
+            <a class="dash-career-item" href="#"><span class="dash-career-icon">⭐</span>Competencies</a>
+            <a class="dash-career-item" href="#"><span class="dash-career-icon">📝</span>Development Programs</a>
+            <a class="dash-career-item" href="#"><span class="dash-career-icon">🏅</span>Certificates</a>
+          </div>
+        </div>
+        <a class="dash-explore-btn" href="#">↗ Explore Profile</a>
+      </div>
+    </div>
+
+    <!-- Payroll card -->
+    <div class="dash-card">
+      <div class="dash-card-head">
+        <span class="dash-head-label">Payroll</span>
+        <a class="dash-head-link" href="#" title="Open Payroll">↗</a>
+      </div>
+      <div class="dash-card-body">
+        <div class="dash-row">
+          <span class="dash-row-icon">📅</span>
+          <div class="dash-row-info">
+            <span class="dash-row-label">Next Payment</span>
+            <span class="dash-row-value">14 May</span>
+          </div>
+          <a class="dash-action-link" href="#">Open</a>
+        </div>
+        <div class="dash-divider"></div>
+        <div class="dash-row">
+          <span class="dash-row-icon">🎉</span>
+          <div class="dash-row-info">
+            <span class="dash-row-label">My Benefits</span>
+          </div>
+          <a class="dash-action-link" href="#">Open</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- PTO Balance card -->
+    <div class="dash-card">
+      <div class="dash-card-head">
+        <span class="dash-head-label">PTO Balance</span>
+        <a class="dash-head-link" href="#" title="Open PTO">↗</a>
+      </div>
+      <div class="dash-card-body">
+        <div class="dash-row">
+          <span class="dash-row-icon">🏖</span>
+          <div class="dash-row-info">
+            <span class="dash-row-label">Rest Days</span>
+            <span class="dash-row-value">19.89 <span class="dash-row-sub">available</span></span>
+          </div>
+          <a class="dash-action-link" href="#">Request</a>
+        </div>
+        <div class="dash-divider"></div>
+        <div class="dash-row">
+          <span class="dash-row-icon">🤒</span>
+          <div class="dash-row-info">
+            <span class="dash-row-label">Sick Leave</span>
+            <span class="dash-row-value">5 <span class="dash-row-sub">of 5</span></span>
+          </div>
+          <a class="dash-action-link" href="#">Take</a>
+        </div>
+        <div class="dash-divider"></div>
+        <div class="dash-row">
+          <span class="dash-row-icon">🕙</span>
+          <div class="dash-row-info">
+            <span class="dash-row-label">Temporary OOO</span>
+          </div>
+          <a class="dash-action-link" href="#">Take</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Time Tracking card -->
+    <div class="dash-card">
+      <div class="dash-card-head">
+        <span class="dash-head-label">Time Tracking <span id="dashMonth" style="font-weight:400;color:var(--text3)"></span></span>
+        <a class="dash-head-link" href="#" title="Open Time Tracking">↗</a>
+      </div>
+      <div class="dash-card-body dash-time-body">
+        <div class="dash-hours-big">
+          <span class="dash-hours-num">0</span>
+          <div class="dash-hours-info">
+            <span>hours</span>
+            <span>logged</span>
+          </div>
+        </div>
+        <a class="dash-log-btn" href="#">+ Log Hours</a>
+      </div>
+    </div>
+
+  </div>
 </div>
 
 <!-- TOPIC CHIPS — rendered dynamically from TOPICS array -->
@@ -853,8 +997,21 @@ async function init(){
   buildLookups();
   renderChips();
   applyFilters();
+  initDashboard();
 }
+
+function initDashboard(){
+  const h = new Date().getHours();
+  const greet = h < 12 ? '👋 Good morning!' : h < 18 ? '👋 Good afternoon!' : '👋 Good evening!';
+  const monthName = new Date().toLocaleString('en-US',{month:'long'});
+  const el = document.getElementById('dashGreeting');
+  const mo = document.getElementById('dashMonth');
+  if(el) el.textContent = greet;
+  if(mo) mo.textContent = monthName;
+}
+
 init();
 </script>
 </body>
 </html>
+
